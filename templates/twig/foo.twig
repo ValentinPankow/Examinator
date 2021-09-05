@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{pageTitle}}</title>
+    </head>
+
+    <body>
+
+        <h1><b>Ausgabe aller Foos aus der Datenbank</b></h1>
+        
+        <ul>
+            {% for foo in foos %}
+                <li>ID: {{ foo.id }} Name: {{ foo.name }}</li>
+            {% endfor %}
+        </ul>
+
+    </body>
+</html>
