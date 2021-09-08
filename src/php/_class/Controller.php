@@ -36,7 +36,7 @@
                 case '/':
                     //Nur als Beispiel, noch kein Routing implementiert
                     $barController = $this->container->make("barController");
-                    $barController->index('bar', $this->twig);
+                    $barController->index('index', $this->twig);
                     break;
                 case '/foo':
                     //Nur als Beispiel, noch kein Routing implementiert
@@ -53,7 +53,7 @@
                 default:
                     //Nur als Beispiel, noch kein Routing implementiert
                     $barController = $this->container->make("barController");
-                    $barController->index('bar', $this->twig);
+                    $barController->index('index', $this->twig);
                     break;
             }
         }
