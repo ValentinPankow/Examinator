@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 09. Sep 2021 um 09:53
+-- Erstellungszeit: 09. Sep 2021 um 10:58
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.0.10
 
@@ -33,6 +33,16 @@ CREATE TABLE `classes` (
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `classes`
+--
+
+INSERT INTO `classes` (`id`, `name`, `password`) VALUES
+(1, '11ITa', '1234'),
+(2, '12ITa', '1234'),
+(5, '11ITb', '1234'),
+(9, 'LoremIpsum', '1234');
+
 -- --------------------------------------------------------
 
 --
@@ -42,26 +52,22 @@ CREATE TABLE `classes` (
 CREATE TABLE `exams` (
   `id` int(11) NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `subject` varchar(127) NOT NULL,
   `room` varchar(255) NOT NULL,
   `topic` text NOT NULL,
   `other` text NOT NULL,
-  `subject_id` int(11) NOT NULL,
   `class_id` int(11) NOT NULL,
   `creator_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `changed_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Tabellenstruktur für Tabelle `subjects`
+-- Daten für Tabelle `exams`
 --
 
-CREATE TABLE `subjects` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `exams` (`id`, `date`, `subject`, `room`, `topic`, `other`, `class_id`, `creator_id`, `created_at`, `changed_at`) VALUES
+(1, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -79,6 +85,14 @@ CREATE TABLE `users` (
   `is_teacher` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Daten für Tabelle `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `is_admin`, `is_teacher`) VALUES
+(1, 'Max', 'Musteradmin', 'max.musteradmin@bws.de', '1234', 1, 1),
+(2, 'Max', 'Musterlehrer', 'max.musterlehrer@bws.de', '1234', 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +106,14 @@ CREATE TABLE `users_classes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Daten für Tabelle `users_classes`
+--
+
+INSERT INTO `users_classes` (`id`, `user_id`, `class_id`) VALUES
+(1, 2, 1),
+(2, 2, 2);
+
+--
 -- Indizes der exportierten Tabellen
 --
 
@@ -102,9 +124,9 @@ ALTER TABLE `classes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `subjects`
+-- Indizes für die Tabelle `exams`
 --
-ALTER TABLE `subjects`
+ALTER TABLE `exams`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -127,25 +149,25 @@ ALTER TABLE `users_classes`
 -- AUTO_INCREMENT für Tabelle `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT für Tabelle `subjects`
+-- AUTO_INCREMENT für Tabelle `exams`
 --
-ALTER TABLE `subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `exams`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `users_classes`
 --
 ALTER TABLE `users_classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
