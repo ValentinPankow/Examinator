@@ -1,5 +1,7 @@
 <?php
 
     echo $twig->render('index.twig', array(
-        'pageTitle' => 'Examinator - Dashboard'
+        'pageTitle' => 'Examinator - Dashboard',
+        'userName' => 'User',
+        'applicationName' => 'Examinator'
     ));

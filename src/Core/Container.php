@@ -3,8 +3,8 @@
 namespace Core;
 
 use PDO;
-use Bar\BarController;
-use Bar\BarRepository;
+use Dashboard\DashboardController;
+use Dashboard\DashboardRepository;
 
 use Foo\FooController;
 use Foo\FooRepository;
@@ -23,11 +23,11 @@ class Container
     public function __construct()
     {
         $this->receipts = [
-            'barController' => function(){
-                return new BarController($this->make("barRepository"));
+            'dashboardController' => function(){
+                return new DashboardController($this->make("dashboardRepository"));
             },
-            'barRepository' => function(){
-                return new BarRepository($this->make("pdo"));
+            'dashboardRepository' => function(){
+                return new DashboardRepository($this->make("pdo"));
             },
             'fooController' => function(){
                 return new FooController($this->make("fooRepository"));
