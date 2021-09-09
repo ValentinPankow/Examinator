@@ -35,8 +35,8 @@
             switch ($uri) {
                 case '/':
                     //Nur als Beispiel, noch kein Routing implementiert
-                    $barController = $this->container->make("barController");
-                    $barController->index('bar', $this->twig);
+                    $barController = $this->container->make("dashboardController");
+                    $barController->index('index', $this->twig);
                     break;
                 case '/foo':
                     //Nur als Beispiel, noch kein Routing implementiert
@@ -52,8 +52,8 @@
                     break;
                 default:
                     //Nur als Beispiel, noch kein Routing implementiert
-                    $barController = $this->container->make("barController");
-                    $barController->index('bar', $this->twig);
+                    $barController = $this->container->make("dashboardController");
+                    $barController->index('index', $this->twig);
                     break;
             }
         }
