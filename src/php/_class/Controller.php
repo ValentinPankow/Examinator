@@ -30,30 +30,32 @@
                 'strict_variables' => true
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
+            /*$this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset) {
+                // implement whatever logic you need to determine the asset path
+                return './' . $asset;
+            }));*/
+
+            if ($uri == "/") {
+                $page = "main";
+            } else {
+                $page = $subStr;
+            }
 
             // Render the main page or the sub page by using require
-            switch ($uri) {
-                case '/':
-                    //Nur als Beispiel, noch kein Routing implementiert
-                    $barController = $this->container->make("dashboardController");
-                    $barController->index('index', $this->twig);
+            switch ($page) {
+                case 'login':
+                    $loginController = $this->container->make("loginController");
+                    $loginController->index('login', $this->twig);
                     break;
-                case '/foo':
-                    //Nur als Beispiel, noch kein Routing implementiert
-                    $barController = $this->container->make("fooController");
-                    $barController->index('foo', $this->twig);
-                    break;
-                case preg_match("/\/foo\/\\d+$/", $uri)?true:false:
-                    //Nur als Beispiel, noch kein Routing implementiert
-                    // $id = substr($uri, 5);
-                    $barController = $this->container->make("fooController");
-                    // $barController->index($id, 'foo', $this->twig);
-                    $barController->index('foo', $this->twig);
+                case 'main':
+                    // Nur als Beispiel, noch kein Routing implementiert
+                    $dashboardController = $this->container->make("dashboardController");
+                    $dashboardController->index('index', $this->twig);
                     break;
                 default:
-                    //Nur als Beispiel, noch kein Routing implementiert
-                    $barController = $this->container->make("dashboardController");
-                    $barController->index('index', $this->twig);
+                    // Nur als Beispiel, noch kein Routing implementiert
+                    $dashboardController = $this->container->make("dashboardController");
+                    $dashboardController->index('index', $this->twig);
                     break;
             }
         }
