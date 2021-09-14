@@ -37,7 +37,7 @@ class Container
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){
-                $pdo = new PDO('mysql:host=localhost;dbname=planner;charset=utf8',
+                $pdo = new PDO('mysql:host=localhost;dbname=examinator;charset=utf8',
                 'root',
                 '');
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
