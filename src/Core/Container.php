@@ -12,8 +12,8 @@ use Klausuren\KlausurenRepository;
 use User\UserController;
 use User\UserRepository;
 
-use Foo\FooController;
-use Foo\FooRepository;
+use Login\LoginController;
+use Login\LoginRepository;
 
 //Klasse die sich um das erstellen anderer Klassen kümmert
 class Container
@@ -35,11 +35,11 @@ class Container
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
             },
-            'fooController' => function(){
-                return new FooController($this->make("fooRepository"));
+            'loginController' => function(){
+                return new LoginController($this->make("loginRepository"));
             },
-            'fooRepository' => function(){
-                return new FooRepository($this->make("pdo"));
+            'loginRepository' => function(){
+                return new LoginRepository($this->make("pdo"));
             },
             'klassenController' => function(){
                 return new KlassenController($this->make("klassenRepository"));
