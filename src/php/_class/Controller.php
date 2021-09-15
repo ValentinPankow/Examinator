@@ -9,10 +9,12 @@
     {
         public $twig;
         public $container;
+        public $GET;
 
         public function __construct()
         {
             $this->container = new Core\Container();
+            $this->GET = $_GET;
         }
 
         public function display()
@@ -30,12 +32,29 @@
                 'strict_variables' => true
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
+
+            if (isset($this->GET['page'])) {
+                if (file_exists('templates/twig/' . $this->GET['page'] . ".twig")) {
+                    $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
+                    $pageController->index(strtolower($this->GET['page']), $this->twig);
+                } else {
+                    echo $this->twig->render("404.twig", array(
+                        'pageTitle' => 'Examinator - 404',
+                        'applicationName' => 'Examinator'
+                    ));
+                }
+            } else {
+                /*$loginController = $this->container->make("loginController");
+                $loginController->index('login', $this->twig);*/
+                // header('Location: http://localhost/examinator/index.php');
+            }
+
             /*$this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset) {
                 // implement whatever logic you need to determine the asset path
                 return './' . $asset;
             }));*/
 
-            if ($uri == "/") {
+            /*if ($uri == "/") {
                 $page = "main";
             } else {
                 $page = $subStr;
@@ -57,6 +76,6 @@
                     $dashboardController = $this->container->make("dashboardController");
                     $dashboardController->index('index', $this->twig);
                     break;
-            }
+            }*/
         }
     }
