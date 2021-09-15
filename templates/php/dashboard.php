@@ -1,6 +1,6 @@
 <?php
 
-    echo $twig->render('index.twig', array(
+    echo $twig->render('dashboard.twig', array(
         'pageTitle' => 'Examinator - Dashboard',
         'userName' => 'User',
         'applicationName' => 'Examinator'
