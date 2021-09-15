@@ -113,45 +113,6 @@
             <div class="col-4">
               <div class="card card-secondary">
                 <div class="card-header">
-                  <h3 class="card-title"><b>{{ klausur.subject }} (Raum {{ klausur.room }}) - {{ klausur.date }}</b></h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-sm">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                  {% if klausur.other %}
-                    <div class="row">
-                      <div class="col">
-                        <b>Themen:</b> {{ klausur.topic }}
-                      </div>
-                    </div>
-                  {% endif %}
-                  {% if klausur.other %}
-                    <div class="row">
-                      <div class="col">
-                      <b>Sonstiges:</b> {{ klausur.other }}
-                    </div>
-                    </div>
-                  {% endif %}
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-            {% if count is divisible by(3) %}
-              </div> <!-- Schließt die Row und eröffnet eine Neue nach jeder dritten Klausur -->
-              <div class="row">
-            {% endif %}
-          {% endfor %}
-        </div>
-        <div class="row">
-          {% set count = 0 %}
-          {% for klausur in klausuren %}
-          {% set count = count + 1 %}
-            <div class="col-4">
-              <div class="card card-secondary">
-                <div class="card-header">
                   <h3 class="card-title"><b>{{ klausur.subject }} Raum {{ klausur.room }}</b><br />{{ klausur.date }}</h3>
                   <div class="card-tools">
                     <button type="button" class="btn btn-sm">
@@ -160,7 +121,6 @@
                   </div>
                 </div>
                 <div class="card-body">
-                {% if klausur.topic is defined && klausur.other is defined %}
                   {% if klausur.topic %}
                     <div class="row">
                       <div class="col">
@@ -185,14 +145,16 @@
             {% endif %}
           {% endfor %}
         </div>
-        <!-- Left col -->
-        <section class="col-lg-7 connectedSortable">
-          <!-- Do something here!-->
-        </section>
-        <!-- right col (We are only adding the ID to make the widgets sortable)-->
-        <section class="col-lg-5 connectedSortable">
-          <!-- Do something here!-->
-        </section>
+        <div>
+          <!-- Left col -->
+          <section class="col-lg-7 connectedSortable">
+            <!-- Do something here!-->
+          </section>
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-5 connectedSortable">
+            <!-- Do something here!-->
+          </section>
+        </div>
       </div>
     </section>
     <!-- /.content -->
