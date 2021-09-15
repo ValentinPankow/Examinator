@@ -23,16 +23,12 @@ class KlausurenController
         include "./templates/php/{$view}.php";
     }
 
-
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
         //Example für fetchAll (SELECT * FROM bars)
         $klausuren = $this->repository->fetchKlausuren();
-
-        // var_dump($id);
-
         $this->render("{$tpl}", [
             'klausuren' => $klausuren,
             'twig' => $twig
@@ -42,3 +38,4 @@ class KlausurenController
 }
 
 ?>
+
