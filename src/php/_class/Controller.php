@@ -32,8 +32,6 @@
                 'strict_variables' => true
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
-            // echo $_SERVER['HTTP_HOST'];
-            // echo $_SERVER['REQUEST_URI'];
 
             if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
                 $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
@@ -61,6 +59,16 @@
                 case 'login':
                     $loginController = $this->container->make("loginController");
                     $loginController->index('login', $this->twig);
+            switch ($uri) {
+                case '/':
+                    //Nur als Beispiel, noch kein Routing implementiert
+                    $dashboardController = $this->container->make("dashboardController");
+                    $dashboardController->index('index', $this->twig);
+                    break;
+                case '/foo':
+                    //Nur als Beispiel, noch kein Routing implementiert
+                    $barController = $this->container->make("fooController");
+                    $barController->index('foo', $this->twig);
                     break;
                 case 'main':
                     // Nur als Beispiel, noch kein Routing implementiert
