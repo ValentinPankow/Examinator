@@ -32,21 +32,17 @@
                 'strict_variables' => true
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
+            // echo $_SERVER['HTTP_HOST'];
+            // echo $_SERVER['REQUEST_URI'];
 
-            if (isset($this->GET['page'])) {
-                if (file_exists('templates/twig/' . $this->GET['page'] . ".twig")) {
-                    $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
-                    $pageController->index(strtolower($this->GET['page']), $this->twig);
-                } else {
-                    echo $this->twig->render("404.twig", array(
-                        'pageTitle' => 'Examinator - 404',
-                        'applicationName' => 'Examinator'
-                    ));
-                }
+            if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
+                $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
+                $pageController->index(strtolower($this->GET['page']), $this->twig);
             } else {
-                /*$loginController = $this->container->make("loginController");
-                $loginController->index('login', $this->twig);*/
-                // header('Location: http://localhost/examinator/index.php');
+                echo $this->twig->render("404.twig", array(
+                    'pageTitle' => 'Examinator - 404',
+                    'applicationName' => 'Examinator'
+                ));
             }
 
             /*$this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($asset) {
