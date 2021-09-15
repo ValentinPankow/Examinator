@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 09. Sep 2021 um 10:58
+-- Erstellungszeit: 15. Sep 2021 um 11:54
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.0.10
 
@@ -67,7 +67,10 @@ CREATE TABLE `exams` (
 --
 
 INSERT INTO `exams` (`id`, `date`, `subject`, `room`, `topic`, `other`, `class_id`, `creator_id`, `created_at`, `changed_at`) VALUES
-(1, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL);
+(1, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL),
+(2, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL),
+(3, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL),
+(4, '2021-09-13 08:25:40', 'LF6', 'C210', 'Unterlagen zum schreiben werden benötigt sowie ein USB Stick.', 'Bitte vergesst nicht, dass keine Bleistifte erlaubt sind.', 1, 2, '2021-09-09 08:38:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -155,7 +158,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT für Tabelle `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `users`
