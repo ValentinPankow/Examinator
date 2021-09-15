@@ -5,6 +5,12 @@ namespace Core;
 use PDO;
 use Dashboard\DashboardController;
 use Dashboard\DashboardRepository;
+use Klassen\KlassenController;
+use Klassen\KlassenRepository;
+use Klausuren\KlausurenController;
+use Klausuren\KlausurenRepository;
+use User\UserController;
+use User\UserRepository;
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -24,7 +30,7 @@ class Container
     {
         $this->receipts = [
             'dashboardController' => function(){
-                return new DashboardController($this->make("dashboardRepository"));
+                return new DashboardController($this->make("userRepository"), $this->make("klausurenRepository"));
             },
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
@@ -34,6 +40,24 @@ class Container
             },
             'loginRepository' => function(){
                 return new LoginRepository($this->make("pdo"));
+            },
+            'klassenController' => function(){
+                return new KlassenController($this->make("klassenRepository"));
+            },
+            'klassenRepository' => function(){
+                return new KlassenRepository($this->make("pdo"));
+            },
+            'klausurenController' => function(){
+                return new KlausurenController($this->make("klausurenRepository"));
+            },
+            'klausurenRepository' => function(){
+                return new KlausurenRepository($this->make("pdo"));
+            },
+            'userController' => function(){
+                return new UserController($this->make("userRepository"));
+            },
+            'userRepository' => function(){
+                return new UserRepository($this->make("pdo"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){

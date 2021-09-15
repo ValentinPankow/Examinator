@@ -1,14 +1,14 @@
 <?php
-namespace Klausuren;
+namespace Klassen;
 
-use Klausuren\KlausurenRepository;
+use Klassen\KlassenRepository;
 
-class KlausurenController
+class KlassenController
 {
     private $repository;
 
     //Übergibt das Repository vom Container
-    public function __construct(KlausurenRepository $repository)
+    public function __construct(KlassenRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -17,20 +17,24 @@ class KlausurenController
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        $klausuren = $content['klausuren'];
+        $klassen = $content['klassen'];
         $twig = $content['twig'];
 
         include "./templates/php/{$view}.php";
     }
+
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
         //Example für fetchAll (SELECT * FROM bars)
-        $klausuren = $this->repository->fetchKlausuren();
+        $klassen = $this->repository->fetchKlassen();
+
+        // var_dump($id);
+
         $this->render("{$tpl}", [
-            'klausuren' => $klausuren,
+            'klassen' => $klassen,
             'twig' => $twig
         ]);
     }
@@ -38,4 +42,3 @@ class KlausurenController
 }
 
 ?>
-
