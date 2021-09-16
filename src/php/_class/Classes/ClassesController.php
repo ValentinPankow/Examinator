@@ -1,14 +1,14 @@
 <?php
-namespace Klassen;
+namespace Classes;
 
-use Klassen\KlassenRepository;
+use Classes\ClassesRepository;
 
-class KlassenController
+class ClassesController
 {
     private $repository;
 
     //Übergibt das Repository vom Container
-    public function __construct(KlassenRepository $repository)
+    public function __construct(ClassesRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -17,7 +17,7 @@ class KlassenController
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        $klassen = $content['klassen'];
+        $classes = $content['classes'];
         $twig = $content['twig'];
 
         include "./templates/php/{$view}.php";
@@ -29,12 +29,12 @@ class KlassenController
     public function index($tpl, $twig)
     {
         //Example für fetchAll (SELECT * FROM bars)
-        $klassen = $this->repository->fetchKlassen();
+        $classes = $this->repository->fetchClasses();
 
         // var_dump($id);
 
         $this->render("{$tpl}", [
-            'klassen' => $klassen,
+            'classes' => $classes,
             'twig' => $twig
         ]);
     }

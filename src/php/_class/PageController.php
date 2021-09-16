@@ -5,7 +5,7 @@
 
     use Symfony\Component\HttpFoundation\Request;
 
-    class Controller
+    class PageController
     {
         public $twig;
         public $container;
@@ -42,7 +42,8 @@
                 } else {
                     echo $this->twig->render("404.twig", array(
                         'pageTitle' => 'Examinator - 404',
-                        'applicationName' => 'Examinator'
+                        'applicationName' => 'Examinator',
+                        'tpl' => '404'
                     ));
                 }
             }

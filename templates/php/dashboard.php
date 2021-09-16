@@ -5,7 +5,7 @@
         'userName' => 'User',
         'applicationName' => 'Examinator',
         'user' => $user,
-        'klausuren' => $klausuren,
+        'exams' => $exams,
         'pageJs' => 'src/js/dashboard.js',
         'tpl' => 'dashboard'
     ));
