@@ -6,5 +6,5 @@
         header("HTTP/1.1 301 Moved Permanently"); 
         header('Location: /examinator/?page=login');
     } else {
-        $controller->display();
+        $pageController->display();
     }

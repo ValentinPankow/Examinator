@@ -83,12 +83,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Übersicht</h1>
+            <h1 class="m-0">Klausuren</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
-              <li class="breadcrumb-item active">Übersicht</li>
+              <li class="breadcrumb-item active">Klausuren</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -99,60 +99,6 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Main row -->
-        <div class="row">
-          <div class="col">
-            <h2>Anstehende Klausuren</h2>
-          </div>
-        </div>
-        <div class="row">
-          {% set count = 0 %}
-          {% for exam in exams %}
-          {% set count = count + 1 %}
-            <div class="col-4">
-              <div class="card card-secondary">
-                <div class="card-header">
-                  <h3 class="card-title"><b>{{ exam.subject }} Raum {{ exam.room }}</b><br />{{ exam.date }}</h3>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-sm">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="card-body">
-                {% if exam.topic or exam.other %}
-                  {% if exam.topic %}
-                    <div class="row">
-                      <div class="col">
-                        <b>Themen:</b> {{ exam.topic }}
-                      </div>
-                    </div>
-                  {% endif %}
-                  {% if exam.other %}
-                    <div class="row">
-                      <div class="col">
-                        <b>Sonstiges:</b> {{ exam.other }}
-                      </div>
-                    </div>
-                  {% endif %}
-                {% endif %}
-                {% if not exam.topic and not exam.other %}
-                  <div class="row">
-                    <div class="col">
-                      <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
-                    </div>
-                  </div>
-                {% endif %}
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-            {% if count is divisible by(3) %}
-              </div> <!-- Schließt die Row und eröffnet eine Neue nach jeder dritten Klausur -->
-              <div class="row">
-            {% endif %}
-          {% endfor %}
-        </div>
         <div>
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">

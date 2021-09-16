@@ -5,10 +5,10 @@ namespace Core;
 use PDO;
 use Dashboard\DashboardController;
 use Dashboard\DashboardRepository;
-use Klassen\KlassenController;
-use Klassen\KlassenRepository;
-use Klausuren\KlausurenController;
-use Klausuren\KlausurenRepository;
+use Classes\ClassesController;
+use Classes\ClassesRepository;
+use Exams\ExamsController;
+use Exams\ExamsRepository;
 use User\UserController;
 use User\UserRepository;
 
@@ -30,7 +30,7 @@ class Container
     {
         $this->receipts = [
             'dashboardController' => function(){
-                return new DashboardController($this->make("userRepository"), $this->make("klausurenRepository"));
+                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"));
             },
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
@@ -41,17 +41,17 @@ class Container
             'loginRepository' => function(){
                 return new LoginRepository($this->make("pdo"));
             },
-            'klassenController' => function(){
-                return new KlassenController($this->make("klassenRepository"));
+            'classesController' => function(){
+                return new ClassesController($this->make("classesRepository"));
             },
-            'klassenRepository' => function(){
-                return new KlassenRepository($this->make("pdo"));
+            'classesRepository' => function(){
+                return new ClassesRepository($this->make("pdo"));
             },
-            'klausurenController' => function(){
-                return new KlausurenController($this->make("klausurenRepository"));
+            'examsController' => function(){
+                return new ExamsController($this->make("examsRepository"));
             },
-            'klausurenRepository' => function(){
-                return new KlausurenRepository($this->make("pdo"));
+            'examsRepository' => function(){
+                return new ExamsRepository($this->make("pdo"));
             },
             'userController' => function(){
                 return new UserController($this->make("userRepository"));

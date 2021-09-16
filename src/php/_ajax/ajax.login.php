@@ -1,10 +1,10 @@
 <?php
 
-    require_once '../../Core/Container.php';
-    require_once '../../Login/LoginRepository.php';
-    require_once '../../Login/LoginController.php';
-    require_once '../../User/UserRepository.php';
-    require_once '../../User/UserModel.php';
+    require_once '../_class/Core/Container.php';
+    require_once '../_class/Login/LoginRepository.php';
+    require_once '../_class/Login/LoginController.php';
+    require_once '../_class/User/UserRepository.php';
+    require_once '../_class/User/UserModel.php';
 
     $data = (object) $_POST['data'];
 

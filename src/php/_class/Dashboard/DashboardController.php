@@ -2,19 +2,19 @@
 namespace Dashboard;
 
 use User\UserRepository;
-use Klausuren\KlausurenRepository;
+use Exams\ExamsRepository;
 use Dashboard\DashboardRepository;
 
 class DashboardController
 {
     private $userRepository;
-    private $klausurenRepository;
+    private $examsRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(UserRepository $userRepository, KlausurenRepository $klausurenRepository)
+    public function __construct(UserRepository $userRepository, ExamsRepository $examsRepository)
     {
         $this->userRepository = $userRepository;
-        $this->klausurenRepository = $klausurenRepository;
+        $this->examsRepository = $examsRepository;
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
@@ -23,7 +23,7 @@ class DashboardController
     {
         $twig = $content['twig'];
         $user = $content['user'];
-        $klausuren = $content['klausuren'];
+        $exams = $content['exams'];
 
         include "./templates/php/{$view}.php";
     }
@@ -34,16 +34,16 @@ class DashboardController
     {
         //Example für fetchAll (SELECT * FROM Dashboards)
         // $Dashboards = $this->repository->fetchDashboards();
-        $klausuren = null;
+        $exams = null;
         $user = $this->userRepository->fetchUserById(1);
         if ($user) {
-            $klausuren = $this->klausurenRepository->fetchUserKlausuren($user->id);
+            $exams = $this->examsRepository->fetchUserExams($user->id);
         }
 
         $this->render("{$tpl}", [
             'twig' => $twig,
             'user' => $user,
-            'klausuren' => $klausuren
+            'exams' => $exams
         ]);
     }
 
