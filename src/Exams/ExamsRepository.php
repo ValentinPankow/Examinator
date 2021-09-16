@@ -1,11 +1,11 @@
 <?php
 
-namespace Klausuren;
+namespace Exams;
 use PDO;
-use Klausuren\KlausurenModel;
+use Exams\ExamsModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class KlausurenRepository
+class ExamsRepository
 {
     private $pdo;
 
@@ -20,11 +20,11 @@ class KlausurenRepository
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
-    public function fetchKlausur($id)
+    public function fetchExam($id)
     {
         $query = $this->pdo->prepare("SELECT * from exams WHERE `id` = :id");
         $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Klausuren\\KlausurenModel");
+        $query->setFetchMode(PDO::FETCH_CLASS, "Exams\\ExamsModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
         return $content;
@@ -33,10 +33,10 @@ class KlausurenRepository
     //Fetcht alle Einträge aus der Datenbanktabelle
     //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
     //Ansonsten siehe fetchKlausuren Kommentare
-    public function fetchKlausuren()
+    public function fetchExams()
     {
         $query = $this->pdo->query("SELECT * from exams");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Klausuren\\KlausurenModel");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
 
         return $contents;
     }
@@ -44,12 +44,12 @@ class KlausurenRepository
     //Fetcht alle Einträge aus der Datenbanktabelle
     //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
     //Ansonsten siehe fetchKlausuren Kommentare
-    public function fetchUserKlausuren($creatorId)
+    public function fetchUserExams($creatorId)
     {
         
         $query = $this->pdo->prepare("SELECT * from exams WHERE `creator_id` = :id");
         $query->execute(['id' => $creatorId]);
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Klausuren\\KlausurenModel");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
 
         return $contents;
     }

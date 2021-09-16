@@ -1,11 +1,10 @@
 <?php
 
     echo $twig->render('dashboard.twig', array(
-        'pageTitle' => 'Examinator - Dashboard',
+        'pageTitle' => 'Examinator - Klausuren',
         'userName' => 'User',
         'applicationName' => 'Examinator',
-        'user' => $user,
         'exams' => $exams,
-        'pageJs' => 'src/js/dashboard.js',
-        'tpl' => 'dashboard'
+        'pageJs' => 'src/js/exams.js',
+        'tpl' => 'exams'
     ));
