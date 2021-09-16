@@ -83,19 +83,18 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Übersicht</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Übersicht</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-    <hr>
 
     <!-- Main content -->
     <section class="content">
@@ -121,6 +120,7 @@
                   </div>
                 </div>
                 <div class="card-body">
+                {% if exam.topic or exam.other %}
                   {% if exam.topic %}
                     <div class="row">
                       <div class="col">
@@ -131,10 +131,18 @@
                   {% if exam.other %}
                     <div class="row">
                       <div class="col">
-                      <b>Sonstiges:</b> {{ exam.other }}
-                    </div>
+                        <b>Sonstiges:</b> {{ exam.other }}
+                      </div>
                     </div>
                   {% endif %}
+                {% endif %}
+                {% if not exam.topic and not exam.other %}
+                  <div class="row">
+                    <div class="col">
+                      <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
+                    </div>
+                  </div>
+                {% endif %}
                 </div>
                 <!-- /.card-body -->
               </div>

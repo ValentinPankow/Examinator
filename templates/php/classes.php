@@ -1,7 +1,7 @@
 <?php
 
-    echo $twig->render('exams.twig', array(
-        'pageTitle' => 'Examinator - Klausuren',
+    echo $twig->render('classes.twig', array(
+        'pageTitle' => 'Examinator - Klassen',
         'userName' => 'User',
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/exams.js',
