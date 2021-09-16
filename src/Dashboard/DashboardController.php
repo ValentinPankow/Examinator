@@ -35,7 +35,7 @@ class DashboardController
         //Example für fetchAll (SELECT * FROM Dashboards)
         // $Dashboards = $this->repository->fetchDashboards();
         $klausuren = null;
-        $user = $this->userRepository->fetchUser(1);
+        $user = $this->userRepository->fetchUserById(1);
         if ($user) {
             $klausuren = $this->klausurenRepository->fetchUserKlausuren($user->id);
         }
