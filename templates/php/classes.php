@@ -4,6 +4,6 @@
         'pageTitle' => 'Examinator - Klassen',
         'userName' => 'User',
         'applicationName' => 'Examinator',
-        'pageJs' => 'src/js/exams.js',
-        'tpl' => 'exams'
+        'pageJs' => 'src/js/classes.js',
+        'tpl' => 'classes'
     ));

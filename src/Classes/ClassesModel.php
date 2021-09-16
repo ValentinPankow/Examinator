@@ -1,8 +1,8 @@
 <?php
 
-namespace Klassen;
+namespace Classes;
 
-class KlassenModel
+class ClassesModel
 {
     public $id;
     public $name;

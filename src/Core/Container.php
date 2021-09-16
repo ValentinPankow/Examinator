@@ -5,8 +5,8 @@ namespace Core;
 use PDO;
 use Dashboard\DashboardController;
 use Dashboard\DashboardRepository;
-use Klassen\KlassenController;
-use Klassen\KlassenRepository;
+use Classes\ClassesController;
+use Classes\ClassesRepository;
 use Exams\ExamsController;
 use Exams\ExamsRepository;
 use User\UserController;
@@ -41,11 +41,11 @@ class Container
             'loginRepository' => function(){
                 return new LoginRepository($this->make("pdo"));
             },
-            'klassenController' => function(){
-                return new KlassenController($this->make("klassenRepository"));
+            'classesController' => function(){
+                return new ClassesController($this->make("classesRepository"));
             },
-            'klassenRepository' => function(){
-                return new KlassenRepository($this->make("pdo"));
+            'classesRepository' => function(){
+                return new ClassesRepository($this->make("pdo"));
             },
             'examsController' => function(){
                 return new ExamsController($this->make("examsRepository"));

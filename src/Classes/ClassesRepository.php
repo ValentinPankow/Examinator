@@ -1,11 +1,11 @@
 <?php
 
-namespace Klassen;
+namespace Classes;
 use PDO;
-use Klassen\KlassenModel;
+use Classes\ClassesModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class KlassenRepository
+class ClassesRepository
 {
     private $pdo;
 
@@ -20,11 +20,11 @@ class KlassenRepository
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
-    public function fetchKlasse($id)
+    public function fetchClass($id)
     {
         $query = $this->pdo->prepare("SELECT * from classes WHERE `id` = :id");
         $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Klassen\\KlassenModel");
+        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
         return $content;
@@ -32,11 +32,11 @@ class KlassenRepository
 
     //Fetcht alle Einträge aus der Datenbanktabelle
     //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
-    //Ansonsten siehe fetchKlassen Kommentare
-    public function fetchKlassen()
+    //Ansonsten siehe fetchClasses Kommentare
+    public function fetchClasses()
     {
         $query = $this->pdo->query("SELECT * from classes");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Klassen\\KlassenModel");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
         return $contents;
     }
