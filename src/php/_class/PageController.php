@@ -5,7 +5,7 @@
 
     use Symfony\Component\HttpFoundation\Request;
 
-    class Controller
+    class PageController
     {
         public $twig;
         public $container;
