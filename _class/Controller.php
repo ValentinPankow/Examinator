@@ -42,8 +42,7 @@
                 } else {
                     echo $this->twig->render("404.twig", array(
                         'pageTitle' => 'Examinator - 404',
-                        'applicationName' => 'Examinator',
-                        'tpl' => '404'
+                        'applicationName' => 'Examinator'
                     ));
                 }
             }
