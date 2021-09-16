@@ -59,6 +59,15 @@
     <script src="dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="dist/js/pages/dashboard.js"></script>
+    <!-- Sweetalert2 -->
+    <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="src/js/main.js"></script>
+    <!-- Page Specific JS -->
+    {% if tpl != "404" %}
+        <script src="{{pageJs}}"></script>
+    {% endif %}
 
 {% endblock %}
 
