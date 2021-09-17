@@ -20,10 +20,20 @@ class UserRepository
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
-    public function fetchUser($id)
+    public function fetchUserById($id)
     {
         $query = $this->pdo->prepare("SELECT * from users WHERE `id` = :id");
         $query->execute(['id' => $id]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
+        $content = $query->fetch(PDO::FETCH_CLASS);
+
+        return $content;
+    }
+
+    public function fetchUserByMail($mail)
+    {
+        $query = $this->pdo->prepare("SELECT * from users WHERE `email` = :mail");
+        $query->execute(['mail' => $mail]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 

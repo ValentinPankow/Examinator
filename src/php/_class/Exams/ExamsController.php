@@ -1,14 +1,14 @@
 <?php
-namespace Foo;
+namespace Exams;
 
-use Foo\FooRepository;
+use Exams\ExamsRepository;
 
-class FooController
+class ExamsController
 {
     private $repository;
 
     //Übergibt das Repository vom Container
-    public function __construct(FooRepository $repository)
+    public function __construct(ExamsRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -17,24 +17,20 @@ class FooController
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        $foos = $content['foos'];
+        $exams = $content['exams'];
         $twig = $content['twig'];
 
         include "./templates/php/{$view}.php";
     }
-
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
         //Example für fetchAll (SELECT * FROM bars)
-        $foos = $this->repository->fetchFoos();
-
-        // var_dump($id);
-
+        $exams = $this->repository->fetchExams();
         $this->render("{$tpl}", [
-            'foos' => $foos,
+            'exams' => $exams,
             'twig' => $twig
         ]);
     }
@@ -42,3 +38,4 @@ class FooController
 }
 
 ?>
+

@@ -1,11 +1,11 @@
 <?php
 
-namespace Foo;
+namespace Exams;
 use PDO;
-use Foo\FooModel;
+use Exams\ExamsModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class FooRepository
+class ExamsRepository
 {
     private $pdo;
 
@@ -20,11 +20,11 @@ class FooRepository
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
-    public function fetchFoo($id)
+    public function fetchExam($id)
     {
-        $query = $this->pdo->prepare("SELECT * from bar WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * from exams WHERE `id` = :id");
         $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Foo\\FooModel");
+        $query->setFetchMode(PDO::FETCH_CLASS, "Exams\\ExamsModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
         return $content;
@@ -32,13 +32,25 @@ class FooRepository
 
     //Fetcht alle Einträge aus der Datenbanktabelle
     //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
-    //Ansonsten siehe fetchFoo Kommentare
-    public function fetchFoos()
+    //Ansonsten siehe fetchKlausuren Kommentare
+    public function fetchExams()
     {
-        $query = $this->pdo->query("SELECT * from bar");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Foo\\FooModel");
+        $query = $this->pdo->query("SELECT * from exams");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
 
         return $contents;
     }
 
+    //Fetcht alle Einträge aus der Datenbanktabelle
+    //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
+    //Ansonsten siehe fetchKlausuren Kommentare
+    public function fetchUserExams($creatorId)
+    {
+        
+        $query = $this->pdo->prepare("SELECT * from exams WHERE `creator_id` = :id");
+        $query->execute(['id' => $creatorId]);
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
+
+        return $contents;
+    }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace Klausuren;
+namespace Exams;
 
-class KlausurenModel
+class ExamsModel
 {
     public $id;
     public $date;
