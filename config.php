@@ -1,5 +1,5 @@
 <?php
 
-    require './src/php/_class/Controller.php';
+    require './src/php/_class/PageController.php';
 
-    $controller = new Controller();
+    $pageController = new PageController();
