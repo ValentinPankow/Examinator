@@ -81,9 +81,9 @@ $(document).ready(function() {
     });
 
     // Set inputs to current Time + 45 Minutes
-    /*var d = new Date();
-    var dd = new Date(d.getTime() + 45*60000);
-    $('#inputTimeTo').val((dd.getHours()<10?'0'+dd.getHours():dd.getHours())+':'+(dd.getMinutes()<10?'0'+dd.getMinutes():dd.getMinutes()));
+    var d = new Date();
+    // var dd = new Date(d.getTime() + 45*60000);
+    /*$('#inputTimeTo').val((dd.getHours()<10?'0'+dd.getHours():dd.getHours())+':'+(dd.getMinutes()<10?'0'+dd.getMinutes():dd.getMinutes()));
     $('#inputTimeFrom').val((d.getHours()<10?'0'+d.getHours():d.getHours())+':'+(d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()));*/
 
     // Set inputs to current Date
