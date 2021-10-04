@@ -10,7 +10,8 @@ $(document).ready(function() {
         fixedHeader: {
             header: true,
             footer: true
-        }
+        },
+        "ajax": 'src/php/_ajax/ajax.listExams.php'
     });
 });
 

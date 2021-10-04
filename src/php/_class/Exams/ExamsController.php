@@ -17,7 +17,7 @@ class ExamsController
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        $exams = $content['exams'];
+        // $exams = $content['exams'];
         $twig = $content['twig'];
 
         include "./templates/php/{$view}.php";
@@ -27,12 +27,22 @@ class ExamsController
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $exams = $this->repository->fetchExams();
         $this->render("{$tpl}", [
-            'exams' => $exams,
+            // 'exams' => $exams,
             'twig' => $twig
         ]);
+    }
+
+    public function listExams() {
+        return $this->repository->listExams();
+    }
+
+    public function fetchExams() {
+        return $this->repository->fetchExams();
+    }
+
+    public function fetchExam($id) {
+        return $this->repository->fetchExam($id);
     }
 
 }
