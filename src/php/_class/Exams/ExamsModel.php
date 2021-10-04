@@ -18,15 +18,6 @@
         public $changed_at;
         public $lessonFrom;
         public $lessonTo;
-
-        public function listExams() {
-            $rtn = new \stdClass;
-            $rtn->subject = $this->subject;
-            $rtn->class = $this->class;
-            $rtn->room = $this->room;
-            $rtn->lessonFrom = $this->lessonFrom;
-            $rtn->lessonTo = $this->lessonTo;
-
-            return $rtn;
-        }
+        public $timeFrom;
+        public $timeTo;
     }

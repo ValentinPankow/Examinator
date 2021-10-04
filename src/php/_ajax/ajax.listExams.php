@@ -4,6 +4,8 @@
     require_once '../_class/Exams/ExamsRepository.php';
     require_once '../_class/Exams/ExamsController.php';
     require_once '../_class/Exams/ExamsModel.php';
+    require_once '../_class/Classes/ClassesRepository.php';
+    require_once '../_class/Subjects/SubjectsRepository.php';
 
     $container = new Core\Container();
 

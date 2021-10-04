@@ -59,13 +59,6 @@
     <!-- overlayScrollbars -->
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 
-    <!-- Main JS -->
-    <script src="src/js/main.js"></script>
-    <!-- Page Specific JS -->
-    {% if tpl != "404" %}
-        <script src="{{pageJs}}"></script>
-    {% endif %}
-
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
@@ -74,6 +67,13 @@
     <script src="dist/js/pages/dashboard.js"></script>
     <!-- Sweetalert2 -->
     <script src="plugins/sweetalert2/sweetalert2.all.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="src/js/main.js"></script>
+    <!-- Page Specific JS -->
+    {% if tpl != "404" %}
+        <script src="{{pageJs}}"></script>
+    {% endif %}
 
     <!-- DataTables  & Plugins -->
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
@@ -252,4 +252,14 @@
         </div>
     </footer>
 
+{% endblock %}
+
+{% block responseMsg %}
+  <!-- notifications -->
+  <div id="notification" style="display: none;">
+    <span class="successCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
+    <span class="errorCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
+    <span class="userFound">Benutzer gefunden!</span>
+    <span class="userNotFound">Es konnte kein Benutzer gefunden werden!</span>
+  </div>
 {% endblock %}

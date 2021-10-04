@@ -25,12 +25,12 @@ $('#loginBtn').on('click', function() {
                 if (obj.user) {
                     Toast.fire({
                         icon: 'success',
-                        title: 'Benutzer gefunden!'
+                        title: $('.userFound').html()
                     })
                 } else {
                     Toast.fire({
                         icon: 'error',
-                        title: 'Es konnte kein Benutzer gefunden werden!'
+                        title: $('.userNotFound').html()
                     })
                 }
             } catch(e) {

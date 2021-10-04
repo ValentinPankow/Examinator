@@ -2,23 +2,29 @@
 namespace Exams;
 
 use Exams\ExamsRepository;
+use Classes\ClassesRepository;
+use Subjects\SubjectsRepository;
 
 class ExamsController
 {
     private $repository;
+    private $classesRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(ExamsRepository $repository)
+    public function __construct(ExamsRepository $repository, ClassesRepository $classesRepository, SubjectsRepository $subjectsRepository)
     {
         $this->repository = $repository;
+        $this->classesRepository = $classesRepository;
+        $this->subjectsRepository = $subjectsRepository;
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        // $exams = $content['exams'];
         $twig = $content['twig'];
+        $classes = $content['classes'];
+        $subjects = $content['subjects'];
 
         include "./templates/php/{$view}.php";
     }
@@ -27,9 +33,12 @@ class ExamsController
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
+        $classes = $this->classesRepository->fetchClasses();
+        $subjects = $this->subjectsRepository->fetchSubjects();
         $this->render("{$tpl}", [
-            // 'exams' => $exams,
-            'twig' => $twig
+            'twig' => $twig,
+            'classes' => $classes,
+            'subjects' => $subjects
         ]);
     }
 
