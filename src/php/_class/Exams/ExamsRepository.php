@@ -43,10 +43,11 @@ class ExamsRepository
 
     public function listExams()
     {
-        $query = $this->pdo->query("SELECT s.name AS subject, c.name AS class, e.room, e.lessonFrom, e.lessonTo 
+        $query = $this->pdo->prepare("SELECT s.name AS subject, c.name AS class, e.room, e.lessonFrom, e.lessonTo 
                                     FROM exams AS e 
                                     JOIN classes AS c ON e.class_id = c.id 
                                     JOIN subjects AS s ON e.subject_id = s.id");
+        $query->execute();
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
         
         return $contents;

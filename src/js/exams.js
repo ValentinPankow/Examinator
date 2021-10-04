@@ -7,11 +7,21 @@ $(document).ready(function() {
     $("#examsTable").DataTable({
         "responsive": true,
         "autowidth": true,
+        "ajax": {
+            "url": "src/php/_ajax/ajax.listExams.php",
+            "dataSrc": "exams"
+        },
+        "columns": [
+            { "data" : "subject" },
+            { "data" : "class" },
+            { "data" : "room" },
+            { "data" : "lessonFrom" },
+            { "data" : "lessonTo" }
+        ],
         fixedHeader: {
             header: true,
             footer: true
-        },
-        "ajax": 'src/php/_ajax/ajax.listExams.php'
+        }
     });
 });
 
