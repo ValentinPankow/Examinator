@@ -3,13 +3,15 @@ const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 3000,
+    timer: 4000,
     timerProgressBar: true,
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
 })
+
+let examsTable = null;
 
 $(document).ready(function() {
     // Erstellen der Eingabefelder
@@ -22,11 +24,12 @@ $(document).ready(function() {
         minHeight: 85
     });
     $('#textOtherChange').summernote();
-    
+
     // Erstellen der Tabelle um klausuren anzeigen zu können.
-    $("#examsTable").DataTable({
+    examsTable = $("#examsTable").DataTable({
         "responsive": true,
         "autowidth": true,
+        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
         "ajax": {
             "url": "src/php/_ajax/ajax.listExams.php",
             "dataSrc": "exams"
@@ -34,7 +37,16 @@ $(document).ready(function() {
         "columns": [
             { "data" : "subject" },
             { "data" : "class" },
-            { "data" : "room" },
+            { 
+                "data" : null,
+                render: function (row) {
+                    if (row.room.length > 0) {
+                        return row.room;
+                    } else {
+                        return "-";
+                    }
+                }
+            },
             { 
                 "data" : null,
                 render: function (row) {
@@ -114,6 +126,10 @@ $('#examsTable').on('click', 'button[name="deleteExam"]', function () {
     $('#deleteExamsModal').modal('show');
 });
 
+$('#deleteExamsModal').find('button[name="delete"]').on('click', function() {
+    deleteExam();
+});
+
 // Show or hide Other fields
 $('#chkActivateOther').on('change', function() {
     if ($('#chkActivateOther').is(':checked')) {
@@ -181,7 +197,7 @@ $('#rbLessonChange').on('change', function() {
 });
 
 $('#saveExam').on('click', function() {
-    
+    saveNewExam();
 });
 
 function saveNewExam() {
@@ -196,6 +212,34 @@ function saveNewExam() {
     let roomValue = $('#inputRoom').val().trim();
     let topicValue = $('#textTopic').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '');
     let otherValue = $('#textOther').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '');
+
+    // Variablen für Fehlermeldung
+    let errorMsg = null;
+    let timeOrLessonOk = true;
+    if (($('#rbTime').is(':checked') && (timeFromValue == "" || timeToValue == "")) || ($('#rbLesson').is(':checked') && (lessonFromValue == "-" || lessonToValue == "-"))) {
+        timeOrLessonOk = false;
+    }
+
+    let momentFrom = moment(timeFromValue, 'hh:mm');
+    let momentTo = moment(timeToValue, 'hh:mm');
+
+    // Fehlermeldung Zeitange (bis) größer als (von) ist.
+    if (($('#rbLesson').is(':checked') && (lessonToValue <= lessonFromValue)) || ($('#rbTime').is(':checked') && momentFrom.isAfter(momentTo) || momentFrom.isSame(momentTo))) {
+        errorMsg = $('.lessonAndTimeError').html();
+    }
+
+    // Fehlermeldung, wenn Datum oder Klasse oder Fach oder Zeit nicht angegeben wurde. 
+    if (dateValue == "" || !timeOrLessonOk || classValue == "-" || subjectValue == "-") {
+        errorMsg = $('.requiredFields').html();
+    }
+
+    if (errorMsg != null) {
+        Toast.fire({
+            icon: 'error',
+            title: errorMsg
+        })
+        return false;
+    }
 
     $.post(
         'src/php/_ajax/ajax.createExam.php',
@@ -221,6 +265,9 @@ function saveNewExam() {
                         icon: 'success',
                         title: $('.successCreateExam').html()
                     })
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
                 } else {
                     Toast.fire({
                         icon: 'error',
@@ -232,16 +279,37 @@ function saveNewExam() {
             }
         }
     );
+    
+}
 
-    /*console.log(dateValue);
-    console.log(timeFromValue);
-    console.log(timeToValue);
-    console.log(lessonFromValue);
-    console.log(lessonToValue);
-    console.log(classValue);
-    console.log(subjectValue);
-    console.log(roomValue);
-    console.log(topicValue);
-    console.log(otherValue);*/
-
+function deleteExam() {
+    $.post(
+        'src/php/_ajax/ajax.deleteExam.php',
+        {
+            data: {
+                id: $('#deleteExamsModal').find('button[name="delete"]').attr('data-id')
+            },
+        },
+        function(rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: $('.successDeleteExam').html()
+                    })
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: $('.errorDeleteExam').html()
+                    })
+                }
+            } catch(e) {
+                console.log(e);
+            }
+        }
+    );
 }

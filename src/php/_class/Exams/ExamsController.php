@@ -42,6 +42,14 @@ class ExamsController
         ]);
     }
 
+    public function insertExam($data) {
+        return $this->repository->insertExam($data);
+    }
+
+    public function deleteExam($id) {
+        return $this->repository->deleteExam($id);   
+    }
+
     public function listExams() {
         return $this->repository->listExams();
     }
