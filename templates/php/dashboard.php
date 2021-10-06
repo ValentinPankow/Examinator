@@ -12,5 +12,6 @@
         'classes' => $classes,
         'pageJs' => 'src/js/dashboard.js',
         'tpl' => 'dashboard',
+        'login_type' => $login_type,
         'darkMode' => $darkMode
     ));

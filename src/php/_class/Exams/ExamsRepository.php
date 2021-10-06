@@ -69,6 +69,19 @@ class ExamsRepository
         return $contents;
     }
 
+    public function fetchClassExams($classId)
+    {
+        
+        $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo 
+                                      FROM exams AS e
+                                      JOIN classes AS c ON e.class_id = c.id 
+                                      JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id");
+        $query->execute(['id' => $classId]);
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
+
+        return $contents;
+    }
+
     public function insertExam($data) {
         // Change creator ID later
         $query = $this->pdo->prepare("INSERT INTO exams (creator_id, class_id, subject_id, date, room, topic, other, lessonFrom, lessonTo, timeFrom, timeTo)
