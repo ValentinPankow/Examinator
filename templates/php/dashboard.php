@@ -1,5 +1,8 @@
 <?php
 
+
+    require "sharedVars.php";
+
     echo $twig->render('dashboard.twig', array(
         'pageTitle' => 'Examinator - Dashboard',
         'userName' => 'User',
@@ -9,5 +12,5 @@
         'classes' => $classes,
         'pageJs' => 'src/js/dashboard.js',
         'tpl' => 'dashboard'
-        
+        'darkMode' => $darkMode
     ));
