@@ -243,8 +243,8 @@ function saveNewExam() {
     let classValue = $('#selectClass option:selected').val();
     let subjectValue = $('#selectSubject option:selected').val();
     let roomValue = $('#inputRoom').val().trim();
-    let topicValue = $('#textTopic').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '');
-    let otherValue = $('#textOther').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '');
+    let topicValue = $('#textTopic').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
+    let otherValue = $('#textOther').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
 
     // Variablen für Fehlermeldung
     let errorMsg = null;
