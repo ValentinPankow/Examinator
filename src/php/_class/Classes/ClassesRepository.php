@@ -35,7 +35,8 @@ class ClassesRepository
     //Ansonsten siehe fetchClasses Kommentare
     public function fetchClasses()
     {
-        $query = $this->pdo->query("SELECT * FROM classes");
+        $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
+
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
         return $contents;
