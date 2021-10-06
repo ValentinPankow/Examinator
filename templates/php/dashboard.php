@@ -11,6 +11,6 @@
         'exams' => $exams,
         'classes' => $classes,
         'pageJs' => 'src/js/dashboard.js',
-        'tpl' => 'dashboard'
+        'tpl' => 'dashboard',
         'darkMode' => $darkMode
     ));
