@@ -22,7 +22,7 @@ class ClassesRepository
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
     public function fetchClass($id)
     {
-        $query = $this->pdo->prepare("SELECT * from classes WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * FROM classes WHERE `id` = :id");
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -35,10 +35,21 @@ class ClassesRepository
     //Ansonsten siehe fetchClasses Kommentare
     public function fetchClasses()
     {
-        $query = $this->pdo->query("SELECT * from classes ORDER BY name ASC");
+        $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
+
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
         return $contents;
+    }
+
+    public function fetchByName($name)
+    {
+        $query = $this->pdo->prepare("SELECT * FROM classes WHERE `name` = :name");
+        $query->execute(['name' => $name]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+        $content = $query->fetch(PDO::FETCH_CLASS);
+
+        return $content;
     }
 
 }

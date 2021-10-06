@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 17. Sep 2021 um 09:50
--- Server-Version: 10.4.21-MariaDB
--- PHP-Version: 8.0.10
+-- Erstellungszeit: 05. Okt 2021 um 18:04
+-- Server-Version: 10.4.20-MariaDB
+-- PHP-Version: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -53,23 +53,27 @@ CREATE TABLE `exams` (
   `creator_id` int(11) NOT NULL,
   `class_id` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `room` varchar(31) NOT NULL,
-  `topic` varchar(63) NOT NULL,
-  `other` text NOT NULL,
+  `date` date NOT NULL,
+  `room` varchar(31) DEFAULT NULL,
+  `topic` varchar(63) DEFAULT NULL,
+  `other` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `changed_at` timestamp NULL DEFAULT NULL
+  `changed_at` timestamp NULL DEFAULT NULL,
+  `lessonFrom` int(11) DEFAULT NULL,
+  `lessonTo` int(11) DEFAULT NULL,
+  `timeFrom` time DEFAULT NULL,
+  `timeTo` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Daten für Tabelle `exams`
 --
 
-INSERT INTO `exams` (`id`, `creator_id`, `class_id`, `subject_id`, `date`, `room`, `topic`, `other`, `created_at`, `changed_at`) VALUES
-(1, 1, 1, 1, '2021-09-15 12:53:23', 'C210', 'Writing about stuff.', '', '2021-09-15 12:13:58', NULL),
-(2, 1, 1, 1, '2021-09-16 11:14:54', 'C210', '', '', '2021-09-16 11:14:54', NULL),
-(3, 1, 1, 1, '2021-09-16 12:08:07', 'C210', '', 'other informations', '2021-09-16 12:08:07', NULL),
-(4, 1, 2, 1, '2021-09-16 12:26:15', 'C207', 'Testtopic', 'Testother', '2021-09-16 12:26:15', NULL);
+INSERT INTO `exams` (`id`, `creator_id`, `class_id`, `subject_id`, `date`, `room`, `topic`, `other`, `created_at`, `changed_at`, `lessonFrom`, `lessonTo`, `timeFrom`, `timeTo`) VALUES
+(1, 1, 1, 1, '0000-00-00', 'C210', 'Writing about stuff.', '', '2021-09-15 12:13:58', NULL, 1, 2, NULL, NULL),
+(2, 1, 1, 1, '0000-00-00', 'C210', '', '', '2021-09-16 11:14:54', NULL, NULL, NULL, '13:20:00', '13:45:00'),
+(19, 1, 3, 3, '2021-10-05', 'Test Raum', 'Test Thema', '<u>Test Sonstiges</u>', '2021-10-05 16:02:14', NULL, NULL, NULL, '18:02:00', '18:04:00'),
+(20, 1, 2, 2, '2021-10-05', 'Raum', '<u>Thema</u>', '<font color=\"#000000\" style=\"background-color: rgb(255, 255, 0);\">Sonstiges</font>', '2021-10-05 16:03:27', NULL, 3, 8, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -181,7 +185,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT für Tabelle `exams`
 --
 ALTER TABLE `exams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT für Tabelle `subjects`

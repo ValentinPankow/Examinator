@@ -29,6 +29,7 @@ class DashboardController
         $user = $content['user'];
         $exams = $content['exams'];
         $classes = $content['classes'];
+        $login_type = $content['login_type'];
 
         include "./templates/php/{$view}.php";
     }
@@ -37,9 +38,9 @@ class DashboardController
     //Sucht sich alle Dashboards aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     public function index($tpl, $twig)
     {
-        //Example für fetchAll (SELECT * FROM Dashboards)
-        // $Dashboards = $this->repository->fetchDashboards();
-      
+
+    //Testweise als ob eine Klasse oder Lehrer wäre. (!tpl = Klasse; tpl = Lehrer)
+      if(!$tpl){
         $exams = null;
         $user = $this->userRepository->fetchUserById(1);
         if ($user) {
@@ -53,7 +54,24 @@ class DashboardController
             'user' => $user,
             'classes' => $classes,
             'exams' => $exams,
+            'login_type' => 'teacher'
         ]);
+
+      }else{
+          $exams = null;
+          $class = $this->classesRepository->fetchByName('12ITa');
+          if($class){
+            $exams = $this->examsRepository->fetchClassExams($class->id);
+          }
+
+          $this->render("{$tpl}", [
+            'twig' => $twig,
+            'class' => $class,
+            'exams' => $exams,
+            'login_type' => 'class'
+        ]);
+      }
+
     }
 
 }
