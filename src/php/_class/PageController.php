@@ -32,6 +32,29 @@
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
 
+            $filter = new \Twig\TwigFilter('preg_replace', 
+                function ($subject, $pattern, $replacement) {
+                    $rtn = preg_replace($pattern, $replacement, $subject);
+                    if (strlen(trim($rtn)) > 0) {
+                        return $rtn;
+                    } else {
+                        return "-";
+                    }
+                }
+            );
+            $this->twig->addFilter($filter);
+
+            $formatDate = new \Twig\TwigFunction('formatDate', function($date) {
+                // Gibt das Datum im Format dd.mm.yyyy zurück
+                return substr($date, 8, 2) . "." . substr($date, 5, 2) . "." . substr($date, 0, 4);
+            });
+            $formatTime = new \Twig\TwigFunction('formatTime', function($time) {
+                // Gibt das Datum im Format dd.mm.yyyy zurück
+                return substr($time, 0, 2) . ":" . substr($time, 3, 2);
+            });
+            $this->twig->addFunction($formatDate);
+            $this->twig->addFunction($formatTime);
+
             if (!isset($this->GET['page'])) {
                 $loginController = $this->container->make("loginController");
                 $loginController->index("login", $this->twig);

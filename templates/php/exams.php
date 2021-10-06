@@ -8,5 +8,7 @@
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/exams.js',
         'tpl' => 'exams',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'classes' => $classes,
+        'subjects' => $subjects
     ));
