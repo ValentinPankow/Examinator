@@ -13,6 +13,9 @@ const Toast = Swal.mixin({
 
 let examsTable = null;
 
+let summernoteTopicChange = null;
+let summernoteOtherChange = null;
+
 $(document).ready(function() {
     // Erstellen der Eingabefelder
     $('#textTopic').summernote({
@@ -20,10 +23,10 @@ $(document).ready(function() {
     });
     $('#textOther').summernote();
 
-    $('#textTopicChange').summernote({
+    summernoteTopicChange = $('#textTopicChange').summernote({
         minHeight: 85
     });
-    $('#textOtherChange').summernote();
+    summernoteOtherChange = $('#textOtherChange').summernote();
 
     // Erstellen der Tabelle um klausuren anzeigen zu können.
     examsTable = $("#examsTable").DataTable({
@@ -116,14 +119,40 @@ $(document).ready(function() {
 // Show Modals and bind id from entry to save button
 $('#examsTable').on('click', 'button[name="editExam"]', function () {
     let button = $(this);
-    $('#changeExamsModal').find('button[name="save"]').attr('data-id',button.attr('data-id')); // BIND USER ID FROM TABLE BUTTON TO SAVE BUTTON
+    $('#changeExamsModal').find('button[name="save"]').attr('data-id', button.attr('data-id')); // BIND USER ID FROM TABLE BUTTON TO SAVE BUTTON
     $('#changeExamsModal').modal('show');
 });
 
 $('#examsTable').on('click', 'button[name="deleteExam"]', function () {
     let button = $(this);
-    $('#deleteExamsModal').find('button[name="delete"]').attr('data-id',button.attr('data-id')); // BIND USER ID FROM TABLE BUTTON TO SAVE BUTTON
+    $('#deleteExamsModal').find('button[name="delete"]').attr('data-id', button.attr('data-id')); // BIND USER ID FROM TABLE BUTTON TO SAVE BUTTON
     $('#deleteExamsModal').modal('show');
+});
+
+// Wenn das Modal geöffnet wurde, die Klausur laden.
+$('#changeExamsModal').on('shown.bs.modal', function() {
+    getExam($('#changeExamsModal').find('button[name="save"]').attr('data-id'));
+});
+
+// Wenn das Modal geschlossen wurde, die Felder leeren.
+$('#changeExamsModal').on('hidden.bs.modal', function() {
+    $('#changeExamsModal').find('.overlay').show();
+
+    $('#rbLessonChange').prop('checked', true).trigger('change');
+
+    // Zurückbekommene Werte den Feldern zuteilen
+    $('#inputDateChange').val('');
+    $('#selectClassChange').val('-');
+    $('#selectSubjectChange').val('-');
+    $('#inputRoomChange').val('');
+    $('#inputTimeFromChange').val('');
+    $('#inputTimeToChange').val('');
+    $('#selectLessonFromChange').val('-');
+    $('#selectLessonToChange').val('-');
+    summernoteTopicChange.summernote('code', '');
+    summernoteOtherChange.summernote('code', '');
+
+    $('#chkActivateOtherChange').prop('checked', false).trigger('change');
 });
 
 $('#deleteExamsModal').find('button[name="delete"]').on('click', function() {
@@ -280,6 +309,62 @@ function saveNewExam() {
         }
     );
     
+}
+
+function getExam(id) {
+    $.post(
+        'src/php/_ajax/ajax.getExam.php',
+        {
+            data: {
+                id: id
+            },
+        },
+        function (rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                console.log(obj);
+                if (obj.success) {
+                    if (obj.exam.lessonFrom && obj.exam.lessonTo) {
+                        $('#rbLessonChange').prop('checked', true).trigger('change');
+                    } else if (obj.exam.timeFrom && obj.exam.timeTo){
+                        $('#rbTimeChange').prop('checked', true).trigger('change');
+                    }
+
+                    // Zurückbekommene Werte den Feldern zuteilen
+                    $('#inputDateChange').val(obj.exam.date);
+                    $('#selectClassChange').val(obj.exam.class_id);
+                    $('#selectSubjectChange').val(obj.exam.subject_id);
+                    $('#inputRoomChange').val(obj.exam.room);
+                    $('#inputTimeFromChange').val(obj.exam.timeFrom);
+                    $('#inputTimeToChange').val(obj.exam.timeTo);
+                    $('#selectLessonFromChange').val(obj.exam.lessonFrom);
+                    $('#selectLessonToChange').val(obj.exam.lessonTo);
+                    summernoteTopicChange.summernote('code', obj.exam.topic);
+
+                    if (obj.exam.other) {
+                        $('#chkActivateOtherChange').prop('checked', true).trigger('change');
+                    }
+
+                    summernoteOtherChange.summernote('code', obj.exam.other);
+
+                    $('#changeExamsModal').find('.overlay').hide();
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: $('.errorGetExam').html()
+                    })
+                    $('#changeExamsModal').modal('toggle');
+                }
+            } catch (e) {
+                console.log(e);
+                Toast.fire({
+                    icon: 'error',
+                    title: $('.errorGetExam').html()
+                })
+                $('#changeExamsModal').modal('toggle');
+            }
+        }
+    );
 }
 
 function deleteExam() {
