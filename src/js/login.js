@@ -4,6 +4,9 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
+    customClass: {
+        popup: "swal2-popup-custom"
+    },
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -23,15 +26,9 @@ $('#loginBtn').on('click', function() {
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.user) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: $('.userFound').html()
-                    })
+                    triggerResponseMsg('success', $('.userFound').html());
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: $('.userNotFound').html()
-                    })
+                    triggerResponseMsg('error', $('.userNotFound').html());
                 }
             } catch(e) {
                 console.log(e);

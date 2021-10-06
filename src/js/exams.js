@@ -5,6 +5,9 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 4000,
     timerProgressBar: true,
+    customClass: {
+        popup: "swal2-popup-custom"
+    },
     didOpen: (toast) => {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
@@ -17,6 +20,7 @@ let summernoteTopicChange = null;
 let summernoteOtherChange = null;
 
 $(document).ready(function() {
+    $('div.swal2-popup').addClass('sweetalert-darkmode');
     // Erstellen der Eingabefelder
     $('#textTopic').summernote({
         minHeight: 85
@@ -263,10 +267,7 @@ function saveNewExam() {
     }
 
     if (errorMsg != null) {
-        Toast.fire({
-            icon: 'error',
-            title: errorMsg
-        })
+        triggerResponseMsg('error', errorMsg);
         return false;
     }
 
@@ -290,18 +291,12 @@ function saveNewExam() {
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: $('.successCreateExam').html()
-                    })
+                    triggerResponseMsg('success', $('.successCreateExam').html());
                     setTimeout(function(){
                         location.reload();
                     }, 1000);
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: $('.errorCreateExam').html()
-                    })
+                    triggerResponseMsg('error', $('.errorCreateExam').html());
                 }
             } catch(e) {
                 console.log(e);
@@ -349,18 +344,12 @@ function getExam(id) {
 
                     $('#changeExamsModal').find('.overlay').hide();
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: $('.errorGetExam').html()
-                    })
+                    triggerResponseMsg('error', $('.errorGetExam').html());
                     $('#changeExamsModal').modal('toggle');
                 }
             } catch (e) {
                 console.log(e);
-                Toast.fire({
-                    icon: 'error',
-                    title: $('.errorGetExam').html()
-                })
+                triggerResponseMsg('error', $('.errorGetExam').html());
                 $('#changeExamsModal').modal('toggle');
             }
         }
@@ -379,18 +368,12 @@ function deleteExam() {
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
-                    Toast.fire({
-                        icon: 'success',
-                        title: $('.successDeleteExam').html()
-                    })
+                    triggerResponseMsg('success', $('.successDeleteExam').html());
                     setTimeout(function(){
                         location.reload();
                     }, 1000);
                 } else {
-                    Toast.fire({
-                        icon: 'error',
-                        title: $('.errorDeleteExam').html()
-                    })
+                    triggerResponseMsg('error', $('.errorDeleteExam').html());
                 }
             } catch(e) {
                 console.log(e);

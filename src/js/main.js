@@ -45,11 +45,23 @@ $('#chkDarkMode').on('change', function() {
     if ($('#chkDarkMode').is(':checked')) {
         document.cookie = "darkMode=true";
         toggleDarkmode(true);
+        darkModeActivated = true;
     } else {
         document.cookie = "darkMode=false";
         toggleDarkmode(false);
+        darkModeActivated = false;
     }
 });
+
+function triggerResponseMsg(icon, message) {
+    Toast.fire({
+        icon: icon,
+        title: message
+    })
+    if (darkModeActivated) {
+        $('.swal2-popup-custom').addClass('swal-dark');
+    }
+}
 
 // Funktion zum prüfen der E-Mails auf validität
 function isMail(mail) {
@@ -84,7 +96,9 @@ function getPage() {
 function toggleDarkmode(active) {
     if (active) {
         $('body').addClass('dark-mode');
+        $('.swal-popup').addClass('swal-dark');
     } else {
         $('body').removeClass('dark-mode');
+        $('.swal-popup').removeClass('swal-dark');
     }
 }
