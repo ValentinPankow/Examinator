@@ -30,7 +30,7 @@ class Container
     {
         $this->receipts = [
             'dashboardController' => function(){
-                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"));
+                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"), $this->make("classesRepository"));
             },
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
