@@ -59,7 +59,7 @@ class ExamsRepository
     public function fetchUserExams($creatorId)
     {
         
-        $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other 
+        $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo 
                                       FROM exams AS e 
                                       JOIN classes AS c ON e.class_id = c.id 
                                       JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id");
