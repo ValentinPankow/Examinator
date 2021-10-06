@@ -63,9 +63,6 @@
                     {% endif %}
                   </h3>
                   <div class="card-tools">
-                    <button type="button" class="btn btn-sm">
-                      <i class="fas fa-eye"></i>
-                    </button>
                   </div>
                 </div>
                 <div class="card-body">
@@ -108,7 +105,7 @@
 
 
 
-
+{% if login_type == "teacher" %}
 
 <div class="row">
     <div class="col-md-6">
@@ -156,7 +153,7 @@
         </div>
     </div>
 </div>
-
+{% endif %}
 
 
 

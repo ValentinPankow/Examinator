@@ -42,4 +42,14 @@ class ClassesRepository
         return $contents;
     }
 
+    public function fetchByName($name)
+    {
+        $query = $this->pdo->prepare("SELECT * FROM classes WHERE `name` = :name");
+        $query->execute(['name' => $name]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+        $content = $query->fetch(PDO::FETCH_CLASS);
+
+        return $content;
+    }
+
 }
