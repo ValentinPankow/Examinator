@@ -64,14 +64,14 @@
                   {% if exam.topic %}
                     <div class="row">
                       <div class="col">
-                        <b>Themen:</b> {{ exam.topic }}
+                        <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                       </div>
                     </div>
                   {% endif %}
                   {% if exam.other %}
                     <div class="row">
                       <div class="col">
-                        <b>Sonstiges:</b> {{ exam.other }}
+                        <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                       </div>
                     </div>
                   {% endif %}

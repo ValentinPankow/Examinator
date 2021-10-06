@@ -32,6 +32,19 @@
             ));
             $this->twig->addExtension(new Twig_Extension_Debug());
 
+            $filter = new \Twig\TwigFilter('preg_replace', 
+                function ($subject, $pattern, $replacement) {
+                    $rtn = preg_replace($pattern, $replacement, $subject);
+                    if (strlen(trim($rtn)) > 0) {
+                        return $rtn;
+                    } else {
+                        return "-";
+                    }
+                }
+            );
+
+            $this->twig->addFilter($filter);
+
             if (!isset($this->GET['page'])) {
                 $loginController = $this->container->make("loginController");
                 $loginController->index("login", $this->twig);
