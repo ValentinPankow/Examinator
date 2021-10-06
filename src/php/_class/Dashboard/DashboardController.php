@@ -37,6 +37,9 @@ class DashboardController
     //Sucht sich alle Dashboards aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     public function index($tpl, $twig)
     {
+        //Example für fetchAll (SELECT * FROM Dashboards)
+        // $Dashboards = $this->repository->fetchDashboards();
+      
         $exams = null;
         $user = $this->userRepository->fetchUserById(1);
         if ($user) {
