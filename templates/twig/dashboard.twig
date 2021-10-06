@@ -103,66 +103,6 @@
           {% endfor %}
         </div>
         <div>
-
-
-
-
-
-
-
-<div class="row">
-    <div class="col-md-6">
-        <div class="card card-primary">
-            <div class="card-header">
-            <h3 class="card-title">Klausuren schnell anlegen</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-sm-6">
-                  <!-- select -->
-                  <div class="form-group">
-                    <label>Klasse</label>
-                    <select class="custom-select" id="class">
-                          <option>Bitte auswählen...</option>
-                      {% for class in classes %}
-                         <option value="{{ class.id }}">{{ class.name }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label>Fach</label>
-                    <select class="custom-select" id="subject">
-                      <option>option 1</option>
-                      <option>option 2</option>
-                      <option>option 3</option>
-                      <option>option 4</option>
-                      <option>option 5</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
             <!-- Do something here!-->
