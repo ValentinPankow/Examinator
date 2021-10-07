@@ -56,7 +56,7 @@ class Container
                 return new ExamsRepository($this->make("pdo"));
             },
             'subjectsController' => function(){
-                return new SubjectsController($this->make("SubjectsRepository"));
+                return new SubjectsController($this->make("subjectsRepository"));
             },
             'subjectsRepository' => function(){
                 return new SubjectsRepository($this->make("pdo"));

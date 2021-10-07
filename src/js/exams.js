@@ -16,36 +16,59 @@ const Toast = Swal.mixin({
 
 let examsTable = null;
 
+let summernoteTopic = null;
+let summernoteOther = null;
 let summernoteTopicChange = null;
 let summernoteOtherChange = null;
+let today = null;
 
 $(document).ready(function() {
+
     $('div.swal2-popup').addClass('sweetalert-darkmode');
     // Erstellen der Eingabefelder
-    $('#textTopic').summernote({
-        minHeight: 85
+    summernoteTopic = $('#textTopic').summernote({
+        minHeight: 85,
+        lang: 'de-DE'
     });
-    $('#textOther').summernote();
+    summernoteOther = $('#textOther').summernote({
+        lang: 'de-DE'
+    });
 
     summernoteTopicChange = $('#textTopicChange').summernote({
-        minHeight: 85
+        minHeight: 85,
+        dialogsInBody: true,
+        lang: 'de-DE'
     });
-    summernoteOtherChange = $('#textOtherChange').summernote();
+    summernoteOtherChange = $('#textOtherChange').summernote({
+        dialogsInBody: true,
+        lang: 'de-DE'
+    });
 
     // Erstellen der Tabelle um klausuren anzeigen zu können.
     examsTable = $("#examsTable").DataTable({
         "responsive": true,
         "autowidth": true,
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
+        "ordering": false,
         "ajax": {
             "url": "src/php/_ajax/ajax.listExams.php",
             "dataSrc": "exams"
         },
         "columns": [
-            { "data" : "subject" },
-            { "data" : "class" },
+            {
+                "data": null,
+                render: function (row) {
+                    if (row.date != null) {
+                        return formatDate(row.date) + " <i class='far fa-calendar'></i>";
+                    } else {
+                        return "-";
+                    }
+                }
+            },
+            { "data": "subject" },
+            { "data": "class" },
             { 
-                "data" : null,
+                "data": null,
                 render: function (row) {
                     if (row.room.length > 0) {
                         return row.room;
@@ -55,7 +78,7 @@ $(document).ready(function() {
                 }
             },
             { 
-                "data" : null,
+                "data": null,
                 render: function (row) {
                     if (row.lessonFrom != null) {
                         return row.lessonFrom + ". Std.";
@@ -67,7 +90,7 @@ $(document).ready(function() {
                 }
             },
             { 
-                "data" : null,
+                "data": null,
                 render: function (row) {
                     if (row.lessonTo != null) {
                         return row.lessonTo + ". Std.";
@@ -81,7 +104,7 @@ $(document).ready(function() {
             { 
                 searchable: false,
                 orderable: false,
-                "data" : "id",
+                "data": "id",
                 render: function (exams) { return '\
                     <div class="btn-group">\
                         <button type="button" class="btn btn-primary" name="editExam" data-id="'+exams+'"><i class="fas fa-pen"></i></button>\
@@ -99,26 +122,14 @@ $(document).ready(function() {
         }
     });
 
-    // Set inputs to current Time + 45 Minutes
-    var d = new Date();
-    // var dd = new Date(d.getTime() + 45*60000);
-    /*$('#inputTimeTo').val((dd.getHours()<10?'0'+dd.getHours():dd.getHours())+':'+(dd.getMinutes()<10?'0'+dd.getMinutes():dd.getMinutes()));
-    $('#inputTimeFrom').val((d.getHours()<10?'0'+d.getHours():d.getHours())+':'+(d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()));*/
-
     // Set inputs to current Date
+    var d = new Date();
     var day = ("0" + d.getDate()).slice(-2);
     var month = ("0" + (d.getMonth() + 1)).slice(-2);
-    var today = d.getFullYear()+"-"+(month)+"-"+(day) ;
+    today = d.getFullYear()+"-"+(month)+"-"+(day) ;
     $('#inputDate').val(today);
-});
 
-// Examples to bind values to modal inputs
-/*
-    $('#editModalAccounts').find('input[name="username"]').val(button.closest('tr').find('td').eq(0).text()); //BIND USERNAME FROM TABLE TO INPUT
-    $('#editModalAccounts').find('input[name="firstname"]').val(button.closest('tr').find('td').eq(1).text()); //BIND FIRSTNAME FROM TABLE TO INPUT
-    $('#editModalAccounts').find('input[name="lastname"]').val(button.closest('tr').find('td').eq(2).text()); //BIND LASTNAME FROM TABLE TO INPUT
-    $('#editModalAccounts').find('input[name="mail"]').val(button.closest('tr').find('td').eq(3).text()); //BIND MAIL ADDRESS FROM TABLE TO INPUT
-*/
+});
 
 // Show Modals and bind id from entry to save button
 $('#examsTable').on('click', 'button[name="editExam"]', function () {
@@ -141,10 +152,7 @@ $('#changeExamsModal').on('shown.bs.modal', function() {
 // Wenn das Modal geschlossen wurde, die Felder leeren.
 $('#changeExamsModal').on('hidden.bs.modal', function() {
     $('#changeExamsModal').find('.overlay').show();
-
     $('#rbLessonChange').prop('checked', true).trigger('change');
-
-    // Zurückbekommene Werte den Feldern zuteilen
     $('#inputDateChange').val('');
     $('#selectClassChange').val('-');
     $('#selectSubjectChange').val('-');
@@ -159,8 +167,12 @@ $('#changeExamsModal').on('hidden.bs.modal', function() {
     $('#chkActivateOtherChange').prop('checked', false).trigger('change');
 });
 
+$('#changeExamsModal').find('button[name="save"]').on('click', function() {
+    changeExam($('#changeExamsModal').find('button[name="save"]').attr('data-id'));
+});
+
 $('#deleteExamsModal').find('button[name="delete"]').on('click', function() {
-    deleteExam();
+    deleteExam($('#deleteExamsModal').find('button[name="delete"]').attr('data-id'));
 });
 
 // Show or hide Other fields
@@ -243,8 +255,10 @@ function saveNewExam() {
     let classValue = $('#selectClass option:selected').val();
     let subjectValue = $('#selectSubject option:selected').val();
     let roomValue = $('#inputRoom').val().trim();
-    let topicValue = $('#textTopic').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
-    let otherValue = $('#textOther').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
+    let topicValue = $('#textTopic').summernote('code').trim();
+    let otherValue = $('#textOther').summernote('code').trim();
+    // let topicValue = $('#textTopic').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
+    // let otherValue = $('#textOther').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
 
     // Variablen für Fehlermeldung
     let errorMsg = null;
@@ -257,7 +271,7 @@ function saveNewExam() {
     let momentTo = moment(timeToValue, 'hh:mm');
 
     // Fehlermeldung Zeitange (bis) größer als (von) ist.
-    if (($('#rbLesson').is(':checked') && (lessonToValue <= lessonFromValue)) || ($('#rbTime').is(':checked') && momentFrom.isAfter(momentTo) || momentFrom.isSame(momentTo))) {
+    if (($('#rbLesson').is(':checked') && (parseInt(lessonToValue) <= parseInt(lessonFromValue))) || ($('#rbTime').is(':checked') && momentFrom.isAfter(momentTo) || momentFrom.isSame(momentTo))) {
         errorMsg = $('.lessonAndTimeError').html();
     }
 
@@ -272,9 +286,10 @@ function saveNewExam() {
     }
 
     $.post(
-        'src/php/_ajax/ajax.createExam.php',
+        'src/php/_ajax/ajax.queryExam.php',
         {
             data: {
+                action: 'insert',
                 date: dateValue,
                 timeFrom: timeFromValue,
                 timeTo: timeToValue,
@@ -291,10 +306,29 @@ function saveNewExam() {
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
+
+                    // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successCreateExam').html());
-                    setTimeout(function(){
-                        location.reload();
-                    }, 1000);
+                    reloadTable();
+
+                    $('#createExamOverlay').fadeIn(500);
+
+                    // Eingabemaske zurücksetzen
+                    $('#rbLesson').prop('checked', true).trigger('change');
+                    $('#inputDate').val(today);
+                    $('#selectClass').val('-');
+                    $('#selectSubject').val('-');
+                    $('#inputRoom').val('');
+                    $('#inputTimeFrom').val('');
+                    $('#inputTimeTo').val('');
+                    $('#selectLessonFrom').val('-');
+                    $('#selectLessonTo').val('-');
+                    summernoteTopic.summernote('code', '');
+                    summernoteOther.summernote('code', '');
+                    $('#chkActivateOther').prop('checked', false).trigger('change');
+
+                    $('#createExamOverlay').fadeOut(500);
+
                 } else {
                     triggerResponseMsg('error', $('.errorCreateExam').html());
                 }
@@ -304,6 +338,84 @@ function saveNewExam() {
         }
     );
     
+}
+
+function changeExam(id) {
+
+    let dateValue = $('#inputDateChange').val();
+    let timeFromValue = $('#inputTimeFromChange').val();
+    let timeToValue = $('#inputTimeToChange').val();
+    let lessonFromValue = $('#selectLessonFromChange option:selected').val();
+    let lessonToValue = $('#selectLessonToChange option:selected').val();
+    let classValue = $('#selectClassChange option:selected').val();
+    let subjectValue = $('#selectSubjectChange option:selected').val();
+    let roomValue = $('#inputRoomChange').val().trim();
+    let topicValue = $('#textTopicChange').summernote('code').trim();
+    let otherValue = $('#textOtherChange').summernote('code').trim();
+    // let topicValue = $('#textTopicChange').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
+    // let otherValue = $('#textOtherChange').summernote('code').replace(/<p[^>]*>/g, ' ').replace(/<\/p>/g, '').trim();
+
+    // Variablen für Fehlermeldung
+    let errorMsg = null;
+    let timeOrLessonOk = true;
+    if (($('#rbTimeChange').is(':checked') && (timeFromValue == "" || timeToValue == "")) || ($('#rbLessonChange').is(':checked') && (lessonFromValue == "-" || lessonToValue == "-"))) {
+        timeOrLessonOk = false;
+    }
+
+    let momentFrom = moment(timeFromValue, 'hh:mm');
+    let momentTo = moment(timeToValue, 'hh:mm');
+
+    // Fehlermeldung Zeitange (bis) größer als (von) ist.
+    if (($('#rbLessonChange').is(':checked') && (parseInt(lessonToValue) <= parseInt(lessonFromValue))) || ($('#rbTimeChange').is(':checked') && momentFrom.isAfter(momentTo) || momentFrom.isSame(momentTo))) {
+        errorMsg = $('.lessonAndTimeError').html();
+    }
+
+    // Fehlermeldung, wenn Datum oder Klasse oder Fach oder Zeit nicht angegeben wurde. 
+    if (dateValue == "" || !timeOrLessonOk || classValue == "-" || subjectValue == "-") {
+        errorMsg = $('.requiredFields').html();
+    }
+
+    if (errorMsg != null) {
+        triggerResponseMsg('error', errorMsg);
+        return false;
+    }
+
+    $.post(
+        'src/php/_ajax/ajax.queryExam.php',
+        {
+            data: {
+                id: id,
+                action: 'update',
+                date: dateValue,
+                timeFrom: timeFromValue,
+                timeTo: timeToValue,
+                lessonFrom: lessonFromValue,
+                lessonTo: lessonToValue,
+                class: classValue,
+                subject: subjectValue,
+                room: roomValue,
+                topic: topicValue,
+                other: otherValue
+            },
+        },
+        function (rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                    triggerResponseMsg('success', $('.successChangeExam').html());
+                    reloadTable();
+                } else {
+                    triggerResponseMsg('error', $('.errorChangeExam').html());
+                }
+                $('#changeExamsModal').modal('hide');
+            } catch (e) {
+                console.log(e);
+                triggerResponseMsg('error', $('.errorChangeExam').html());
+                $('#changeExamsModal').modal('hide');
+            }
+        }
+    );
+
 }
 
 function getExam(id) {
@@ -317,7 +429,6 @@ function getExam(id) {
         function (rtn) {
             try {
                 let obj = JSON.parse(rtn);
-                console.log(obj);
                 if (obj.success) {
                     if (obj.exam.lessonFrom && obj.exam.lessonTo) {
                         $('#rbLessonChange').prop('checked', true).trigger('change');
@@ -332,8 +443,9 @@ function getExam(id) {
                     $('#inputRoomChange').val(obj.exam.room);
                     $('#inputTimeFromChange').val(obj.exam.timeFrom);
                     $('#inputTimeToChange').val(obj.exam.timeTo);
-                    $('#selectLessonFromChange').val(obj.exam.lessonFrom);
-                    $('#selectLessonToChange').val(obj.exam.lessonTo);
+                    obj.exam.lessonFrom != null ? $('#selectLessonFromChange').val(obj.exam.lessonFrom) : $('#selectLessonFromChange').val("-");
+                    obj.exam.lessonTo != null ? $('#selectLessonToChange').val(obj.exam.lessonTo) : $('#selectLessonToChange').val("-");
+
                     summernoteTopicChange.summernote('code', obj.exam.topic);
 
                     if (obj.exam.other) {
@@ -342,26 +454,28 @@ function getExam(id) {
 
                     summernoteOtherChange.summernote('code', obj.exam.other);
 
-                    $('#changeExamsModal').find('.overlay').hide();
+                    $('#changeExamsModal').find('.overlay').fadeOut(500);
                 } else {
                     triggerResponseMsg('error', $('.errorGetExam').html());
-                    $('#changeExamsModal').modal('toggle');
+                    $('#changeExamsModal').modal('hide');
                 }
             } catch (e) {
                 console.log(e);
                 triggerResponseMsg('error', $('.errorGetExam').html());
-                $('#changeExamsModal').modal('toggle');
+                $('#changeExamsModal').modal('hide');
             }
         }
     );
+
 }
 
-function deleteExam() {
+function deleteExam(id) {
+  
     $.post(
         'src/php/_ajax/ajax.deleteExam.php',
         {
             data: {
-                id: $('#deleteExamsModal').find('button[name="delete"]').attr('data-id')
+                id: id
             },
         },
         function(rtn) {
@@ -369,9 +483,8 @@ function deleteExam() {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
                     triggerResponseMsg('success', $('.successDeleteExam').html());
-                    setTimeout(function(){
-                        location.reload();
-                    }, 1000);
+                    reloadTable();
+                    $('#deleteExamsModal').modal('hide');
                 } else {
                     triggerResponseMsg('error', $('.errorDeleteExam').html());
                 }
@@ -380,4 +493,16 @@ function deleteExam() {
             }
         }
     );
+
+}
+
+function reloadTable() {
+    $('#tableOverlay').fadeIn(500);
+    setTimeout(function() { 
+        examsTable.ajax.reload(hideOverlay());
+    }, 150);    
+}
+
+function hideOverlay() {
+    $('#tableOverlay').fadeOut(500);
 }

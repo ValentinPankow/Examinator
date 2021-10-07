@@ -47,13 +47,17 @@
         </div>
         <div class="row">
           {% set count = 0 %}
-          {% for exam in exams %}
-          {% set count = count + 1 %}
+          {% set break = false %}
+          {% for exam in exams if not break %}
+            {% set count = count + 1 %}
+            {% if count == 6 %}
+              {% set break = true %}
+            {% endif %}
             <div class="col-4">
               <div class="card card-secondary">
                 <div class="card-header">
                   <h3 class="card-title">
-                    <b>{{ exam.subject }} - Raum: {{ exam.room }}</b>
+                    <b>{{ exam.subject }}{% if exam.room %} - Raum: {{ exam.room }}{% endif %}</b>
                     <br />
                     {{ formatDate(exam.date) }} <i class="far fa-calendar mr-1"></i> | 
                     {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
@@ -67,14 +71,14 @@
                 </div>
                 <div class="card-body">
                 {% if exam.topic or exam.other %}
-                  {% if exam.topic %}
+                  {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
                     <div class="row">
                       <div class="col">
                         <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                       </div>
                     </div>
                   {% endif %}
-                  {% if exam.other %}
+                  {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
                     <div class="row">
                       <div class="col">
                         <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
@@ -82,7 +86,7 @@
                     </div>
                   {% endif %}
                 {% endif %}
-                {% if not exam.topic and not exam.other %}
+                {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
                   <div class="row">
                     <div class="col">
                       <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!

@@ -38,7 +38,7 @@
                     if (strlen(trim($rtn)) > 0) {
                         return $rtn;
                     } else {
-                        return "-";
+                        return false;
                     }
                 }
             );

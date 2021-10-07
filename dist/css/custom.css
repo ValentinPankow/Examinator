@@ -27,4 +27,17 @@
     filter: invert(1);
 }
 
+
+.dark-mode .fa-spin {
+    filter: invert(1);
+}
+
+.dark-mode .table-overlay {
+    background-color: rgba(0,0,0,.4) !important;
+}
+
+.dark-mode .card-overlay {
+    background-color: rgba(0,0,0,.4) !important;
+}
+
 /* ---------------------------------------------------------- */
