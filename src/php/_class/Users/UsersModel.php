@@ -1,8 +1,8 @@
 <?php
 
-namespace User;
+namespace Users;
 
-class UserModel
+class UsersModel
 {
     public $id;
     public $first_name;

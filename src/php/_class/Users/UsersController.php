@@ -1,14 +1,14 @@
 <?php
-namespace User;
+namespace Users;
 
-use User\UserRepository;
+use Users\UsersRepository;
 
-class UserController
+class UsersController
 {
     private $repository;
 
     //Übergibt das Repository vom Container
-    public function __construct(UserRepository $repository)
+    public function __construct(UsersRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -24,14 +24,12 @@ class UserController
     }
 
 
-    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
+
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $users = $this->repository->fetchUsers();
 
-        // var_dump($id);
+        $users = $this->repository->fetchUsers();
 
         $this->render("{$tpl}", [
             'users' => $users,

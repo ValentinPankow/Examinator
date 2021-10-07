@@ -1,22 +1,22 @@
 <?php
 namespace Dashboard;
 
-use User\UserRepository;
+use Users\UsersRepository;
 use Exams\ExamsRepository;
 use Classes\ClassesRepository;
 use Dashboard\DashboardRepository;
 
 class DashboardController
 {
-    private $userRepository;
+    private $usersRepository;
     private $examsRepository;
     private $classesRepository;
     private $subjectRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(UserRepository $userRepository, ExamsRepository $examsRepository, ClassesRepository $classesRepository)
+    public function __construct(UsersRepository $usersRepository, ExamsRepository $examsRepository, ClassesRepository $classesRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->usersRepository = $usersRepository;
         $this->examsRepository = $examsRepository;
         $this->classesRepository = $classesRepository;
     }
@@ -42,7 +42,7 @@ class DashboardController
     //Testweise als ob eine Klasse oder Lehrer wäre. (!tpl = Klasse; tpl = Lehrer)
       if(!$tpl){
         $exams = null;
-        $user = $this->userRepository->fetchUserById(1);
+        $user = $this->usersRepository->fetchUserById(1);
         if ($user) {
             $exams = $this->examsRepository->fetchUserExams($user->id);
         }

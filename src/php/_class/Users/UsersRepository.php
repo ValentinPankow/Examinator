@@ -1,11 +1,11 @@
 <?php
 
-namespace User;
+namespace Users;
 use PDO;
-use User\UserModel;
+use Users\UsersModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class UserRepository
+class UsersRepository
 {
     private $pdo;
 
@@ -19,12 +19,12 @@ class UserRepository
     //Prepare & Execute werden benötigt wegen SQL Injektions :param und execute :param => $param ist hier Standard
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
-    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
+    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
     public function fetchUserById($id)
     {
         $query = $this->pdo->prepare("SELECT * from users WHERE `id` = :id");
         $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
+        $query->setFetchMode(PDO::FETCH_CLASS, "Users\\UsersModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
         return $content;
@@ -34,7 +34,7 @@ class UserRepository
     {
         $query = $this->pdo->prepare("SELECT * from users WHERE `email` = :mail");
         $query->execute(['mail' => $mail]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
+        $query->setFetchMode(PDO::FETCH_CLASS, "Users\\UsersModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
         return $content;
@@ -46,7 +46,7 @@ class UserRepository
     public function fetchUsers()
     {
         $query = $this->pdo->query("SELECT * from users");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Users\\UsersModel");
 
         return $contents;
     }

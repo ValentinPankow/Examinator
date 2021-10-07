@@ -11,8 +11,8 @@ use Exams\ExamsController;
 use Exams\ExamsRepository;
 use Subjects\SubjectsController;
 use Subjects\SubjectsRepository;
-use User\UserController;
-use User\UserRepository;
+use Users\UsersController;
+use Users\UsersRepository;
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -32,13 +32,13 @@ class Container
     {
         $this->receipts = [
             'dashboardController' => function(){
-                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"), $this->make("classesRepository"));
+                return new DashboardController($this->make("usersRepository"), $this->make("examsRepository"), $this->make("classesRepository"));
             },
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
             },
             'loginController' => function(){
-                return new LoginController($this->make("loginRepository"), $this->make("userRepository"));
+                return new LoginController($this->make("loginRepository"), $this->make("usersRepository"));
             },
             'loginRepository' => function(){
                 return new LoginRepository($this->make("pdo"));
@@ -61,17 +61,17 @@ class Container
             'subjectsRepository' => function(){
                 return new SubjectsRepository($this->make("pdo"));
             },
-            'userController' => function(){
-                return new UserController($this->make("userRepository"));
+            'usersController' => function(){
+                return new UsersController($this->make("usersRepository"));
             },
-            'userRepository' => function(){
-                return new UserRepository($this->make("pdo"));
+            'usersRepository' => function(){
+                return new UsersRepository($this->make("pdo"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){
                 $pdo = new PDO('mysql:host=localhost;dbname=examinator;charset=utf8',
                 'root',
-                '');
+                'foobar');
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 return $pdo;
             }
