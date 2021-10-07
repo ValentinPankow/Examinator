@@ -69,6 +69,10 @@ function isMail(mail) {
     return regEx.test(String(mail).toLowerCase());
 }
 
+function formatDate(dateStr) {
+    return dateStr.substring(8, 10) + "." + dateStr.substring(5, 7) + "." + dateStr.substring(0, 4);
+}
+
 // Funktion zum Cookie auslesen
 // https://www.w3schools.com/js/js_cookies.asp
 function getCookie(cname) {
