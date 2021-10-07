@@ -43,10 +43,11 @@ class ExamsRepository
 
     public function listExams()
     {
-        $query = $this->pdo->prepare("SELECT e.id, s.name AS subject, c.name AS class, e.room, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo 
+        $query = $this->pdo->prepare("SELECT e.id, s.name AS subject, c.name AS class, e.date, e.room, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo 
                                     FROM exams AS e 
                                     JOIN classes AS c ON e.class_id = c.id 
-                                    JOIN subjects AS s ON e.subject_id = s.id");
+                                    JOIN subjects AS s ON e.subject_id = s.id
+                                    ORDER BY created_at DESC");
         $query->execute();
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
         
@@ -69,15 +70,28 @@ class ExamsRepository
         return $contents;
     }
 
-    public function insertExam($data) {
+    public function queryExam($data, $action) {
+
         // Change creator ID later
-        $query = $this->pdo->prepare("INSERT INTO exams (creator_id, class_id, subject_id, date, room, topic, other, lessonFrom, lessonTo, timeFrom, timeTo)
-                                      VALUES (1, :class, :subject, :date, :room, :topic, :other, :lessonFrom, :lessonTo, :timeFrom, :timeTo)");
+        if ($action == "insert") {
+            $query = $this->pdo->prepare("INSERT INTO exams (creator_id, class_id, subject_id, date, room, topic, other, lessonFrom, lessonTo, timeFrom, timeTo)
+                                        VALUES (1, :class, :subject, :date, :room, :topic, :other, :lessonFrom, :lessonTo, :timeFrom, :timeTo)");
+        } else if ($action == "update") {
+            $query = $this->pdo->prepare(
+                "UPDATE exams 
+                 SET class_id = :class, subject_id = :subject, date = :date, room = :room, topic = :topic, other = :other, lessonFrom = :lessonFrom, lessonTo = :lessonTo, 
+                 timeFrom = :timeFrom, timeTo = :timeTo
+                 WHERE id = :id");
+        } else {
+            return false;
+        }
 
         $lessonFrom = $data->lessonFrom;
         $lessonTo = $data->lessonTo;
         $timeFrom = $data->timeFrom;
         $timeTo = $data->timeTo;
+        $topic = $data->topic;
+        $other = $data->other;
 
         if ($lessonFrom == "" || $lessonFrom == 0 || $lessonFrom == "-") {
             $lessonFrom = null;
@@ -91,25 +105,38 @@ class ExamsRepository
         if ($timeTo == "") {
             $timeTo = null;
         }
+        if ($topic == "") {
+            $topic = null;
+        }
+        if ($other == "") {
+            $other = null;
+        }
 
-        $result = $query->execute([
+        $values = array(
             'class' => $data->class,
             'subject' => $data->subject,
             'date' => $data->date,
             'room' => $data->room,
-            'topic' => $data->topic,
-            'other' => $data->other,
+            'topic' => $topic,
+            'other' => $other,
             'lessonFrom' => $lessonFrom,
             'lessonTo' => $lessonTo,
             'timeFrom' => $timeFrom,
             'timeTo' => $timeTo
-        ]);
+        );
+
+        if ($action == "update") {
+            $values['id'] = $data->id;
+        }
+
+        $result = $query->execute($values);
 
         if ($result) {
             return true;
         } else {
             return false;
         }
+
     }
 
     public function deleteExam($id) {
