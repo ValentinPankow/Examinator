@@ -69,10 +69,10 @@ class Container
             'userRepository' => function(){
                 return new UserRepository($this->make("pdo"));
             },
-            'userManagementController' => function(){
-                return new UserManagementController($this->make("UserManagementRepository"));
+            'usermanagementController' => function(){
+                return new UserManagementController($this->make("usermanagementRepository"));
             },
-            'userManagementRepository' => function(){
+            'usermanagementRepository' => function(){
                 return new UserManagementRepository($this->make("pdo"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
