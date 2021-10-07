@@ -13,7 +13,7 @@
 
     $examsController = $container->make("examsController");
 
-    $ok = $examsController->insertExam($data);
+    $ok = $examsController->queryExam($data, $data->action);
 
     $obj = new stdClass;
 

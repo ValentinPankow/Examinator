@@ -44,6 +44,9 @@
           <div class="col-md-6">
             <!-- Do something here!-->
             <div class="card card-primary">
+              <div class="overlay card-overlay" style="display: none" id="createExamOverlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
               <div class="card-header">
                 <h3 class="card-title">Klausuren hinzufügen</h3>
               </div>
@@ -166,6 +169,9 @@
           <div class="col-md-6">
             <div class="col-12">
               <div class="card">
+                <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+                  <i class="fas fa-2x fa-sync fa-spin"></i>
+                </div>
                 <div class="card-header">
                   <h3 class="card-title">Klausuren ändern / löschen</h3>
                 </div>
@@ -173,6 +179,7 @@
                   <table id="examsTable" class="table table-bordered table-hover" style="width: 100%">
                     <thead>
                       <tr>
+                        <th>Datum</th>
                         <th>Fach</th>
                         <th>Klasse</th>
                         <th>Raum</th>
@@ -204,7 +211,7 @@
 
   <!-- Modal change exams -->
   <div class="modal fade" id="changeExamsModal">
-    <div class="modal-dialog modal-lg" style="max-width: 850px">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" style="max-width: 850px">
       <div class="modal-content">
         <div class="overlay">
           <i class="fas fa-2x fa-sync fa-spin"></i>

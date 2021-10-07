@@ -42,8 +42,8 @@ class ExamsController
         ]);
     }
 
-    public function insertExam($data) {
-        return $this->repository->insertExam($data);
+    public function queryExam($data, $action) {
+        return $this->repository->queryExam($data, $action);
     }
 
     public function deleteExam($id) {
