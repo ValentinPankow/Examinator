@@ -2,11 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 07. Okt 2021 um 13:38
-
--- Server-Version: 10.4.20-MariaDB
--- PHP-Version: 8.0.8
+-- Host: mariadb
+-- Erstellungszeit: 08. Okt 2021 um 14:36
+-- Server-Version: 10.6.2-MariaDB-1:10.6.2+maria~focal
+-- PHP-Version: 7.4.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -80,7 +79,6 @@ INSERT INTO `exams` (`id`, `creator_id`, `class_id`, `subject_id`, `date`, `room
 (46, 1, 2, 1, '2021-10-29', '', '<font color=\"#000000\" style=\"background-color: rgb(255, 255, 0);\"><span style=\"font-family: &quot;Comic Sans MS&quot;;\">Test</span></font>', '<h3><span style=\"background-color: rgb(0, 0, 255); font-family: Verdana;\"><font color=\"#00ffff\"><b>Sonstiges</b></font></span></h3><table class=\"table table-bordered\"><tbody><tr><td>Hier ist eine Spalte und Zeile</td><td>Hier ist eine Spalte</td><td>&nbsp;Und hier ist auch eine Spalte</td></tr><tr><td>Hier ist eine Zeile</td><td><br></td><td><br></td></tr><tr><td>Hier ist auch eine Zeile</td><td><br></td><td><br></td></tr></tbody></table>', '2021-10-07 10:55:06', NULL, NULL, NULL, '13:50:00', '14:53:00'),
 (48, 1, 2, 1, '2021-10-19', '', NULL, NULL, '2021-10-07 11:34:13', NULL, NULL, NULL, '14:34:00', '15:36:00');
 
-
 -- --------------------------------------------------------
 
 --
@@ -128,14 +126,23 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `is_a
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users_classes`
+-- Tabellenstruktur für Tabelle `user_favorites`
 --
 
-CREATE TABLE `users_classes` (
+CREATE TABLE `user_favorites` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL
+  `class_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `user_favorites`
+--
+
+INSERT INTO `user_favorites` (`id`, `user_id`, `class_id`, `subject_id`) VALUES
+(1, 1, 1, NULL),
+(2, 1, NULL, 1);
 
 --
 -- Indizes der exportierten Tabellen
@@ -170,12 +177,10 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indizes für die Tabelle `users_classes`
+-- Indizes für die Tabelle `user_favorites`
 --
-ALTER TABLE `users_classes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_classes_classes` (`class_id`),
-  ADD KEY `fk_users_classes_users` (`user_id`);
+ALTER TABLE `user_favorites`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -193,7 +198,6 @@ ALTER TABLE `classes`
 ALTER TABLE `exams`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
-
 --
 -- AUTO_INCREMENT für Tabelle `subjects`
 --
@@ -207,10 +211,10 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT für Tabelle `users_classes`
+-- AUTO_INCREMENT für Tabelle `user_favorites`
 --
-ALTER TABLE `users_classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user_favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints der exportierten Tabellen
@@ -223,13 +227,6 @@ ALTER TABLE `exams`
   ADD CONSTRAINT `fk_exams_classes` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `fk_exams_subjects` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
   ADD CONSTRAINT `fk_exams_users` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`);
-
---
--- Constraints der Tabelle `users_classes`
---
-ALTER TABLE `users_classes`
-  ADD CONSTRAINT `fk_users_classes_classes` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
-  ADD CONSTRAINT `fk_users_classes_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

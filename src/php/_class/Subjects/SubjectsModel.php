@@ -1,9 +1,9 @@
 <?php
 
-    namespace Subjects;
+namespace Subjects;
 
-    class SubjectsModel
-    {
-        public $id;
-        public $name;
-    }
+class SubjectsModel
+{
+    public $id;
+    public $name;
+}

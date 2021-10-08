@@ -6,7 +6,12 @@ class ClassesModel
 {
     public $id;
     public $name;
-    public $password;
+    private $password;
+
+    public function getPassword()
+    {
+      return $this->password;
+    }
 }
 
 ?>

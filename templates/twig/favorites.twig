@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Favoriten</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Favoriten</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <br>
+        <div class="row">
+          <div class="col">
+            <h3> Klassen </h3>
+              Bitte wählen Sie die Klassen aus, die Sie im Reiter Klassen und in der Auswahl zum Anlegen der Klausuren sehen möchten.
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <div class="card">
+              <div class="card-header bg-primary">
+                <div class="row">
+                  <div class="col">
+                    Favoriten Klassen
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    {% for favoriteClass in favoriteClasses %}
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="class_{{favoriteClass.id}}" Checked>
+                        <label class="custom-control-label" for="class_{{favoriteClass.id}}">{{ favoriteClass.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="card">
+              <div class="card-header bg-primary">
+                <div class="row">
+                  <div class="col">
+                    Weitere Klassen zur Auswahl
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    {% for class in classes %}
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="class_{{class.id}}">
+                        <label class="custom-control-label" for="class_{{class.id}}">{{ class.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br>
+
+        <div class="row">
+          <div class="col">
+          <h3>Fächer</h3>
+            Bitte wählen Sie die Fächer aus, die Sie in der Auswahl zum Anlegen der Klausuren sehen möchten.
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-2">
+            <div class="card">
+              <div class="card-header bg-primary">
+                <div class="row">
+                  <div class="col">
+                    Favoriten Fächer
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    {% for favoriteSubject in favoriteSubjects %}
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="subject_{{favoriteSubject.id}}" Checked>
+                        <label class="custom-control-label" for="subject_{{favoriteSubject.id}}">{{ favoriteSubject.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="card">
+              <div class="card-header bg-primary">
+                <div class="row">
+                  <div class="col">
+                    Weitere Fächer zur Auswahl
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col">
+                    {% for subject in subjects %}
+                      <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="subject_{{subject.id}}">
+                        <label class="custom-control-label" for="subject_{{subject.id}}">{{ subject.name }}</label>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  {{ block("footer", "layout.twig") }}
+</div>
+<!-- ./wrapper -->
+
+{{ block("js", "layout.twig") }}
+</body>
+</html>

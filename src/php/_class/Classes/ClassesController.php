@@ -24,19 +24,19 @@ class ClassesController
     }
 
 
-    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $classes = $this->repository->fetchClasses();
+        $teacher = true;
 
-        // var_dump($id);
+        if($teacher){
+          $classes = $this->repository->fetchClasses();
 
-        $this->render("{$tpl}", [
-            'classes' => $classes,
-            'twig' => $twig
-        ]);
+          $this->render("{$tpl}", [
+              'classes' => $classes,
+              'twig' => $twig
+          ]);
+        }
+
     }
 
 }

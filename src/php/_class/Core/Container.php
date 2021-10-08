@@ -13,11 +13,13 @@ use Subjects\SubjectsController;
 use Subjects\SubjectsRepository;
 use Users\UsersController;
 use Users\UsersRepository;
+use Favorites\FavoritesController;
+use Favorites\FavoritesRepository;
 
 use Login\LoginController;
 use Login\LoginRepository;
 
-//Klasse die sich um das erstellen anderer Klassen kümmert
+//Klasse die sich um das erstellen von Objekte kümmert
 class Container
 {
     //Enthält alle Objekte die von make() erstellt werden
@@ -66,6 +68,9 @@ class Container
             },
             'usersRepository' => function(){
                 return new UsersRepository($this->make("pdo"));
+            },
+            'favoritesController' => function(){
+                return new FavoritesController($this->make("classesRepository"), $this->make("subjectsRepository"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){
