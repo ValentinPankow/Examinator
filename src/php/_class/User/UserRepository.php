@@ -73,8 +73,8 @@ class UserRepository
         $lastname = $data->lastname;
         $email = $data->email;
         $password = $data->password;
-        $isAdmin = $data->isAdmin;
-        $isTeacher = $data->isTeacher;
+        $isAdmin = $data->isAdmin == "true" ? 1 : 0;
+        $isTeacher = $data->isTeacher == "true" ? 1 : 0;
 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -90,12 +90,15 @@ class UserRepository
         $queryOk = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
         
         $resultOk = $queryOk->execute(['email' => $email]);
+
+        $fetchOk = $queryOk->fetchAll(PDO::FETCH_DEFAULT);
         
         $ok = true;
-        if ($resultOk['rowsFound'] <= 0) {
+        if ($fetchOk[0]['rowsFound'] <= 0) {
             $result = $query->execute($values);
         } else {
             $ok = false;
+            $result = false;
         }
         
         if ($result && $ok) {

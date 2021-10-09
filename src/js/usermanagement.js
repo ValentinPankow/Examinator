@@ -15,8 +15,9 @@ const Toast = Swal.mixin({
 })
 
 let accountsTable = null;
+
 $(document).ready(function(){
-    $('#accountsTable').DataTable({
+    accountsTable = $('#accountsTable').DataTable({
         "responsive": true,
         "autowidth": true,
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
@@ -136,6 +137,9 @@ function addNewUser()
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successCreateUser').html());
                     accountsTable.ajax.reload();
+                    if(true) {
+
+                    }
                 } else {
                     if (obj.error == "insert") {
                         triggerResponseMsg('error', $('.errorCreateUser').html());
