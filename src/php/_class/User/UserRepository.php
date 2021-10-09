@@ -22,7 +22,7 @@ class UserRepository
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
     public function fetchUserById($id)
     {
-        $query = $this->pdo->prepare("SELECT * from users WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE `id` = :id");
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -32,7 +32,7 @@ class UserRepository
 
     public function fetchUserByMail($mail)
     {
-        $query = $this->pdo->prepare("SELECT * from users WHERE `email` = :mail");
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE `email` = :mail");
         $query->execute(['mail' => $mail]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -45,11 +45,67 @@ class UserRepository
     //Ansonsten siehe fetchUser Kommentare
     public function fetchUsers()
     {
-        $query = $this->pdo->query("SELECT * from users");
+        $query = $this->pdo->query("SELECT * FROM users");
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
 
         return $contents;
     }
 
+    public function fetchUserData()
+    {
+        $query = $this->pdo->query("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
 
+        return $contents;
+    }
+
+    public function queryUser($data, $action) {
+        if ($action == 'insert') {
+            $query = $this->pdo->prepare("INSERT INTO users 
+                                          (first_name, last_name, email, password, is_admin, is_teacher) 
+                                          VALUES 
+                                          (:firstname, :lastname, :email, :password, :isAdmin, :isTeacher)");
+        } else if ($action == 'update') {
+
+        }
+        
+        $firstname = $data->firstname;
+        $lastname = $data->lastname;
+        $email = $data->email;
+        $password = $data->password;
+        $isAdmin = $data->isAdmin;
+        $isTeacher = $data->isTeacher;
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $values = array (
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'email' => $email,
+            'password' => $hashedPassword,
+            'isAdmin' => $isAdmin,
+            'isTeacher' => $isTeacher
+        );
+
+        $queryOk = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+        
+        $resultOk = $queryOk->execute(['email' => $email]);
+        
+        $ok = true;
+        if ($resultOk['rowsFound'] <= 0) {
+            $result = $query->execute($values);
+        } else {
+            $ok = false;
+        }
+        
+        if ($result && $ok) {
+            return "success";
+        } else {
+            if (!$ok) {
+                return "duplicateError";
+            } else {
+                return "insertError";
+            }  
+        }
+    }
 }

@@ -39,6 +39,14 @@ class UserController
         ]);
     }
 
+    public function listAccounts() {
+        return $this->repository->fetchUserData();
+    }
+
+    public function queryUser($data, $action) {
+        return $this->repository->queryUser($data, $action);
+    }
+
 }
 
 ?>
