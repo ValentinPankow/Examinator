@@ -59,7 +59,7 @@ class UserRepository
         return $contents;
     }
 
-    public function queryUser($data, $action) {
+    public function queryUser($data, $action, &$duplicate = false) {
         if ($action == 'insert') {
             $query = $this->pdo->prepare("INSERT INTO users 
                                           (first_name, last_name, email, password, is_admin, is_teacher) 
@@ -87,28 +87,21 @@ class UserRepository
             'isTeacher' => $isTeacher
         );
 
-        $queryOk = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+        $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+        $resultDuplicate = $queryDuplicate->execute(['email' => $email]);
+        $fetchDuplicate = $queryDuplicate->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
         
-        $resultOk = $queryOk->execute(['email' => $email]);
-
-        $fetchOk = $queryOk->fetchAll(PDO::FETCH_DEFAULT);
-        
-        $ok = true;
-        if ($fetchOk[0]['rowsFound'] <= 0) {
+        if ($fetchDuplicate[0]->rowsFound <= 0) {
             $result = $query->execute($values);
         } else {
-            $ok = false;
+            $duplicate = true;
             $result = false;
         }
         
-        if ($result && $ok) {
-            return "success";
+        if ($result && !$duplicate) {
+            return true;
         } else {
-            if (!$ok) {
-                return "duplicateError";
-            } else {
-                return "insertError";
-            }  
+            return false;
         }
     }
 }

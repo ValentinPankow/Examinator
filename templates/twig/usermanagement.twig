@@ -48,14 +48,14 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="accountsTable" class="table table-bordered table-striped">
+                <table id="accountsTable" class="table table-bordered table-striped" style="width: 100%">
                   <thead>
                     <tr>
                       <th>Vorname</th>
                       <th>Nachname</th>
                       <th>E-Mail</th>
                       <th>Rolle</th>
-                      <th>Ändern</th>
+                      <th style="width: 20px">Ändern</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -95,42 +95,48 @@
           </button>
         </div>
         <div class="modal-body">
-          <div class="form-inline">
+          <div class="col-sm-6">
+            <label for="inputEmail">E-Mail</label>
+          </div>
+          <div class="form-inline mb-2">
             <div class="form-group col-sm-6">
-              <label for="inputEmail">E-Mail</label>
               <input type="email" class="form-control" id="inputEmail" placeholder="E-Mail">
             </div>
             <div class="form-group col-sm-3">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="isAdmin">
-                <label for="isAdmin" class="custom-control-label">Admin</label>
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isAdmin">
+                <label for="isAdmin" class="custom-control-label form-check-label">Admin</label>
               </div>
             </div>
             <div class="form-group col-sm-3">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="isTeacher" checked>
-                <label for="isTeacher" class="custom-control-label">Lehrer</label>
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isTeacher" checked>
+                <label for="isTeacher" class="custom-control-label form-check-label">Lehrer</label>
               </div>
             </div>
           </div>
           <div class="input-group">
-            <div class="form-group col-sm-6">
-              <label for="inputFirstName">Vorname</label>
-              <input type="text" class="form-control" id="inputFirstName" placeholder="Vorname">
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="inputLastName">Nachname</label>
-              <input type="text" class="form-control" id="inputLastName" placeholder="Nachname">
+            <div class="form-inline mb-2">
+              <div class="form-group col-sm-6">
+                <label for="inputFirstName">Vorname</label>
+                <input type="text" class="form-control" id="inputFirstName" placeholder="Vorname">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputLastName">Nachname</label>
+                <input type="text" class="form-control" id="inputLastName" placeholder="Nachname">
+              </div>
             </div>
           </div>
           <div class="input-group">
-            <div class="form-group col-sm-6">
-              <label for="inputPassword">Passwort</label>
-              <input type="password" class="form-control" id="inputPassword" placeholder="Passwort">
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="inputConfirmPassword">Passwort bestätigen</label>
-              <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Passwort">
+            <div class="form-inline mb-2">
+              <div class="form-group col-sm-6">
+                <label for="inputPassword">Passwort</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Passwort">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputConfirmPassword">Passwort bestätigen</label>
+                <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Passwort">
+              </div>
             </div>
           </div>
         </div>

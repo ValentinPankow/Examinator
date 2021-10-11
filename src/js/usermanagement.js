@@ -22,20 +22,14 @@ $(document).ready(function(){
         "autowidth": true,
         "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
         "ordering": false,
-        
         "ajax": {
             "url": "src/php/_ajax/ajax.listAccounts.php",
             "dataSrc": "accounts"
         },
-
         "columns": [
-            
             { "data": "first_name" },
-
             { "data": "last_name" },
-
             { "data": "email" },
-
             { 
                 "data": null,
                 render: function (row) {
@@ -62,7 +56,6 @@ $(document).ready(function(){
                 }
             }
         ],
-
         fixedHeader: {
             header: true,
             footer: true
@@ -76,7 +69,6 @@ $(document).ready(function(){
 $("#addUser").on("click", function() {
     $("#addUserModal").modal("show");
 });
-
 
 $("#saveNewAccount").on("click", function() {
     addNewUser();  
@@ -94,19 +86,18 @@ function addNewUser()
     let isTeacherValue = $('#isTeacher').is(":checked") ? true : false;
 
     let errorMsg = null;
-
     if (!isMail(emailValue)) {
         errorMsg = $('.errorMail').html();
     }
-
     if (passwordValue != confirmPasswordValue) {
         errorMsg = $('.errorPassword').html();
     }
-
+    if (passwordValue.length < 8) {
+        errorMsg = $('.errorPasswordLength').html();
+    }
     if (!isAdminValue && !isTeacherValue) {
         errorMsg = $('.errorRole').html();
     }
-
     if (emailValue == "" || firstnameValue == "" || lastnameValue == "" || passwordValue == "" || confirmPasswordValue == "") {
         errorMsg = $('.missingInput').html();
     }
