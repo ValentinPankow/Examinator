@@ -11,17 +11,18 @@
 
     $userController = $container->make("userController");
 
-    $ok = $userController->queryUser($data, $data->action);
+    $duplicate = false;
+    $ok = $userController->queryUser($data, $data->action, $duplicate);
 
     $obj = new stdClass;
 
-    if ($ok == "success") {
+    if ($ok) {
         $obj->success = true;
     } else {
-        if ($ok == "insertError") {
-            $obj->error = "insert";
-        } else {
+        if ($duplicate) {
             $obj->error = "duplicate";
+        } else {
+            $obj->error = "insert";
         }
         $obj->success = false;
     }

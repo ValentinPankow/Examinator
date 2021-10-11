@@ -43,8 +43,8 @@ class UserController
         return $this->repository->fetchUserData();
     }
 
-    public function queryUser($data, $action) {
-        return $this->repository->queryUser($data, $action);
+    public function queryUser($data, $action, &$duplicate = false) {
+        return $this->repository->queryUser($data, $action, $duplicate);
     }
 
 }
