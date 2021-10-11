@@ -13,6 +13,8 @@ use Subjects\SubjectsController;
 use Subjects\SubjectsRepository;
 use User\UserController;
 use User\UserRepository;
+use UserManagement\UserManagementController;
+use UserManagement\UserManagementRepository;
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -66,6 +68,12 @@ class Container
             },
             'userRepository' => function(){
                 return new UserRepository($this->make("pdo"));
+            },
+            'usermanagementController' => function(){
+                return new UserManagementController($this->make("usermanagementRepository"));
+            },
+            'usermanagementRepository' => function(){
+                return new UserManagementRepository($this->make("pdo"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){

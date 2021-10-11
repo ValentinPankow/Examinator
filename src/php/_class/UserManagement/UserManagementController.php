@@ -1,14 +1,14 @@
 <?php
-namespace User;
+namespace UserManagement;
 
-use User\UserRepository;
+use UserManagement\UserManagementRepository;
 
-class UserController
+class UserManagementController
 {
     private $repository;
 
     //Übergibt das Repository vom Container
-    public function __construct(UserRepository $repository)
+    public function __construct(UserManagementRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -17,7 +17,6 @@ class UserController
     //Beispiel siehe index()
     private function render($view, $content)
     {
-        $users = $content['users'];
         $twig = $content['twig'];
 
         include "./templates/php/{$view}.php";
@@ -28,23 +27,10 @@ class UserController
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $users = $this->repository->fetchUsers();
-
-        // var_dump($id);
 
         $this->render("{$tpl}", [
-            'users' => $users,
             'twig' => $twig
         ]);
-    }
-
-    public function listAccounts() {
-        return $this->repository->fetchUserData();
-    }
-
-    public function queryUser($data, $action) {
-        return $this->repository->queryUser($data, $action);
     }
 
 }
