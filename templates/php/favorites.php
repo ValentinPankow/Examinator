@@ -14,5 +14,5 @@
         'favoriteClasses' => $favoriteClasses,
         'favoriteSubjects' => $favoriteSubjects,
         'classes' => $classes,
-        'subjects' => $subjects
+        'subjects' => $subjects,
     ));

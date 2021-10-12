@@ -60,12 +60,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    {% for favoriteClass in favoriteClasses %}
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="class_{{favoriteClass.id}}" Checked>
-                        <label class="custom-control-label" for="class_{{favoriteClass.id}}">{{ favoriteClass.name }}</label>
-                      </div>
-                    {% endfor %}
+                    {{favoriteClasses | raw}}
                   </div>
                 </div>
               </div>
@@ -83,12 +78,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    {% for class in classes %}
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="class_{{class.id}}">
-                        <label class="custom-control-label" for="class_{{class.id}}">{{ class.name }}</label>
-                      </div>
-                    {% endfor %}
+                    {{classes | raw}}
                   </div>
                 </div>
               </div>
@@ -117,12 +107,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    {% for favoriteSubject in favoriteSubjects %}
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="subject_{{favoriteSubject.id}}" Checked>
-                        <label class="custom-control-label" for="subject_{{favoriteSubject.id}}">{{ favoriteSubject.name }}</label>
-                      </div>
-                    {% endfor %}
+                    {{favoriteSubjects | raw}}
                   </div>
                 </div>
               </div>
@@ -140,12 +125,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col">
-                    {% for subject in subjects %}
-                      <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="subject_{{subject.id}}">
-                        <label class="custom-control-label" for="subject_{{subject.id}}">{{ subject.name }}</label>
-                      </div>
-                    {% endfor %}
+                    {{subjects | raw }}
                   </div>
                 </div>
               </div>
@@ -175,6 +155,9 @@
 
 
       </div>
+
+{{string | raw }}
+
     </section>
     <!-- /.content -->
   </div>
