@@ -67,6 +67,7 @@ class UserRepository
                                           (:firstname, :lastname, :email, :password, :isAdmin, :isTeacher)");
         } else if ($action == 'update') {
 
+
         }
         
         $firstname = $data->firstname;

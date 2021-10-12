@@ -66,9 +66,21 @@ $(document).ready(function(){
     });
 });
 
+
 $("#addUser").on("click", function() {
     $("#addUserModal").modal("show");
 });
+
+$("#accountsTable").on("click", 'button[name="editAccount"]', function() {
+    let button = $(this);
+    $('editUserModal').find('button[name="save"]').attr('data-id', button.attr('data-id'));
+    $('#editUserModal').modal('show');
+});
+
+$('#editUserModal').on('shown.bs.modal', function() {
+    getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
+});
+
 
 $("#saveNewAccount").on("click", function() {
     addNewUser();  
@@ -145,6 +157,30 @@ function addNewUser()
             } catch(e) {
                 console.log(e);
                 triggerResponseMsg('error', $('.errorCreateUser').html());
+            }
+        }
+    );
+}
+
+function getUserData(id) {
+    $.post(
+        'src/php/_ajax/ajax.getUser.php',
+        {
+            data: {
+                id: id
+            },
+        },
+        function (rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                            //Zurückbekommene Werte den Feldern zuteilen
+                $('#inputEmail').val(obj.user.email);
+                $('#inputFirstName').val(obj.user.first_name);
+                $('#inputLastName').val(obj.user.last_name);
+                } 
+            } catch (e) {
+                console.log(e);
             }
         }
     );
