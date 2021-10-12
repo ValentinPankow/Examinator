@@ -23,13 +23,18 @@ class DashboardController
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
     //Beispiel siehe Dashboard()
-    private function render($view, $content)
+    private function render($view, $content, $login_type)
     {
         $twig = $content['twig'];
-        $user = $content['user'];
         $exams = $content['exams'];
-        $classes = $content['classes'];
-        $login_type = $content['login_type'];
+
+        if($login_type == 'teacher'){
+          $classes = $content['classes'];
+          $user = $content['user'];
+        }elseif($login_type == 'class'){
+          $class = $content['class'];
+        }
+
 
         include "./templates/php/{$view}.php";
     }
@@ -40,40 +45,31 @@ class DashboardController
     {
 
     //Testweise als ob eine Klasse oder Lehrer wäre. (!tpl = Klasse; tpl = Lehrer)
-      if(!$tpl){
-        $exams = null;
+      if($tpl){
+        $login_type = 'teacher';
         $user = $this->usersRepository->fetchUserById(1);
-        if ($user) {
-            $exams = $this->examsRepository->fetchUserExams($user->id);
-        }
-
+        $exams = $this->examsRepository->fetchUserExams($user->id);
         $classes = $this->classesRepository->fetchClasses();
 
         $this->render("{$tpl}", [
-            'twig' => $twig,
-            'user' => $user,
-            'classes' => $classes,
-            'exams' => $exams,
-            'login_type' => 'teacher'
-        ]);
-
+          'twig' => $twig,
+          'user' => $user,
+          'classes' => $classes,
+          'exams' => $exams,
+          ],
+          'teacher'
+        );
       }else{
-          $exams = null;
-          $class = $this->classesRepository->fetchByName('12ITa');
-          if($class){
-            $exams = $this->examsRepository->fetchClassExams($class->id);
-          }
+        $login_type = 'class';
+        $class = $this->classesRepository->fetchByName('12ITa');
+        $exams = $this->examsRepository->fetchClassExams($class->id);
 
-          $this->render("{$tpl}", [
-            'twig' => $twig,
-            'class' => $class,
-            'exams' => $exams,
-            'login_type' => 'class'
-        ]);
-      }
-
+        $this->render("{$tpl}", [
+          'twig' => $twig,
+          'class' => $class,
+          'exams' => $exams
+          ],
+          $login_type);
+        }
     }
-
 }
-
-?>

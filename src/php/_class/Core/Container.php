@@ -76,7 +76,7 @@ class Container
             'pdo' => function(){
                 $pdo = new PDO('mysql:host=localhost;dbname=examinator;charset=utf8',
                 'root',
-                '');
+                'foobar');
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 return $pdo;
             }

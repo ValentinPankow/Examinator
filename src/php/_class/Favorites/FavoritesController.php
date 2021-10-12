@@ -39,11 +39,10 @@ class FavoritesController
           $favoriteClasses = $this->classesRepository->fetchFavoriteClasses($userId);
           $favoriteSubjects = $this->subjectsRepository->fetchFavoriteSubjects($userId);
 
-
           $size = count($favoriteClasses);
           $count = 0;
-
           $classIds = "";
+
           foreach($favoriteClasses as $favoriteClass){
             $count++;
             $classIds .= "$favoriteClass->id";
@@ -57,7 +56,7 @@ class FavoritesController
           $count = 0;
 
           $subjectIds = "";
-          foreach($favoriteSubject as $favoriteSubject){
+          foreach($favoriteSubjects as $favoriteSubject){
             $count++;
             $subjectIds .= "$favoriteSubject->id";
 
@@ -66,10 +65,8 @@ class FavoritesController
             }
           }
 
-
           $classes = $this->classesRepository->fetchClassesWithoutFavorites($classIds);
-          $subjects = $this->subjectsRepository->fetchSubjectsWithoutFavorites($userId);
-
+          $subjects = $this->subjectsRepository->fetchSubjectsWithoutFavorites($subjectIds);
 
           $this->render("{$tpl}", [
               'favoriteClasses' => $favoriteClasses,
