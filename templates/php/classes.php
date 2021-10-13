@@ -4,9 +4,11 @@
 
     echo $twig->render('classes.twig', array(
         'pageTitle' => 'Examinator - Klassen',
-        'userName' => 'User',
+        'userName' => $userName,
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/classes.js',
         'tpl' => 'classes',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'classes' => $classes,
+        'favoriteClasses' => $favoriteClasses
     ));

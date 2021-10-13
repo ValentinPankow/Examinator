@@ -9,3 +9,4 @@
         'tpl' => 'login',
         'darkMode' => $darkMode
     ));
+

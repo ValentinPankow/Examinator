@@ -15,11 +15,8 @@ class ExamsRepository
         $this->pdo = $pdo;
     }
 
-    //Fetcht einen Eintrag aus der Datenbanktabelle
-    //Prepare & Execute werden benötigt wegen SQL Injektions :param und execute :param => $param ist hier Standard
-    //FetchMode wird nur bei einem einzelnen Fetch benötigt
-    //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
-    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
+
+    //Holt sich ein einzelnes Exam nach ID (DH)
     public function fetchExam($id)
     {
         $query = $this->pdo->prepare("SELECT * FROM exams WHERE `id` = :id");
@@ -30,9 +27,8 @@ class ExamsRepository
         return $content;
     }
 
-    //Fetcht alle Einträge aus der Datenbanktabelle
-    //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
-    //Ansonsten siehe fetchKlausuren Kommentare
+
+    //Holt sich alle Examen(DH)
     public function fetchExams()
     {
         $query = $this->pdo->query("SELECT * FROM exams");
@@ -72,7 +68,6 @@ class ExamsRepository
 
     public function fetchClassExams($classId)
     {
-
         $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
                                       FROM exams AS e
                                       JOIN classes AS c ON e.class_id = c.id

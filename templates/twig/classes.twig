@@ -16,9 +16,7 @@
 
   {{ block("sidebar", "layout.twig") }}
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -39,27 +37,39 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <div>
-          <!-- Left col -->
-          <section class="col-lg-7 connectedSortable">
-            <!-- Do something here!-->
-          </section>
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-5 connectedSortable">
-            <!-- Do something here!-->
-          </section>
+        <div class="row">
+          <div class="col">
+            <h2>Favoriten</h2>
+          </div>
         </div>
+
+
+        <div class="row">
+          {% for favoriteClass in favoriteClasses %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+              <div class="card">
+                <div class="card-header" style="background-color: #EE4D00">
+                  <h3 class="card-title text-white">
+                    <b>{{favoriteClass.name}}</b>
+                  </h3>
+                  <div class="card-tools text-white">
+                   <i class="far fa-clock mr-1"></i>
+                  </div>
+                </div>
+                <div class="card-body">
+
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
       </div>
     </section>
     <!-- /.content -->
   </div>
   {{ block("footer", "layout.twig") }}
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
 

@@ -11,8 +11,8 @@ use Exams\ExamsController;
 use Exams\ExamsRepository;
 use Subjects\SubjectsController;
 use Subjects\SubjectsRepository;
-use Users\UsersController;
-use Users\UsersRepository;
+use User\UserController;
+use User\UserRepository;
 use Favorites\FavoritesController;
 use Favorites\FavoritesRepository;
 
@@ -34,7 +34,7 @@ class Container
     {
         $this->receipts = [
             'dashboardController' => function(){
-                return new DashboardController($this->make("usersRepository"), $this->make("examsRepository"), $this->make("classesRepository"));
+                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"), $this->make("classesRepository"));
             },
             'dashboardRepository' => function(){
                 return new DashboardRepository($this->make("pdo"));
@@ -46,7 +46,7 @@ class Container
                 return new LoginRepository($this->make("pdo"));
             },
             'classesController' => function(){
-                return new ClassesController($this->make("classesRepository"));
+                return new ClassesController($this->make("classesRepository"), $this->make("userRepository"));
             },
             'classesRepository' => function(){
                 return new ClassesRepository($this->make("pdo"));
@@ -63,14 +63,14 @@ class Container
             'subjectsRepository' => function(){
                 return new SubjectsRepository($this->make("pdo"));
             },
-            'usersController' => function(){
-                return new UsersController($this->make("usersRepository"));
+            'userController' => function(){
+                return new UserController($this->make("userRepository"));
             },
-            'usersRepository' => function(){
-                return new UsersRepository($this->make("pdo"));
+            'userRepository' => function(){
+                return new UserRepository($this->make("pdo"));
             },
             'favoritesController' => function(){
-                return new FavoritesController($this->make("classesRepository"), $this->make("subjectsRepository"));
+                return new FavoritesController($this->make("classesRepository"), $this->make("subjectsRepository"), $this->make("userRepository"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){
@@ -102,5 +102,3 @@ class Container
         return $this->instances[$name];
     }
 }
-
-?>

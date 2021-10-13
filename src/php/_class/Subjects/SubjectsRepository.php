@@ -9,13 +9,13 @@ class SubjectsRepository
 {
     private $pdo;
 
-    //Übergibt die PDO Verbindung vom Container
+    //Übergibt die PDO Verbindung vom Container (DH)
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    //Holt ein einzelnes Fach nach ID
+    //Holt ein einzelnes Fach nach ID (DH)
     public function fetchSubject($id)
     {
         $query = $this->pdo->prepare("SELECT * FROM subjects WHERE `id` = :id");
@@ -26,7 +26,7 @@ class SubjectsRepository
         return $content;
     }
 
-    //Holt alle Fächer
+    //Holt alle Fächer (DH);
     public function fetchSubjects()
     {
         $query = $this->pdo->query("SELECT * FROM subjects ORDER BY name ASC");
@@ -35,7 +35,7 @@ class SubjectsRepository
         return $contents;
     }
 
-    //Holt alle favorisierten Fächer von einem User
+    //Holt alle favorisierten Fächer von einem User (DH)
     public function fetchFavoriteSubjects($userId)
     {
       $query = $this->pdo->prepare("SELECT subjects.name, subjects.id FROM subjects INNER JOIN user_favorites ON user_favorites.subject_id = subjects.id WHERE user_favorites.user_id = :id ORDER BY name ASC");
@@ -45,7 +45,7 @@ class SubjectsRepository
       return $contents;
     }
 
-    //Holt alle favorisierten Fächer von einem User
+    //Holt alle favorisierten Fächer von einem User (DH)
     public function fetchSubjectsWithoutFavorites($subjectIds)
     {
       $query = $this->pdo->prepare("SELECT id, name FROM subjects WHERE id NOT IN (:subjectIds) ORDER BY name ASC");

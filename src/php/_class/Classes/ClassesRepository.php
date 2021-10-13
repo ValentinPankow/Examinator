@@ -15,14 +15,11 @@ class ClassesRepository
         $this->pdo = $pdo;
     }
 
-    //Fetcht einen Eintrag aus der Datenbanktabelle
-    //Prepare & Execute werden benötigt wegen SQL Injektions :param und execute :param => $param ist hier Standard
-    //FetchMode wird nur bei einem einzelnen Fetch benötigt
-    //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
-    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
+
+    //Holt eine einzelne Klasse nach ID (DH)
     public function fetchClass($id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM classes WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * FROM classes WHERE id = :id");
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -30,9 +27,8 @@ class ClassesRepository
         return $content;
     }
 
-    //Fetcht alle Einträge aus der Datenbanktabelle
-    //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
-    //Ansonsten siehe fetchClasses Kommentare
+
+    //Holt alle Klassen
     public function fetchClasses()
     {
         $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
@@ -53,11 +49,6 @@ class ClassesRepository
         return $content;
     }
 
-    //Sucht eine Klasse nach dem Namen heraus
-    public function fetchTeacherClasses($name)
-    {
-
-    }
 
     //Holt alle favorisierten Fächer von einem User
     public function fetchFavoriteClasses($userId)
@@ -71,8 +62,8 @@ class ClassesRepository
 
     public function fetchClassesWithoutFavorites($classIds)
     {
-      $query = $this->pdo->prepare("SELECT id, name FROM classes WHERE id NOT IN (:classIds) ORDER BY name ASC");
-      $query->execute(['classIds' => $classIds]);
+      $query = $this->pdo->query("SELECT id, name FROM classes WHERE id NOT IN ($classIds) ORDER BY name ASC");
+      // $query->execute(['classIds' => $classIds]);
       $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
       return $contents;
