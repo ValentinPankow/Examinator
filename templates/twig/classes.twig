@@ -43,27 +43,63 @@
           </div>
         </div>
 
-
-        <div class="row">
-          {% for favoriteClass in favoriteClasses %}
-            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-              <div class="card">
-                <div class="card-header" style="background-color: #EE4D00">
-                  <h3 class="card-title text-white">
-                    <b>{{favoriteClass.name}}</b>
-                  </h3>
-                  <div class="card-tools text-white">
-                   <i class="far fa-clock mr-1"></i>
+        <div class="card card primary">
+            <div class="card-header" style="background-color: #EE4D00">
+            </div>
+            <div class="card-body">
+              <div class="row">
+                {% for favoriteClass in favoriteClasses %}
+                  <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                    <div class="card">
+                      <div class="card-header" style="background-color: #EE4D00">
+                        <h3 class="card-title text-white">
+                          <b>{{favoriteClass.name}}</b>
+                        </h3>
+                        <div class="card-tools text-white pr-3">
+                        <i class="fas fa-eye"></i>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <h2>Alle Klassen</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  {% for class in classes %}
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="card" style="border: 1px solid #EE4D00;">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <b>{{class.name}}</b>
+                          </h3>
+                          <div class="card-tools pr-3">
+                            <i class="fas fa-eye"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
-                <div class="card-body">
-
-                </div>
-                <!-- /.card-body -->
               </div>
             </div>
-          {% endfor %}
+          </div>
         </div>
+
+
+
 
       </div>
     </section>

@@ -36,8 +36,7 @@ class ClassesController
     $userId = 2;
     $user = $this->userRepository->fetchUserById($userId);
 
-    if($user->is_admin == 1 | $user->is_teacher == 1){
-
+    if($user){
       $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
       $classes = $this->repository->fetchClasses();
 
@@ -45,7 +44,7 @@ class ClassesController
           'classes' => $classes,
           'favoriteClasses' => $favoriteClasses,
           'userName' => $user->first_name . " " . $user->last_name,
-          'twig' => $twig
+          'twig' => $twig,
       ]);
     }else{
 

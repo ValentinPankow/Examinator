@@ -45,113 +45,66 @@
             <h2>Anstehende Klausuren</h2>
           </div>
         </div>
-        <div class="row">
-          {% set count = 0 %}
-          {% set break = false %}
-          {% for exam in exams if not break %}
-            {% set count = count + 1 %}
-            {% if count == 6 %}
-              {% set break = true %}
-            {% endif %}
-            <div class="col-4">
-              <div class="card card-secondary">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <b>{{ exam.subject }}{% if exam.room %} - Raum: {{ exam.room }}{% endif %}</b>
-                    <br />
-                    {{ formatDate(exam.date) }} <i class="far fa-calendar mr-1"></i> | 
-                    {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
-                      {{ exam.lessonFrom }}. Std. bis {{ exam.lessonTo }}. Std.
-                    {% elseif exam.timeFrom is defined and exam.timeTo is defined %}
-                      von {{ formatTime(exam.timeFrom) }} <i class="far fa-clock mr-1"></i> bis {{ formatTime(exam.timeTo) }} <i class="far fa-clock mr-1"></i>
-                    {% endif %}
-                  </h3>
-                  <div class="card-tools">
-                  </div>
-                </div>
-                <div class="card-body">
-                {% if exam.topic or exam.other %}
-                  {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
-                    <div class="row">
-                      <div class="col">
-                        <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
-                      </div>
-                    </div>
-                  {% endif %}
-                  {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
-                    <div class="row">
-                      <div class="col">
-                        <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
-                      </div>
-                    </div>
-                  {% endif %}
-                {% endif %}
-                {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
-                  <div class="row">
-                    <div class="col">
-                      <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
-                    </div>
-                  </div>
-                {% endif %}
-                </div>
-                <!-- /.card-body -->
-              </div>
-            </div>
-            {% if count is divisible by(3) %}
-              </div> <!-- Schließt die Row und eröffnet eine Neue nach jeder dritten Klausur -->
-              <div class="row">
-            {% endif %}
-          {% endfor %}
-        </div>
-        <div>
-          {% if login_type == "teacher" %}
+        <div class="card card-primary">
+          <div class="card-header"></div>
+          <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                        <h3 class="card-title">Klausuren schnell anlegen</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form>
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col-sm-6">
-                              <!-- select -->
-                              <div class="form-group">
-                                <label>Klasse</label>
-                                <select class="custom-select" id="class">
-                                      <option>Bitte auswählen...</option>
-                                  {% for class in classes %}
-                                     <option value="{{ class.id }}">{{ class.name }}</option>
-                                  {% endfor %}
-                                </select>
-                              </div>
-                            </div>
-                            <div class="col-sm-6">
-                              <div class="form-group">
-                                <label>Fach</label>
-                                <select class="custom-select" id="subject">
-                                  <option>option 1</option>
-                                  <option>option 2</option>
-                                  <option>option 3</option>
-                                  <option>option 4</option>
-                                  <option>option 5</option>
-                                </select>
-                              </div>
-                            </div>
+              {% set count = 0 %}
+              {% set break = false %}
+              {% for exam in exams if not break %}
+                {% set count = count + 1 %}
+                {% if count == 6 %}
+                  {% set break = true %}
+                {% endif %}
+                <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                  <div class="card card-secondary">
+                    <div class="card-header">
+                      <h3 class="card-title">
+                        <b>{{ exam.subject }}{% if exam.room %} - Raum: {{ exam.room }}{% endif %}</b>
+                        <br />
+                        {{ formatDate(exam.date) }} <i class="far fa-calendar mr-1"></i> |
+                        {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
+                          {{ exam.lessonFrom }}. Std. bis {{ exam.lessonTo }}. Std.
+                        {% elseif exam.timeFrom is defined and exam.timeTo is defined %}
+                          von {{ formatTime(exam.timeFrom) }} <i class="far fa-clock mr-1"></i> bis {{ formatTime(exam.timeTo) }} <i class="far fa-clock mr-1"></i>
+                        {% endif %}
+                      </h3>
+                      <div class="card-tools">
+                      </div>
+                    </div>
+                    <div class="card-body">
+                    {% if exam.topic or exam.other %}
+                      {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                        <div class="row">
+                          <div class="col">
+                            <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                           </div>
                         </div>
-                        <!-- /.card-body -->
-
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                      {% endif %}
+                      {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                        <div class="row">
+                          <div class="col">
+                            <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
+                          </div>
                         </div>
-                        </form>
+                      {% endif %}
+                    {% endif %}
+                    {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
+                      <div class="row">
+                        <div class="col">
+                          <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
+                        </div>
+                      </div>
+                    {% endif %}
                     </div>
+                    <!-- /.card-body -->
+                  </div>
                 </div>
+              {% endfor %}
             </div>
-          {% endif %}
+          </div>
+        </div>
+        <div>
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
             <!-- Do something here!-->
