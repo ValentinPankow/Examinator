@@ -2,18 +2,18 @@
 namespace Login;
 
 use Login\LoginRepository;
-use Users\UsersRepository;
+use User\UserRepository;
 
 class LoginController
 {
     private $repository;
-    private $usersRepository;
+    private $userRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(LoginRepository $repository, UsersRepository $usersRepository)
+    public function __construct(LoginRepository $repository, UserRepository $userRepository)
     {
         $this->repository = $repository;
-        $this->usersRepository = $usersRepository;
+        $this->userRepository = $userRepository;
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
@@ -26,7 +26,7 @@ class LoginController
     }
 
     public function getUserByMail($mail) {
-        return $this->usersRepository->fetchUserByMail($mail);
+        return $this->userRepository->fetchUserByMail($mail);
     }
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode

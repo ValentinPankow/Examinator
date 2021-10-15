@@ -40,7 +40,7 @@ class Container
                 return new DashboardRepository($this->make("pdo"));
             },
             'loginController' => function(){
-                return new LoginController($this->make("loginRepository"), $this->make("usersRepository"));
+                return new LoginController($this->make("loginRepository"), $this->make("userRepository"));
             },
             'loginRepository' => function(){
                 return new LoginRepository($this->make("pdo"));
