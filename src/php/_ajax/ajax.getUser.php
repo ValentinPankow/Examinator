@@ -1,9 +1,9 @@
 <?php
 
     require_once '../_class/Core/Container.php';
-    require_once '../_class/Exams/UserRepository.php';
-    require_once '../_class/Exams/UserController.php';
-    require_once '../_class/Exams/UserModel.php';
+    require_once '../_class/User/UserRepository.php';
+    require_once '../_class/User/UserController.php';
+    require_once '../_class/User/UserModel.php';
 
     $data = (OBJECT) $_POST['data'];
 
@@ -11,7 +11,7 @@
 
     $userController = $container->make("userController");
 
-    $user = $userController->fetchUserById($data->id);
+    $user = $userController->getUserDataById($data->id);
 
     $obj = new stdClass;
 

@@ -30,6 +30,16 @@ class UserRepository
         return $content;
     }
 
+    public function getUserDataById($id)
+    {
+        $query = $this->pdo->prepare("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users WHERE `id` = :id");
+        $query->execute(['id' => $id]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
+        $content = $query->fetch(PDO::FETCH_CLASS);
+
+        return $content;
+    }
+
     public function fetchUserByMail($mail)
     {
         $query = $this->pdo->prepare("SELECT * FROM users WHERE `email` = :mail");
@@ -66,7 +76,15 @@ class UserRepository
                                           VALUES 
                                           (:firstname, :lastname, :email, :password, :isAdmin, :isTeacher)");
         } else if ($action == 'update') {
-
+            if ($data->changePassword) {
+                $query = $this->pdo->prepare("UPDATE users 
+                                            SET first_name = :firstname, last_name = :lastname, email = :email, password = :password, is_admin = :isAdmin, is_teacher = :isTeacher 
+                                            WHERE id = :id");
+            } else {
+                $query = $this->pdo->prepare("UPDATE users 
+                                            SET first_name = :firstname, last_name = :lastname, email = :email, is_admin = :isAdmin, is_teacher = :isTeacher 
+                                            WHERE id = :id");
+            }
 
         }
         
@@ -77,19 +95,29 @@ class UserRepository
         $isAdmin = $data->isAdmin == "true" ? 1 : 0;
         $isTeacher = $data->isTeacher == "true" ? 1 : 0;
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
         $values = array (
             'firstname' => $firstname,
             'lastname' => $lastname,
             'email' => $email,
-            'password' => $hashedPassword,
             'isAdmin' => $isAdmin,
             'isTeacher' => $isTeacher
         );
 
-        $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
-        $resultDuplicate = $queryDuplicate->execute(['email' => $email]);
+        if ($action == 'insert' || ($action == 'update' && $data->changePassword)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        } 
+        
+
+        if ($data->changePassword && $action == 'update') {
+
+            $values['password'] = $hashedPassword;
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email AND id != :id");
+            $resultDuplicate = $queryDuplicate->execute(['email' => $email, 'id' => $data->id]);
+        } else {
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+            $resultDuplicate = $queryDuplicate->execute(['email' => $email]); 
+        }
+
         $fetchDuplicate = $queryDuplicate->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
         
         if ($fetchDuplicate[0]->rowsFound <= 0) {

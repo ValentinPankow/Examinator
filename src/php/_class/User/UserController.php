@@ -47,14 +47,12 @@ class UserController
         return $this->repository->queryUser($data, $action, $duplicate);
     }
 
-    public function fetchUserById($id)
-    {
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE `id` = :id");
-        $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
-        $content = $query->fetch(PDO::FETCH_CLASS);
+    public function fetchUserById($id) {
+        return $this->repository->fetchUserById($id);
+    }
 
-        return $content;
+    public function getUserDataById($id) {
+        return $this->repository->getUserDataById($id);
     }
 
 }
