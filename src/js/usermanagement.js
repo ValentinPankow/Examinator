@@ -77,6 +77,11 @@ $("#accountsTable").on("click", 'button[name="editAccount"]', function() {
     $('#editUserModal').modal('show');
 });
 
+$('#deleteUserModal').find('button[name="delete"]').on('click', function () {
+    deleteUser($('#deleteUserModal').find('button[name="delete"]').attr('data-id'));
+});
+
+
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
 });
@@ -108,6 +113,12 @@ $('#editUserModal').on('hidden.bs.modal', function() {
     $('#inputEditPassword').val("--------");
     $('#inputEditConfirmPassword').val("--------");
     $('#passwordChange').attr('checked', false);
+});
+
+$("#accountsTable").on("click", 'button[name="deleteAccount"]', function() {
+    let button = $(this);
+    $('#deleteUserModal').find('button[name="delete"]').attr('data-id', button.attr('data-id'));
+    $('#deleteUserModal').modal('show');
 });
 
 $("#saveNewAccount").on("click", function() {
@@ -283,9 +294,6 @@ function editUser(id)
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successEditUser').html());
                     accountsTable.ajax.reload();
-                    if(true) {
-
-                    }
                 } else {
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
@@ -303,4 +311,34 @@ function editUser(id)
             }
         }
     );
+}
+
+function deleteUser(id) 
+{
+    $.post(
+        'src/php/_ajax/ajax.deleteUser.php',
+        {
+            data: {
+                id: id    
+            },
+        },
+        function(rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+
+                    // Ausgabe der Erfolgs Nachricht
+                    triggerResponseMsg('success', $('.successDeleteUser').html());
+                    accountsTable.ajax.reload();
+                } else {
+                        triggerResponseMsg('error', $('.errorDeleteUser').html());    
+                }
+                $("#deleteUserModal").modal("hide");
+                
+            } catch(e) {
+                console.log(e);
+                triggerResponseMsg('error', $('.errorDeleteUser').html());
+            }
+        }
+    )
 }

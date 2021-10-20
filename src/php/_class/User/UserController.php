@@ -55,6 +55,10 @@ class UserController
         return $this->repository->getUserDataById($id);
     }
 
+    public function deleteUserById($id) {
+        return $this->repository->deleteUserById($id);
+    }
+
 }
 
 ?>

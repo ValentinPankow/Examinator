@@ -70,7 +70,7 @@ class UserRepository
     }
 
     public function queryUser($data, $action, &$duplicate = false) {
-        if (isset($data->changedPassword)) {
+        if (isset($data->changePassword)) {
             $changePassword = $data->changePassword == "true" ? true : false;
         } else {
             $changePassword = false;
@@ -133,6 +133,22 @@ class UserRepository
         }
         
         if ($result && !$duplicate) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteUserById($id) {
+        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE user_id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM exams WHERE creator_id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
+        $result = $query->execute(['id' => $id]);
+        if ($result) {
             return true;
         } else {
             return false;
