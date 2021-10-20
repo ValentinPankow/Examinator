@@ -70,13 +70,19 @@ class UserRepository
     }
 
     public function queryUser($data, $action, &$duplicate = false) {
+        if (isset($data->changedPassword)) {
+            $changePassword = $data->changePassword == "true" ? true : false;
+        } else {
+            $changePassword = false;
+        }
+
         if ($action == 'insert') {
             $query = $this->pdo->prepare("INSERT INTO users 
                                           (first_name, last_name, email, password, is_admin, is_teacher) 
                                           VALUES 
                                           (:firstname, :lastname, :email, :password, :isAdmin, :isTeacher)");
         } else if ($action == 'update') {
-            if ($data->changePassword) {
+            if ($changePassword) {
                 $query = $this->pdo->prepare("UPDATE users 
                                             SET first_name = :firstname, last_name = :lastname, email = :email, password = :password, is_admin = :isAdmin, is_teacher = :isTeacher 
                                             WHERE id = :id");
@@ -103,14 +109,13 @@ class UserRepository
             'isTeacher' => $isTeacher
         );
 
-        if ($action == 'insert' || ($action == 'update' && $data->changePassword)) {
+        if ($action == 'insert' || ($action == 'update' && $changePassword)) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        } 
-        
-
-        if ($data->changePassword && $action == 'update') {
-
             $values['password'] = $hashedPassword;
+        }
+
+        if ($action == 'update') {
+            $values['id'] = $data->id;
             $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email AND id != :id");
             $resultDuplicate = $queryDuplicate->execute(['email' => $email, 'id' => $data->id]);
         } else {
