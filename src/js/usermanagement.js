@@ -84,6 +84,7 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
+    $('#passwordChange').prop('checked', false)
 });
 
 $('#passwordChange').on("change", function () {
@@ -112,7 +113,9 @@ $('#editUserModal').on('hidden.bs.modal', function() {
     $('#isTeacherEdit').attr('checked', false);
     $('#inputEditPassword').val("--------");
     $('#inputEditConfirmPassword').val("--------");
-    $('#passwordChange').attr('checked', false);
+    $('#inputEditPassword').prop('disabled', true);
+    $('#inputEditConfirmPassword').prop('disabled', true);
+    $('#passwordChange').prop('checked', false);
 });
 
 $("#accountsTable").on("click", 'button[name="deleteAccount"]', function() {
@@ -178,7 +181,7 @@ function addNewUser()
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successCreateUser').html());
-                    accountsTable.ajax.reload();
+                    reloadTable();
                     if(true) {
 
                     }
@@ -293,7 +296,7 @@ function editUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successEditUser').html());
-                    accountsTable.ajax.reload();
+                    reloadTable();
                 } else {
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
@@ -329,7 +332,7 @@ function deleteUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successDeleteUser').html());
-                    accountsTable.ajax.reload();
+                    reloadTable();
                 } else {
                         triggerResponseMsg('error', $('.errorDeleteUser').html());    
                 }
@@ -341,4 +344,15 @@ function deleteUser(id)
             }
         }
     )
+}
+
+function reloadTable() {
+    $('#tableOverlay').fadeIn(500);
+    setTimeout(function() { 
+        accountsTable.ajax.reload(hideOverlay());
+    }, 150);    
+}
+
+function hideOverlay() {
+    $('#tableOverlay').fadeOut(500);
 }

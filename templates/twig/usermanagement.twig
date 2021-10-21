@@ -43,31 +43,30 @@
           <!-- Left col -->
           <div class="col-md-12">
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Liste aller registrierten Benutzer</h3>
+              <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
-                <table id="accountsTable" class="table table-bordered table-striped" style="width: 100%">
-                  <thead>
-                    <tr>
-                      <th>Vorname</th>
-                      <th>Nachname</th>
-                      <th>E-Mail</th>
-                      <th>Rolle</th>
-                      <th style="width: 20px">Ändern</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                  </tbody>
-                </table>
-                <div class="row">
-                  <div class="col text-center">
-                    <button type="button" class="btn btn-primary" id="addUser">Benutzer hinzufügen</button>
+                <div class="card-body">
+                  <table id="accountsTable" class="table table-bordered table-striped" style="width: 100%">
+                    <thead>
+                      <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>E-Mail</th>
+                        <th>Rolle</th>
+                        <th style="width: 20px">Ändern</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <div class="col text-center">
+                      <button type="button" class="btn btn-primary" id="addUser">Benutzer hinzufügen</button>
+                    </div>
                   </div>
                 </div>
-              </div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
