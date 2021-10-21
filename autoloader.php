@@ -3,9 +3,11 @@
 function autoloader($className)
 {
     $className = str_replace("\\", "/", $className);
-    if(file_exists("./src/php/_class/{$className}.php"))
-    {
-        require "./src/php/_class/{$className}.php";
+    if(!str_contains($className, "ajax")) {
+        if(file_exists("./src/php/_class/{$className}.php"))
+        {
+            require "./src/php/_class/{$className}.php";
+        }
     }
 }
 

@@ -9,8 +9,12 @@ use Classes\ClassesController;
 use Classes\ClassesRepository;
 use Exams\ExamsController;
 use Exams\ExamsRepository;
+use Subjects\SubjectsController;
+use Subjects\SubjectsRepository;
 use User\UserController;
 use User\UserRepository;
+use UserManagement\UserManagementController;
+use UserManagement\UserManagementRepository;
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -48,16 +52,28 @@ class Container
                 return new ClassesRepository($this->make("pdo"));
             },
             'examsController' => function(){
-                return new ExamsController($this->make("examsRepository"));
+                return new ExamsController($this->make("examsRepository"), $this->make("classesRepository"), $this->make("subjectsRepository"));
             },
             'examsRepository' => function(){
                 return new ExamsRepository($this->make("pdo"));
+            },
+            'subjectsController' => function(){
+                return new SubjectsController($this->make("SubjectsRepository"));
+            },
+            'subjectsRepository' => function(){
+                return new SubjectsRepository($this->make("pdo"));
             },
             'userController' => function(){
                 return new UserController($this->make("userRepository"));
             },
             'userRepository' => function(){
                 return new UserRepository($this->make("pdo"));
+            },
+            'usermanagementController' => function(){
+                return new UserManagementController($this->make("usermanagementRepository"));
+            },
+            'usermanagementRepository' => function(){
+                return new UserManagementRepository($this->make("pdo"));
             },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){

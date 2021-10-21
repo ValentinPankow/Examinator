@@ -20,6 +20,13 @@
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <!-- Custem CSS -->
+    <link rel="stylesheet" href="dist/css/custom.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 {% endblock %}
 
@@ -51,8 +58,10 @@
     <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
     <!-- Summernote -->
     <script src="plugins/summernote/summernote-bs4.min.js"></script>
+    <script src="plugins/summernote/lang/summernote-de-DE.min.js"></script>
     <!-- overlayScrollbars -->
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
     <!-- AdminLTE for demo purposes -->
@@ -69,6 +78,88 @@
         <script src="{{pageJs}}"></script>
     {% endif %}
 
+    <!-- DataTables  & Plugins -->
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="plugins/jszip/jszip.min.js"></script>
+    <script src="plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+{% endblock %}
+
+{% block preloader %}
+    <!-- Preloader -->
+    <div class="preloader flex-column justify-content-center align-items-center {% if darkMode %}dark-mode{% endif %}">
+        <img class="animation__shake" src="dist/img/ExaminatorRoundWhite.png" alt="AdminLTELogo" height="150" width="150">
+    </div>
+{% endblock %}
+
+{% block navbar %}
+    <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="index.php" class="nav-link">Home</a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Navbar Search -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          <form class="form-inline">
+            <div class="input-group input-group-sm">
+              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+              <div class="input-group-append">
+                <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </li>
+
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">0 Benachrichtigungen</span>
+          <a href="#" class="dropdown-item">
+            <i class="fas fa-file mr-2"></i> Keine neuen Benachrichtigungen
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">Alle Benachrichtigungen anzeigen</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+          <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
 {% endblock %}
 
 {% block sidebar %}
@@ -77,7 +168,8 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="index.php" class="brand-link">
-            <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <!--<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">-->
+            <img src="dist/img/ExaminatorRoundWhite.png" alt="AdminLTE Logo" class="brand-image">
             <span class="brand-text font-weight-light">{{ applicationName }}</span>
         </a>
 
@@ -86,7 +178,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                <img src="dist/img/UnknownUser.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ userName }}</a>
@@ -163,4 +255,34 @@
         </div>
     </footer>
 
+{% endblock %}
+
+{% block responseMsg %}
+  <!-- notifications -->
+  <div id="notification" style="display: none;">
+    <span class="successCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
+    <span class="errorCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
+    <span class="userFound">Benutzer gefunden!</span>
+    <span class="userNotFound">Es konnte kein Benutzer gefunden werden!</span>
+    <span class="requiredFields">Datum, Uhrzeit/Stunde, Klasse und Fach müssen angegeben sein!</span>
+    <span class="lessonAndTimeError">Die Zeitangabe (bis) darf nicht niedriger oder gleich als (von) sein!</span>
+    <span class="successDeleteExam">Die Klausur wurde erfolgreich gelöscht!</span>
+    <span class="errorDeleteExam">Die Klausur konnte nicht gelöscht werden!</span>
+    <span class="errorGetExam">Die Klausur konnte nicht geladen werden!</span>
+    <span class="successChangeExam">Die Klausur wurde erfolgreich geändert!</span>
+    <span class="errorChangeExam">Die Klausur konnte nicht geändert werden!</span>
+    <span class="successCreateUser">Der Benutzer wurde erfolgreich erstellt!</span>
+    <span class="errorCreateUser">Der Benutzer konnte nicht erstellt werden!</span>
+    <span class="errorMail">Die E-Mail-Adresse ist ungültig!</span>
+    <span class="errorPassword">Die Passwörter stimmen nicht überein!</span>
+    <span class="errorRole">Es muss mindestens eine Rolle ausgewählt werden!</span>
+    <span class="missingInput">Es müssen alle Felder ausgefüllt sein!</span>
+    <span class="errorDuplicate">Die E-Mail existiert bereits!</span>
+    <span class="errorPasswordLength">Das Passwort muss mindestens 8 Zeichen besitzen!</span>
+    <span class="errorEditUser">Die Änderungen konnten nicht gespeichert werden!</span>
+    <span class="successEditUser">Die Änderungen wurden gespeichert!</span>
+    <span class="successDeleteUser">Der Benutzer wurde erfolgreich gelöscht!</span>
+    <span class="errorDeleteUser">Der Benutzer konnte nicht gelöscht werden!</span>
+
+  </div>
 {% endblock %}

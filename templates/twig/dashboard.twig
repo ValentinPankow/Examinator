@@ -10,69 +10,9 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div>
+  {{ block("preloader", "layout.twig") }}
 
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
-      </li>
-    </ul>
-
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
-
-      <!-- Notifications Dropdown Menu -->
-      <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fa-bell"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">0 Benachrichtigungen</span>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> Keine neuen Benachrichtigungen
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">Alle Benachrichtigungen anzeigen</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+  {{ block("navbar", "layout.twig") }}
 
   {{ block("sidebar", "layout.twig") }}
 
@@ -107,12 +47,25 @@
         </div>
         <div class="row">
           {% set count = 0 %}
-          {% for exam in exams %}
-          {% set count = count + 1 %}
+          {% set break = false %}
+          {% for exam in exams if not break %}
+            {% set count = count + 1 %}
+            {% if count == 6 %}
+              {% set break = true %}
+            {% endif %}
             <div class="col-4">
               <div class="card card-secondary">
                 <div class="card-header">
-                  <h3 class="card-title"><b>{{ exam.subject }} Raum {{ exam.room }}</b><br />{{ exam.date }}</h3>
+                  <h3 class="card-title">
+                    <b>{{ exam.subject }}{% if exam.room %} - Raum: {{ exam.room }}{% endif %}</b>
+                    <br />
+                    {{ formatDate(exam.date) }} <i class="far fa-calendar mr-1"></i> | 
+                    {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
+                      {{ exam.lessonFrom }}. Std. bis {{ exam.lessonTo }}. Std.
+                    {% elseif exam.timeFrom is defined and exam.timeTo is defined %}
+                      von {{ formatTime(exam.timeFrom) }} <i class="far fa-clock mr-1"></i> bis {{ formatTime(exam.timeTo) }} <i class="far fa-clock mr-1"></i>
+                    {% endif %}
+                  </h3>
                   <div class="card-tools">
                     <button type="button" class="btn btn-sm">
                       <i class="fas fa-eye"></i>
@@ -121,22 +74,22 @@
                 </div>
                 <div class="card-body">
                 {% if exam.topic or exam.other %}
-                  {% if exam.topic %}
+                  {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
                     <div class="row">
                       <div class="col">
-                        <b>Themen:</b> {{ exam.topic }}
+                        <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                       </div>
                     </div>
                   {% endif %}
-                  {% if exam.other %}
+                  {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
                     <div class="row">
                       <div class="col">
-                        <b>Sonstiges:</b> {{ exam.other }}
+                        <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
                       </div>
                     </div>
                   {% endif %}
                 {% endif %}
-                {% if not exam.topic and not exam.other %}
+                {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
                   <div class="row">
                     <div class="col">
                       <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!

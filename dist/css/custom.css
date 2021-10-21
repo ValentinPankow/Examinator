@@ -1,0 +1,42 @@
+/* ------------------------ Dark Mode ------------------------ */
+
+/* ------------ Sweetalert Dark Mode  ------------ */
+.swal-dark {
+    background-color: #2e3338 !important;
+    box-shadow: 0 0 .625em #70828f !important;
+}
+
+.swal-dark h2 {
+    color: #e2e4e9 !important;
+}
+
+.swal-dark .swal2-timer-progress-bar {
+    background-color: #505962 !important;
+}
+
+.swal2-success-fix, .swal2-success-circular-line-right, .swal2-success-circular-line-left {
+    background-color: transparent !important;
+}
+/* ----------------------------------------------- */
+
+.dark-mode input:disabled, .dark-mode select:disabled {
+    background-color: #454d54 !important;
+}
+
+.dark-mode ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+.dark-mode .fa-spin {
+    filter: invert(1);
+}
+
+.dark-mode .table-overlay {
+    background-color: rgba(0,0,0,.4) !important;
+}
+
+.dark-mode .card-overlay {
+    background-color: rgba(0,0,0,.4) !important;
+}
+
+/* ---------------------------------------------------------- */

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Benutzerverwaltung</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Benutzverwaltung</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- Left col -->
+          <div class="col-md-12">
+            <div class="card">
+              <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
+              <!-- /.card-header -->
+                <div class="card-body">
+                  <table id="accountsTable" class="table table-bordered table-striped" style="width: 100%">
+                    <thead>
+                      <tr>
+                        <th>Vorname</th>
+                        <th>Nachname</th>
+                        <th>E-Mail</th>
+                        <th>Rolle</th>
+                        <th style="width: 20px">Ändern</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <div class="col text-center">
+                      <button type="button" class="btn btn-primary" id="addUser">Benutzer hinzufügen</button>
+                    </div>
+                  </div>
+                </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  {{ block("footer", "layout.twig") }}
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <div class="modal fade" id="addUserModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Benutzer hinzufügen</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-6">
+            <label for="inputEmail">E-Mail</label>
+          </div>
+          <div class="form-inline mb-2">
+            <div class="form-group col-sm-6">
+              <input type="email" class="form-control" id="inputEmail" placeholder="E-Mail">
+            </div>
+            <div class="form-group col-sm-3">
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isAdmin">
+                <label for="isAdmin" class="custom-control-label form-check-label">Admin</label>
+              </div>
+            </div>
+            <div class="form-group col-sm-3">
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isTeacher" checked>
+                <label for="isTeacher" class="custom-control-label form-check-label">Lehrer</label>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-inline mb-2">
+              <div class="form-group col-sm-6">
+                <label for="inputFirstName">Vorname</label>
+                <input type="text" class="form-control" id="inputFirstName" placeholder="Vorname">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputLastName">Nachname</label>
+                <input type="text" class="form-control" id="inputLastName" placeholder="Nachname">
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-inline mb-2">
+              <div class="form-group col-sm-6">
+                <label for="inputPassword">Passwort</label>
+                <input type="password" class="form-control" id="inputPassword" placeholder="Passwort">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputConfirmPassword">Passwort bestätigen</label>
+                <input type="password" class="form-control" id="inputConfirmPassword" placeholder="Passwort">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" id="saveNewAccount">Speichern</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <div class="modal fade" id="editUserModal">
+    <div class="modal-dialog">
+      <div class="overlay table-overlay" id="editOverlay">
+        <i class="fas fa-2x fa-sync fa-spin"></i>
+      </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Benutzer bearbeiten</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-6">
+            <label for="inputEditEmail">E-Mail</label>
+          </div>
+          <div class="form-inline mb-2">
+            <div class="form-group col-sm-6">
+              <input type="email" class="form-control" id="inputEditEmail" placeholder="E-Mail">
+            </div>
+            <div class="form-group col-sm-3">
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isAdminEdit">
+                <label for="isAdminEdit" class="custom-control-label form-check-label">Admin</label>
+              </div>
+            </div>
+            <div class="form-group col-sm-3">
+              <div class="custom-control custom-checkbox form-check">
+                <input class="custom-control-input form-check-input" type="checkbox" id="isTeacherEdit" checked>
+                <label for="isTeacherEdit" class="custom-control-label form-check-label">Lehrer</label>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-inline mb-2">
+              <div class="form-group col-sm-6">
+                <label for="inputEditFirstName">Vorname</label>
+                <input type="text" class="form-control" id="inputEditFirstName" placeholder="Vorname">
+              </div>
+              <div class="form-group col-sm-6">
+                <label for="inputEditLastName">Nachname</label>
+                <input type="text" class="form-control" id="inputEditLastName" placeholder="Nachname">
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-inline mt-2">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox form-check">
+                  <input class="custom-control-input form-check-input" type="checkbox" id="passwordChange">
+                  <label for="passwordChange" class="custom-control-label form-check-label">Passwort ändern?</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-group col-sm-6">
+              <label for="inputEditPassword">Passwort</label>
+              <input type="password" value="--------" class="form-control" id="inputEditPassword" placeholder="Passwort" disabled>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="inputEditConfirmPassword">Passwort bestätigen</label>
+              <input type="password" value="--------" class="form-control" id="inputEditConfirmPassword" placeholder="Passwort" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" id="saveAccount" name="save">Speichern</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  <!-- Modal delete exams -->
+  <div class="modal fade" id="deleteUserModal">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Benutzer löschen</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Möchten Sie diesen Benutzer wirklich löschen?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-danger" name="delete">Löschen</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+  {{ block("responseMsg", "layout.twig") }}
+  
+</div>
+<!-- ./wrapper -->
+
+{{ block("js", "layout.twig") }}
+</body>
+</html>
