@@ -83,6 +83,7 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 
 $('#editUserModal').on('shown.bs.modal', function() {
+    reloadEdit();
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
     $('#passwordChange').prop('checked', false)
 });
@@ -181,7 +182,6 @@ function addNewUser()
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successCreateUser').html());
-                    reloadTable();
                     if(true) {
 
                     }
@@ -195,7 +195,8 @@ function addNewUser()
                 }
 
                 $("#addUserModal").modal("hide");
-                
+                reloadTable();
+
             } catch(e) {
                 console.log(e);
                 triggerResponseMsg('error', $('.errorCreateUser').html());
@@ -296,7 +297,6 @@ function editUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successEditUser').html());
-                    reloadTable();
                 } else {
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
@@ -307,6 +307,7 @@ function editUser(id)
                 }
 
                 $("#editUserModal").modal("hide");
+                reloadTable();
                 
             } catch(e) {
                 console.log(e);
@@ -332,11 +333,11 @@ function deleteUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successDeleteUser').html());
-                    reloadTable();
                 } else {
                         triggerResponseMsg('error', $('.errorDeleteUser').html());    
                 }
                 $("#deleteUserModal").modal("hide");
+                reloadTable();
                 
             } catch(e) {
                 console.log(e);
@@ -355,4 +356,15 @@ function reloadTable() {
 
 function hideOverlay() {
     $('#tableOverlay').fadeOut(500);
+}
+
+function reloadEdit() {
+    $('#editOverlay').fadeIn(500);
+    setTimeout(function() { 
+        accountsTable.ajax.reload(hideEditOverlay());
+    }, 150);    
+}
+
+function hideEditOverlay() {
+    $('#editOverlay').fadeOut(500);
 }
