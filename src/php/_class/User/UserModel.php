@@ -12,6 +12,7 @@ class UserModel
     public $is_admin;
     public $is_teacher;
     public $classes;
+    public $rowsFound;
 
 }
 

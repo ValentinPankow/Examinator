@@ -39,6 +39,26 @@ class UserController
         ]);
     }
 
+    public function listAccounts() {
+        return $this->repository->fetchUserData();
+    }
+
+    public function queryUser($data, $action, &$duplicate = false) {
+        return $this->repository->queryUser($data, $action, $duplicate);
+    }
+
+    public function fetchUserById($id) {
+        return $this->repository->fetchUserById($id);
+    }
+
+    public function getUserDataById($id) {
+        return $this->repository->getUserDataById($id);
+    }
+
+    public function deleteUserById($id) {
+        return $this->repository->deleteUserById($id);
+    }
+
 }
 
 ?>
