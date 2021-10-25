@@ -25,8 +25,8 @@ class LoginController
         include "./templates/php/{$view}.php";
     }
 
-    public function getUserByMail($mail) {
-        return $this->userRepository->fetchUserByMail($mail);
+    public function login($user, $password) {
+        return $this->userRepository->login($user, $password);
     }
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
