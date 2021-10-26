@@ -83,7 +83,6 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 
 $('#editUserModal').on('shown.bs.modal', function() {
-    reloadEdit();
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
     $('#passwordChange').prop('checked', false)
 });
@@ -107,6 +106,7 @@ $('#editUserModal').find('button[name="save"]').on('click', function() {
 });
 
 $('#editUserModal').on('hidden.bs.modal', function() {
+    $('#editUserModal').find('.overlay').show();
     $('#inputEditEmail').val("");
     $('#inputEditFirstName').val("");
     $('#inputEditLastName').val("");
@@ -233,6 +233,7 @@ function getUserData(id) {
                     $('#inputEditEmail').val(obj.user.email);
                     $('#inputEditFirstName').val(obj.user.first_name);
                     $('#inputEditLastName').val(obj.user.last_name);
+                    $('#editUserModal').find('.overlay').fadeOut(500);
                 } 
             } catch (e) {
                 console.log(e);
@@ -356,15 +357,4 @@ function reloadTable() {
 
 function hideOverlay() {
     $('#tableOverlay').fadeOut(500);
-}
-
-function reloadEdit() {
-    $('#editOverlay').fadeIn(500);
-    setTimeout(function() { 
-        accountsTable.ajax.reload(hideEditOverlay());
-    }, 150);    
-}
-
-function hideEditOverlay() {
-    $('#editOverlay').fadeOut(500);
 }
