@@ -41,4 +41,82 @@ class ClassesRepository
         return $contents;
     }
 
+    public function fetchClassData()
+    {
+        $query = $this->pdo->query("SELECT id, name FROM classes");
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+
+        return $contents;
+    }
+
+    public function queryClass($data, $action, &$duplicate = false) {
+        if (isset($data->changePassword)) {
+            $changePassword = $data->changePassword == "true" ? true : false;
+        } else {
+            $changePassword = false;
+        }
+
+        if ($action == 'insert') {
+        $query = $this->pdo->prepare("INSERT INTO classes 
+                                    (name, password) 
+                                    VALUES 
+                                    (:name, :password)");
+        } else if ($action == 'update') {
+            if ($changePassword) {
+                $query = $this->pdo->prepare("UPDATE classes
+                                            SET name = :name, password = :password");
+            } else {
+                $query = $this->pdo->prepare("UPDATE classes 
+                                            SET name = :name, password = :password");
+            }
+        }
+
+
+        $name = $data->name;
+        $password = $data->password;
+
+        $values = array (
+            'name' => $name
+        );
+
+        if ($action == 'insert' || ($action == 'update' && $changePassword)) {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $values['password'] = $hashedPassword;
+        }
+
+        if ($action == 'update') {
+            $values['id'] = $data->id;
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT (id) AS rowsFound FROM classes WHERE name = :name AND id != :id");
+            $resultDuplicate = $queryDuplicate->execute(['name' => $name, 'id' => $data->id]);
+        } else {
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM classes WHERE name = :name");
+            $resultDuplicate = $queryDuplicate->execute(['name' => $name]);
+        }
+
+        $fetchDuplicate = $queryDuplicate->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+
+        if ($fetchDuplicate[0]->rowsFound <= 0) {
+            $result = $query->execute($values);
+        } else {
+            $duplicate = true;
+            $result = false;
+        }
+
+        if ($result && !$duplicate) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getClassDataById($id)
+    {
+        $query = $this->pdo->prepare("SELECT id, name FROM classes WHERE `id` = :id");
+        $query->execute(['id' => $id]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+        $content = $query->fetch(PDO::FETCH_CLASS);
+
+        return $content;
+    }
+
 }

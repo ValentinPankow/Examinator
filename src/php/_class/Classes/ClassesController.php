@@ -39,6 +39,18 @@ class ClassesController
         ]);
     }
 
+    public function listClasses() {
+        return $this->repository->fetchClassData();
+    }
+
+    public function queryClass($data, $action, &$duplicate = false) {
+        return $this->repository->queryClass($data, $action, $duplicate);
+    }
+
+    public function getClassDataById($id) {
+        return $this->repository->getClassDataById($id);
+    }
+
 }
 
 ?>

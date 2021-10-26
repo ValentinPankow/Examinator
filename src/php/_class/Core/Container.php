@@ -7,6 +7,8 @@ use Dashboard\DashboardController;
 use Dashboard\DashboardRepository;
 use Classes\ClassesController;
 use Classes\ClassesRepository;
+use ClassManagement\ClassManagementController;
+use ClassManagement\ClassManagementRepository;
 use Exams\ExamsController;
 use Exams\ExamsRepository;
 use Subjects\SubjectsController;
@@ -50,6 +52,12 @@ class Container
             },
             'classesRepository' => function(){
                 return new ClassesRepository($this->make("pdo"));
+            },
+            'classmanagementController' => function() {
+                return new ClassManagementController($this->make("classmanagementRepository"));
+            },
+            'classmanagementRepository' => function () {
+                return new ClassManagementRepository($this->make("pdo"));
             },
             'examsController' => function(){
                 return new ExamsController($this->make("examsRepository"), $this->make("classesRepository"), $this->make("subjectsRepository"));
