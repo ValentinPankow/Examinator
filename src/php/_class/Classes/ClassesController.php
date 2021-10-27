@@ -51,6 +51,10 @@ class ClassesController
         return $this->repository->getClassDataById($id);
     }
 
+    public function deleteClassById($id) {
+        return $this->repository->deleteClassById($id);
+    }
+
 }
 
 ?>

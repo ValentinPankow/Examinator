@@ -5,22 +5,21 @@
     require_once '../_class/Classes/ClassesController.php';
     require_once '../_class/Classes/ClassesModel.php';
 
-    $data = (OBJECT) $_POST['data'];
+    $data = (object) $_POST['data'];
 
     $container = new Core\Container();
 
     $classController = $container->make("classesController");
 
-    $class = $classController->getClassDataById($data->id);
+    $ok = $classController->deleteClassById($data->id);
 
     $obj = new stdClass;
 
-    if ($class) {
-        $obj->class = $class;
+    if ($ok) {
         $obj->success = true;
     } else {
         $obj->success = false;
     }
-    
+
     $rtn = json_encode($obj);
     echo $rtn;

@@ -119,4 +119,25 @@ class ClassesRepository
         return $content;
     }
 
+    public function deleteClassById($id) {
+        
+        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE user_id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM classes WHERE id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM exams WHERE creator_id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

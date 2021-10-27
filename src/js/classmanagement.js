@@ -61,8 +61,36 @@ $('#classesTable').on("click", 'button[name="editClass"]', function () {
     $('#editClassModal').modal('show');
 });
 
-$('editClassModal').on('shown.bs.modal', function () {
+$('#classesTable').on("click", 'button[name="deleteClass"]', function () {
+    let button = $(this);
+    $('#deleteClassModal').find('button[name="delete"]').attr('data-id', button.attr('data-id'));
+    $('#deleteClassModal').modal('show');
+});
+
+$('#editClassModal').on('shown.bs.modal', function () {
     getClassData($("#editClassModal").find('button[name="save"]').attr('data-id'));
+});
+
+$("#editClassModal").find('button[name="save"]').on('click', function () {
+    editClass($("#editClassModal").find('button[name="save"]').attr('data-id'));
+});
+
+$('#deleteClassModal').find('button[name="delete"]').on('click', function () {
+    deleteClass($('#deleteClassModal').find('button[name="delete"]').attr('data-id'));
+});
+
+$('#passwordChange').on("change", function () {
+    if ($('#passwordChange').is(':checked')) {
+        $('#inputEditPassword').prop('disabled', false);
+        $('#inputEditConfirmPassword').prop('disabled', false);
+        $('#inputEditPassword').val("");
+        $('#inputEditConfirmPassword').val("");
+    } else {
+        $('#inputEditPassword').prop('disabled', true);
+        $('#inputEditConfirmPassword').prop('disabled', true);
+        $('#inputEditPassword').val("--------");
+        $('#inputEditConfirmPassword').val("--------");
+    }
 });
 
 $('#editClassModal').on('hidden.bs.modal', function () {
@@ -70,6 +98,7 @@ $('#editClassModal').on('hidden.bs.modal', function () {
     $('#inputEditName').val("");
     $('#inputEditPassword').val("--------");
     $('#inputEditConfirmPassword').val("--------");
+    $('#passwordChange').prop('checked', false);
 });
 
 $('#addClassModal').on('hidden.bs.modal', function () {
@@ -162,6 +191,89 @@ function addNewClass() {
                 }
             }
         );
+    }
+
+    function deleteClass(id) {
+        $.post(
+            'src/php/_ajax/ajax.deleteClass.php',
+            {
+                data: {
+                    id: id
+                },
+            },
+            function (rtn) {
+                try {
+                    let obj = JSON.parse(rtn);
+                    if (obj.success) {
+                        triggerResponseMsg('success', $('.successDeleteClass').html());
+                    } else {
+                        triggerResponseMsg('error', $('.errorDeleteClass').html());
+                    }
+                    $("#deleteClassModal").modal("hide");
+                    reloadTable();
+                } catch (e) {
+                    console.log(e);
+                    triggerResponseMsg('error', $('.errorDeleteClass').html());
+                }
+            }
+        )
+    }
+
+    function editClass(id) {
+
+        let nameValue = $('#inputEditName').val().trim();
+        let passwordValue = $('#inputEditPassword').val();
+        let confirmPasswordValue = $('#inputEditConfirmPassword').val();
+        let changePassword = $('#passwordChange').is(":checked") ? true : false;
+
+        let errorMsg = null;
+
+        if (passwordValue != confirmPasswordValue && changePassword) {
+           errorMsg = $('.errorPassword').html(); 
+        }
+
+        if (passwordValue.length < 8 && changePassword) {
+            errorMsg = $('.errorPasswordLength').html();
+        }
+
+        if (nameValue == "" || (changePassword && (confirmPasswordValue == "" || passwordValue == ""))) {
+            errorMsg = $('.missingInput').html();
+        }
+
+        if (errorMsg != null) {
+            triggerResponseMsg('error', errorMsg);
+            return false;
+        }
+
+        $.post(
+           'src/php/_ajax/ajax.queryClass.php',
+           {
+               data: {
+                   id: id,
+                   action: 'update'
+               },
+           },
+           function (rtn) {
+               try {
+                   let obj = JSON.parse(rtn);
+                   if (obj.success) {
+                       triggerResponseMsg('success', $('.successEditClass').html());
+                   } else {
+                       if (obj.error == "update") {
+                           triggerResponseMsg('error', $('.errorEditClass').html());
+                       } else {
+                           triggerResponseMsg('error', $('.errorDuplicateClass').html());
+                       }
+                   }
+
+                   $("#editClassModal").modal("hide");
+                   reloadTable();
+               } catch (e) {
+                   console.log(e);
+                   triggerResponseMsg('error', $('.errorEditClass').html());
+               }
+           }
+        ); 
     }
 
     function reloadTable() {
