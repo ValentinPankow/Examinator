@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Klassenverwaltung</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Klassenverwaltung</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            <h2>Alle Klassen</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  {% for class in classes %}
+                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                      <div class="card" style="border: 1px solid #EE4D00;">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <b>{{class.name}}</b>
+                          </h3>
+                          <div class="card-tools pr-3">
+                            <button type="button" id="edit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                            <i class="fas fa-trash"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div id="editClassModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+         <input type="text" name="id" id="id" value=""/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  {{ block("footer", "layout.twig") }}
+</div>
+<!-- ./wrapper -->
+
+{{ block("js", "layout.twig") }}
+
+
+
+</body>
+</html>

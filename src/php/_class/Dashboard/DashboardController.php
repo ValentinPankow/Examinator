@@ -46,7 +46,7 @@ class DashboardController
       if($tpl){
         $login_type = 'teacher';
         $user = $this->userRepository->fetchUserById(1);
-        $exams = $this->examsRepository->fetchUserExams($user->id);
+        $exams = $this->examsRepository->fetchUserExams($user->id, 6);
         $classes = $this->classesRepository->fetchClasses();
 
         $this->render("{$tpl}", [
@@ -60,7 +60,7 @@ class DashboardController
       }else{
         $login_type = 'class';
         $class = $this->classesRepository->fetchByName('12ITa');
-        $exams = $this->examsRepository->fetchClassExams($class->id);
+        $exams = $this->examsRepository->fetchClassExams($class->id, 6);
 
         $this->render("{$tpl}", [
           'twig' => $twig,
@@ -68,6 +68,6 @@ class DashboardController
           'exams' => $exams
           ],
           $login_type);
-        }
+      }
     }
 }

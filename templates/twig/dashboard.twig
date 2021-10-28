@@ -49,13 +49,7 @@
           <div class="card-header"></div>
           <div class="card-body">
             <div class="row">
-              {% set count = 0 %}
-              {% set break = false %}
-              {% for exam in exams if not break %}
-                {% set count = count + 1 %}
-                {% if count == 6 %}
-                  {% set break = true %}
-                {% endif %}
+              {% for exam in exams %}
                 <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                   <div class="card card-secondary">
                     <div class="card-header">

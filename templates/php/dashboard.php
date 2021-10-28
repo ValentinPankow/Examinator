@@ -12,7 +12,6 @@
         'tpl' => 'dashboard',
         'exams' => $exams,
         'classes' => $classes,
-        'user' => $user,
         'login_type' => $login_type,
         'darkMode' => $darkMode,
         'userName' => "$user->first_name $user->last_name",));

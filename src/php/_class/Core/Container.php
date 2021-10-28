@@ -15,6 +15,7 @@ use User\UserController;
 use User\UserRepository;
 use Favorites\FavoritesController;
 use Favorites\FavoritesRepository;
+use ClassManagement\ClassManagementController;
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -28,8 +29,8 @@ class Container
     //Enthält die Templates zur Erstellung der Objekte
     private $receipts = [];
 
-    //Wird benötigt, da man die Funktionen nicht beim Deklarieren zuweisen kann
-    //Hier werden die neuen Controller/Repositorys erstellt
+    //Wird benötigt, da man die Funktionen nicht beim deklarieren zuweisen kann
+    //Hier werden die neuen Controller/Repositorys/DB Verbindung erstellt
     public function __construct()
     {
         $this->receipts = [
@@ -72,11 +73,14 @@ class Container
             'favoritesController' => function(){
                 return new FavoritesController($this->make("classesRepository"), $this->make("subjectsRepository"), $this->make("userRepository"));
             },
+            'classmanagementController' => function(){
+              return new ClassManagementController($this->make("classesRepository"), $this->make("userRepository"));
+            },
             //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
             'pdo' => function(){
                 $pdo = new PDO('mysql:host=localhost;dbname=examinator;charset=utf8',
                 'root',
-                '');
+                'foobar');
                 $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
                 return $pdo;
             }

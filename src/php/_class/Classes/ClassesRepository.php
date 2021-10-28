@@ -10,13 +10,15 @@ class ClassesRepository
     private $pdo;
 
     //Übergibt die PDO Verbindung vom Container
+    //(DH)
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
 
-    //Holt eine einzelne Klasse nach ID (DH)
+    //Holt eine einzelne Klasse nach ID
+    //(DH)
     public function fetchClass($id)
     {
         $query = $this->pdo->prepare("SELECT * FROM classes WHERE id = :id");
@@ -29,6 +31,7 @@ class ClassesRepository
 
 
     //Holt alle Klassen
+    //(DH)
     public function fetchClasses()
     {
         $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
@@ -39,6 +42,7 @@ class ClassesRepository
     }
 
     //Sucht eine Klasse nach dem Namen heraus
+    //(DH)
     public function fetchByName($name)
     {
         $query = $this->pdo->prepare("SELECT * FROM classes WHERE `name` = :name LIMIT 1");
@@ -51,6 +55,7 @@ class ClassesRepository
 
 
     //Holt alle favorisierten Fächer von einem User
+    //(DH)
     public function fetchFavoriteClasses($userId)
     {
       $query = $this->pdo->prepare("SELECT `classes`.`name`, `classes`.`id` FROM `classes` INNER JOIN `user_favorites` ON `user_favorites`.`class_id` = `classes`.`id` WHERE `user_favorites`.`user_id` = :id ORDER BY `classes`.`name` ASC");
@@ -60,6 +65,7 @@ class ClassesRepository
       return $contents;
     }
 
+    //(DH)
     public function fetchClassesWithoutFavorites($classIds)
     {
       $query = $this->pdo->query("SELECT id, name FROM classes WHERE id NOT IN ($classIds) ORDER BY name ASC");

@@ -104,7 +104,6 @@ class FavoritesController
         <label class='custom-control-label pr-4' for='{$type}_{$content[$i-1]->id}'>{$content[$i-1]->name}</label></div></div>";
       }
 
-      //Falls die komplette Reihe nach Ende der Schleife nicht abgeschlossen
       $contentString .= "</div>";
 
       return $contentString;

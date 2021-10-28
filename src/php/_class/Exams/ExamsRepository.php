@@ -19,7 +19,7 @@ class ExamsRepository
     //Holt sich ein einzelnes Exam nach ID (DH)
     public function fetchExam($id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM exams WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * FROM exams WHERE id = :id");
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "Exams\\ExamsModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -37,6 +37,7 @@ class ExamsRepository
         return $contents;
     }
 
+    //(VP)
     public function listExams()
     {
         $query = $this->pdo->prepare("SELECT e.id, s.name AS subject, c.name AS class, e.date, e.room, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
@@ -50,36 +51,57 @@ class ExamsRepository
         return $contents;
     }
 
-    //Fetcht alle Einträge aus der Datenbanktabelle
-    //Prepare & Execute werden nicht benötigt, da nach keinen Parametern gefiltert wird
-    //Ansonsten siehe fetchKlausuren Kommentare
-    public function fetchUserExams($creatorId)
+    //(DH)
+    public function fetchUserExams($creatorId, $limit = NULL)
     {
+        if($limit){
+          $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
+                                        FROM exams AS e
+                                        JOIN classes AS c ON e.class_id = c.id
+                                        JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id
+                                        ORDER BY e.date, e.timeFrom ASC
+                                        LIMIT :limit");
+          $query->execute(['id' => $creatorId, 'limit' => $limit]);
+        }else{
+          $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
+                                        FROM exams AS e
+                                        JOIN classes AS c ON e.class_id = c.id
+                                        JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id
+                                        ORDER BY e.date, e.timeFrom ASC");
+          $query->execute(['id' => $creatorId]);
+        }
 
-        $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
-                                      FROM exams AS e
-                                      JOIN classes AS c ON e.class_id = c.id
-                                      JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id");
-        $query->execute(['id' => $creatorId]);
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
 
         return $contents;
     }
 
-    public function fetchClassExams($classId)
+    //(DH)
+    public function fetchClassExams($classId, $limit = NULL)
     {
+        if($limit){
         $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
                                       FROM exams AS e
                                       JOIN classes AS c ON e.class_id = c.id
-                                      JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id");
-        $query->execute(['id' => $classId]);
+                                      JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id
+                                      ORDER BY e.date, e.timeFrom ASC
+                                      LIMIT :limit");
+        $query->execute(['id' => $classId, 'limit' => $limit]);
+        }else{
+          $query = $this->pdo->prepare("SELECT c.name AS class, s.name AS subject, e.date, e.room, e.topic, e.other, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
+                                        FROM exams AS e
+                                        JOIN classes AS c ON e.class_id = c.id
+                                        JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id
+                                        ORDER BY e.date, e.timeFrom ASC");
+          $query->execute(['id' => $classId]);
+        }
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
         return $contents;
     }
 
+    //(VP)
     public function queryExam($data, $action) {
-
         // Change creator ID later
         if ($action == "insert") {
             $query = $this->pdo->prepare("INSERT INTO exams (creator_id, class_id, subject_id, date, room, topic, other, lessonFrom, lessonTo, timeFrom, timeTo)
@@ -146,6 +168,7 @@ class ExamsRepository
         }
     }
 
+    //(VP)
     public function deleteExam($id) {
         $query = $this->pdo->prepare("DELETE FROM exams WHERE id = :id");
         $result = $query->execute(['id' => $id]);
