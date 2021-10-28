@@ -250,7 +250,10 @@ function addNewClass() {
            {
                data: {
                    id: id,
-                   action: 'update'
+                   action: 'update',
+                   name: nameValue,
+                   password: passwordValue,
+                   changePassword: changePassword
                },
            },
            function (rtn) {

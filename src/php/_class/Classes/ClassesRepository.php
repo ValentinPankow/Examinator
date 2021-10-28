@@ -64,10 +64,10 @@ class ClassesRepository
         } else if ($action == 'update') {
             if ($changePassword) {
                 $query = $this->pdo->prepare("UPDATE classes
-                                            SET name = :name, password = :password");
+                                            SET name = :name, password = :password WHERE id = :id");
             } else {
                 $query = $this->pdo->prepare("UPDATE classes 
-                                            SET name = :name, password = :password");
+                                            SET name = :name WHERE id = :id");
             }
         }
 
@@ -76,7 +76,7 @@ class ClassesRepository
         $password = $data->password;
 
         $values = array (
-            'name' => $name
+            'name' => $name,
         );
 
         if ($action == 'insert' || ($action == 'update' && $changePassword)) {
@@ -86,7 +86,7 @@ class ClassesRepository
 
         if ($action == 'update') {
             $values['id'] = $data->id;
-            $queryDuplicate = $this->pdo->prepare("SELECT COUNT (id) AS rowsFound FROM classes WHERE name = :name AND id != :id");
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM classes WHERE name = :name AND id != :id");
             $resultDuplicate = $queryDuplicate->execute(['name' => $name, 'id' => $data->id]);
         } else {
             $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM classes WHERE name = :name");
@@ -121,16 +121,13 @@ class ClassesRepository
 
     public function deleteClassById($id) {
         
-        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE user_id = :id");
+        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE class_id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        $query = $this->pdo->prepare("DELETE FROM exams WHERE class_id = :id");
         $result = $query->execute(['id' => $id]);
 
         $query = $this->pdo->prepare("DELETE FROM classes WHERE id = :id");
-        $result = $query->execute(['id' => $id]);
-
-        $query = $this->pdo->prepare("DELETE FROM exams WHERE creator_id = :id");
-        $result = $query->execute(['id' => $id]);
-
-        $query = $this->pdo->prepare("DELETE FROM users WHERE id = :id");
         $result = $query->execute(['id' => $id]);
 
         if ($result) {
