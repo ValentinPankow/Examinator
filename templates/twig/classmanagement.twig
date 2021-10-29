@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{pageTitle}}</title>
-
   {{ block("css", "layout.twig") }}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -50,15 +49,15 @@
               <div class="card-body">
                 <div class="row">
                   {% for class in classes %}
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-6">
                       <div class="card" style="border: 1px solid #EE4D00;">
                         <div class="card-header">
                           <h3 class="card-title">
-                            <b>{{class.name}}</b>
+                            <b style="vertical-align: sub">{{class.name}}</b>
                           </h3>
                           <div class="card-tools pr-3">
-                            <button type="button" id="edit" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
-                            <i class="fas fa-trash"></i>
+                            <button type="button" id="edit" class="btn btn-sm text-white" style="background-color: #EE4D00" data-toggle="modal" data-target="#editClassModal"><i class="fas fa-edit"></i></button>
+                            <button type="button" id="delete" class="btn btn-sm text-white ml-2" style="background-color: #EE4D00" data-toggle="modal" data-target="#deleteClassModal"><i class="fas fa-trash"></i></button>
                           </div>
                         </div>
                       </div>
@@ -69,47 +68,92 @@
             </div>
           </div>
         </div>
+        <br>
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h2>Klasse anlegen</h2>
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-row">
+                    <div class="form-group col-12">
+                      <label for="inputAddress">Klasse</label>
+                      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="password">Passwort</label>
+                      <input type="password" class="form-control" id="password" placeholder="Passwort">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="passwordConfirmation">Passwort bestätigen</label>
+                      <input type="password" class="form-control" id="passwordConfirmation" placeholder="Passwort bestätigen">
+                    </div>
+                    <div class="col-12 text-right">
+                      <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Anlegen</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <h2>Klassen importieren</h2>
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-row">
+                    <div class="form-group col-12">
+                        <div class="mb-3">
+                          Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
+                        </div>
+                      <label class="btn text-white" style="background-color: #EE4D00" for="fileUpload">
+                          <input id="fileUpload" type="file" style="display:none"
+                          onchange="$('#upload-file-info').text(this.files[0].name)">
+                          Datei auswählen
+                      </label>
+                      <span class='label label-info font-weight-bold pl-2' id="upload-file-info"></span>
+                    <div class="col-12 text-right">
+                      <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Importieren</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div id="editClassModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body" id="modal-body">
+                <input type="text" name="id" id="id" value=""/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
 
 
 
-
-
-<!-- Modal -->
-<div id="editClassModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body" id="modal-body">
-         <input type="text" name="id" id="id" value=""/>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-      </div>
-    </section>
-    <!-- /.content -->
-  </div>
+      </div> <!-- Container -->
+    </section> <!-- Content -->
+  </div> <!-- Content Wrapper -->
   {{ block("footer", "layout.twig") }}
-</div>
-<!-- ./wrapper -->
-
+</div> <!-- Wrapper -->
 {{ block("js", "layout.twig") }}
-
-
-
 </body>
 </html>
