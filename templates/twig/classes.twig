@@ -53,10 +53,10 @@
                     <div class="card">
                       <div class="card-header" style="background-color: #EE4D00">
                         <h3 class="card-title text-white">
-                          <b>{{favoriteClass.name}}</b>
+                          <b style="vertical-align: sub">{{favoriteClass.name}}</b>
                         </h3>
                         <div class="card-tools text-white pr-3">
-                        <i class="fas fa-eye"></i>
+                          <button type="button" id="class_{{favoriteClass.id}}" class="btn btn-sm" style="background-color: #FFFFFF; color: #EE4D00"><i class="fas fa-eye"></i></button>
                         </div>
                       </div>
                     </div>
@@ -80,13 +80,13 @@
                 <div class="row">
                   {% for class in classes %}
                     <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-                      <div class="card" style="border: 1px solid #EE4D00;">
+                      <div class="card" style="border: 1px solid #EE4D00">
                         <div class="card-header">
                           <h3 class="card-title">
-                            <b>{{class.name}}</b>
+                            <b style="vertical-align: sub">{{class.name}}</b>
                           </h3>
                           <div class="card-tools pr-3">
-                            <i class="fas fa-eye"></i>
+                            <button type="button" id="class_{{class.id}}" class="btn btn-sm text-white" style="background-color: #EE4D00"><i class="fas fa-eye"></i></button>
                           </div>
                         </div>
                       </div>
