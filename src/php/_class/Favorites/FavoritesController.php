@@ -99,9 +99,12 @@ class FavoritesController
       for($i = 1; $i <= $size; $i++)
       {
         //[...] eine Checkbox erstellen
-        $contentString .= "<div class='col-lg-{$breakpoint['lg']} col-md-{$breakpoint['md']} col-sm-{$breakpoint['sm']} col-xs-{$breakpoint['xs']}'><div class='custom-control custom-switch'>
-        <input type='checkbox' class='custom-control-input' id='{$type}_{$content[$i-1]->id}'{$checked}>
-        <label class='custom-control-label pr-4' for='{$type}_{$content[$i-1]->id}'>{$content[$i-1]->name}</label></div></div>";
+        $contentString .= "<div class='col-lg-{$breakpoint['lg']} col-md-{$breakpoint['md']} col-sm-{$breakpoint['sm']} col-xs-{$breakpoint['xs']}'><div class='card card-primary p-1 border border-primary'>
+            <div class='custom-control custom-switch text-center'>
+            <input type='checkbox' class='custom-control-input' id='{$type}_{$content[$i-1]->id}'{$checked}>
+            <label class='custom-control-label pr-4' for='{$type}_{$content[$i-1]->id}'>{$content[$i-1]->name}</label>
+          </div>
+        </div></div>";
       }
 
       $contentString .= "</div>";
