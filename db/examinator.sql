@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mariadb
--- Erstellungszeit: 08. Okt 2021 um 14:36
+-- Erstellungszeit: 29. Okt 2021 um 12:19
 -- Server-Version: 10.6.2-MariaDB-1:10.6.2+maria~focal
 -- PHP-Version: 7.4.24
 
@@ -40,7 +40,13 @@ CREATE TABLE `classes` (
 INSERT INTO `classes` (`id`, `name`, `password`) VALUES
 (1, '12ITa', '1234'),
 (2, '11ITa', '1234'),
-(3, '10ITa', '1234');
+(3, '10ITa', '1234'),
+(4, '10ITb', '1234'),
+(5, '11ITb', '1234'),
+(6, '12ITb', '1234'),
+(7, '10ITc', '1234'),
+(8, '11ITc', '1234'),
+(9, '12ITc', '1234');
 
 -- --------------------------------------------------------
 
@@ -142,7 +148,11 @@ CREATE TABLE `user_favorites` (
 
 INSERT INTO `user_favorites` (`id`, `user_id`, `class_id`, `subject_id`) VALUES
 (1, 1, 1, NULL),
-(2, 1, NULL, 1);
+(2, 1, NULL, 1),
+(3, 2, 1, NULL),
+(4, 2, 4, NULL),
+(5, 2, 5, NULL),
+(6, 2, 6, NULL);
 
 --
 -- Indizes der exportierten Tabellen
@@ -190,7 +200,7 @@ ALTER TABLE `user_favorites`
 -- AUTO_INCREMENT für Tabelle `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT für Tabelle `exams`
@@ -214,7 +224,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT für Tabelle `user_favorites`
 --
 ALTER TABLE `user_favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints der exportierten Tabellen
