@@ -75,4 +75,41 @@ class ClassesRepository
       return $contents;
     }
 
+    public function queryClass($data, $action)
+    {
+        if ($action == "insert") {
+            $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
+            $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
+        } else if ($action == "update") {
+            if($data->password != ""){
+                $query = $this->pdo->prepare("UPDATE classes SET name = :name, password = :password WHERE id = :id");
+                $result = $query->execute(['name' => $data->name, 'password' => $data->password, 'id' => $data->id]);
+            } else {
+                $query = $this->pdo->prepare("UPDATE classes SET name = :name WHERE id = :id");
+                $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
+            }
+        } else {
+            return false;
+        }
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public function deleteExam($id)
+    {
+        $query = $this->pdo->prepare("DELETE FROM classes WHERE id = :id");
+        $result = $query->execute(['id' => $id]);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

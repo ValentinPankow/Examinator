@@ -46,7 +46,22 @@ class ClassManagementController
       header("Location: http://localhost:8000/?page=dashboard");
       exit();
     }
+  }
 
+
+  public function queryClass($data, $action)
+  {
+    return $this->repository->queryClass($data, $action);
+  }
+
+  public function fetchClass($id)
+  {
+    return $this->repository->fetchClass($id);
+  }
+
+  public function deleteExam($id)
+  {
+    return $this->repository->deleteExam($id);   
   }
 
 }
