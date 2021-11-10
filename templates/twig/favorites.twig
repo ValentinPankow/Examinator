@@ -1,3 +1,4 @@
+{# Creator = DH #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,38 +7,33 @@
   <title>{{pageTitle}}</title>
 
   {{ block("css", "layout.twig") }}
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   {{ block("preloader", "layout.twig") }}
-
   {{ block("navbar", "layout.twig") }}
-
   {{ block("sidebar", "layout.twig") }}
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Favoriten</h1>
-          </div><!-- /.col -->
+          </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
               <li class="breadcrumb-item active">Favoriten</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.content-header -->
-    <!-- Main content -->
     <section class="content">
-      <form action="#">
+      <form action="../../src/php/actionFavorites.php" method="POST">
         <div class="container-fluid">
           <br>
           <div class="row">
@@ -98,7 +94,7 @@
               <div class="card">
                 <div class="card-header bg-primary">
                   <div class="row">
-                    <div class="col-sm">
+                    <div class="col">
                       Favoriten Fächer
                     </div>
                   </div>
@@ -106,9 +102,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col">
-                      <div class="row">
                         {{favoriteSubjects | raw}}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -162,7 +156,6 @@
   </div>
   {{ block("footer", "layout.twig") }}
 </div>
-
 {{ block("js", "layout.twig") }}
 </body>
 </html>

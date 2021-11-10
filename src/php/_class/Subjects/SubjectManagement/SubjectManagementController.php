@@ -1,33 +1,34 @@
 <?php
-namespace ClassManagement;
+namespace Subjects\SubjectManagement;
 
-use Classes\ClassesRepository;
+use Subjects\SubjectsRepository;
 use User\UserRepository;
 
-class ClassManagementController
+class SubjectManagementController
 {
   private $repository;
   private $userRepository;
 
   //Übergibt das Repository vom Container
   //(DH)
-  public function __construct(ClassesRepository $repository, UserRepository $userRepository)
+  public function __construct(SubjectsRepository $repository, UserRepository $userRepository)
   {
     $this->repository = $repository;
     $this->userRepository = $userRepository;
   }
 
-  //(DH)
   //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
+  //(DH)
   private function render($view, $content)
   {
-    $classes = $content['classes'];
+    $subjects = $content['subjects'];
     $twig = $content['twig'];
     $userName = $content['userName'];
 
     include "./templates/php/{$view}.php";
   }
 
+  //Öffnet die Fachverwaltung (Administrator)
   //(DH)
   public function index($tpl, $twig)
   {
@@ -35,10 +36,10 @@ class ClassManagementController
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user->is_admin == 1){
-      $classes = $this->repository->fetchClasses();
+      $subjects = $this->repository->fetchSubjects();
 
       $this->render("{$tpl}", [
-          'classes' => $classes,
+          'subjects' => $subjects,
           'userName' => $user->first_name . " " . $user->last_name,
           'twig' => $twig,
       ]);
@@ -49,19 +50,19 @@ class ClassManagementController
   }
 
 
-  public function queryClass($data, $action)
+  public function querySubject($data, $action)
   {
-    return $this->repository->queryClass($data, $action);
+    return $this->repository->querySubject($data, $action);
   }
 
-  public function fetchClass($id)
+  public function fetchSubject($id)
   {
-    return $this->repository->fetchClass($id);
+    return $this->repository->fetchSubject($id);
   }
 
-  public function deleteExam($id)
+  public function deleteSubject($id)
   {
-    return $this->repository->deleteExam($id);   
+    return $this->repository->deleteSubject($id);
   }
 
 }

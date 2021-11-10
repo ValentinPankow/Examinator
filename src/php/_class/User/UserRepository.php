@@ -22,7 +22,7 @@ class UserRepository
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
     public function fetchUserById($id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE `id` = :id");
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -32,7 +32,7 @@ class UserRepository
 
     public function fetchUserByMail($mail)
     {
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE `email` = :mail");
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE email = :mail");
         $query->execute(['mail' => $mail]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);

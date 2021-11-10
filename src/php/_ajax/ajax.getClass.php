@@ -3,7 +3,7 @@
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassesRepository.php';
     require_once '../_class/Classes/ClassesModel.php';
-    require_once '../_class/ClassManagement/ClassManagementController.php';
+    require_once '../_class/Classes/ClassManagement/ClassManagementController.php';
     require_once '../_class/User/UserRepository.php';
 
     $data = (OBJECT) $_POST['data'];
@@ -22,6 +22,6 @@
     } else {
         $obj->success = false;
     }
-    
+
     $rtn = json_encode($obj);
     echo $rtn;

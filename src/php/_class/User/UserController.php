@@ -38,7 +38,6 @@ class UserController
             'twig' => $twig
         ]);
     }
-
 }
 
 ?>

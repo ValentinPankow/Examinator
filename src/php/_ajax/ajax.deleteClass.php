@@ -1,7 +1,9 @@
 <?php
+    //Ajax um eine Klasse zu löschen
+    //(DH)
 
     require_once '../_class/Core/Container.php';
-    require_once '../_class/ClassManagement/ClassManagementController.php';
+    require_once '../_class/Classes/ClassManagement/ClassManagementController.php';
     require_once '../_class/Classes/ClassesModel.php';
     require_once '../_class/Classes/ClassesRepository.php';
     require_once '../_class/User/UserRepository.php';
@@ -12,15 +14,11 @@
 
     $classmanagementController = $container->make("classmanagementController");
 
-    $ok = $classmanagementController->deleteExam($data->id);
+    $ok = $classmanagementController->deleteClass($data->id);
 
     $obj = new stdClass;
 
-    if ($ok) {
-        $obj->success = true;
-    } else {
-        $obj->success = false;
-    }
+    $obj->success = $ok ? true : false;
 
     $rtn = json_encode($obj);
     echo $rtn;

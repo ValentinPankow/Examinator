@@ -1,10 +1,10 @@
 <?php
-namespace Classes;
+namespace Classes\ClassManagement;
 
 use Classes\ClassesRepository;
 use User\UserRepository;
 
-class ClassesController
+class ClassManagementController
 {
   private $repository;
   private $userRepository;
@@ -17,38 +17,54 @@ class ClassesController
     $this->userRepository = $userRepository;
   }
 
+
+  //(DH)
   private function render($view, $content)
   {
     $classes = $content['classes'];
-    $favoriteClasses = $content['favoriteClasses'];
     $twig = $content['twig'];
     $userName = $content['userName'];
 
     include "./templates/php/{$view}.php";
   }
 
-
-  //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)
+  //Öffnet die Klassenverwaltung (Für Administratoren)
   //(DH)
   public function index($tpl, $twig)
   {
-    //$userId = $auth->user->id;
     $userId = 2;
     $user = $this->userRepository->fetchUserById($userId);
 
-    if($user){
-      $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
+    if($user->is_admin == 1){
       $classes = $this->repository->fetchClasses();
 
       $this->render("{$tpl}", [
           'classes' => $classes,
-          'favoriteClasses' => $favoriteClasses,
           'userName' => $user->first_name . " " . $user->last_name,
           'twig' => $twig,
       ]);
     }else{
       header("Location: http://localhost:8000/?page=dashboard");
+      exit();
     }
   }
 
+
+  public function queryClass($data, $action)
+  {
+    return $this->repository->queryClass($data, $action);
+  }
+
+  public function fetchClass($id)
+  {
+    return $this->repository->fetchClass($id);
+  }
+
+  public function deleteClass($id)
+  {
+    return $this->repository->deleteClass($id);
+  }
+
 }
+
+?>

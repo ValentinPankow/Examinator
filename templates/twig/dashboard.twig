@@ -1,3 +1,4 @@
+{# Creator = DH & VP #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,35 +12,27 @@
 <div class="wrapper">
 
   {{ block("preloader", "layout.twig") }}
-
   {{ block("navbar", "layout.twig") }}
-
   {{ block("sidebar", "layout.twig") }}
 
-  <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Übersicht</h1>
-          </div><!-- /.col -->
+          </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
               <li class="breadcrumb-item active">Übersicht</li>
             </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <!-- Main row -->
         <div class="row">
           <div class="col">
             <h2>Anstehende Klausuren</h2>
@@ -91,7 +84,6 @@
                       </div>
                     {% endif %}
                     </div>
-                    <!-- /.card-body -->
                   </div>
                 </div>
               {% endfor %}
@@ -99,29 +91,18 @@
           </div>
         </div>
         <div>
-          <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
-            <!-- Do something here!-->
           </section>
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
           <section class="col-lg-5 connectedSortable">
-            <!-- Do something here!-->
           </section>
         </div>
       </div>
     </section>
-    <!-- /.content -->
   </div>
   {{ block("footer", "layout.twig") }}
-
-  <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
   </aside>
-  <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
-
 {{ block("js", "layout.twig") }}
 </body>
 </html>

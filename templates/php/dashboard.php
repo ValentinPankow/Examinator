@@ -1,8 +1,7 @@
 <?php
 
-
+    //(DH)
     require "sharedVars.php";
-
 
     if($login_type == 'teacher'){
       echo $twig->render('dashboard.twig', array(
