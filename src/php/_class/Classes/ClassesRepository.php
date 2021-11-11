@@ -14,41 +14,41 @@ class ClassesRepository
     //(DH)
     public function __construct(PDO $pdo)
     {
-        $this->pdo = $pdo;
+      $this->pdo = $pdo;
     }
 
     //Holt eine einzelne Klasse nach ID
     //(DH)
     public function fetchClass($id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM classes WHERE id = :id");
-        $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
-        $content = $query->fetch(PDO::FETCH_CLASS);
+      $query = $this->pdo->prepare("SELECT * FROM classes WHERE id = :id");
+      $query->execute(['id' => $id]);
+      $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+      $content = $query->fetch(PDO::FETCH_CLASS);
 
-        return $content;
+      return $content;
     }
 
     //Holt alle Klassen
     //(DH)
     public function fetchClasses()
     {
-        $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+      $query = $this->pdo->query("SELECT * FROM classes ORDER BY name ASC");
+      $contents = $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel");
 
-        return $contents;
+      return $contents;
     }
 
     //Sucht eine Klasse nach dem Namen heraus
     //(DH)
     public function fetchByName($name)
     {
-        $query = $this->pdo->prepare("SELECT * FROM classes WHERE `name` = :name LIMIT 1");
-        $query->execute(['name' => $name]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
-        $content = $query->fetch(PDO::FETCH_CLASS);
+      $query = $this->pdo->prepare("SELECT * FROM classes WHERE `name` = :name LIMIT 1");
+      $query->execute(['name' => $name]);
+      $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+      $content = $query->fetch(PDO::FETCH_CLASS);
 
-        return $content;
+      return $content;
     }
 
     //Holt alle favorisierten Fächer eines Users
@@ -76,11 +76,16 @@ class ClassesRepository
     //(DH, C&P von VP mit Anpassungen)
     public function queryClass($data, $action)
     {
+      //Leerzeichen vor den 
+      $data->name = trim($data->name);
+
       if ($action == "insert") {
+        $data->password = password_hash($data->password, PASSWORD_DEFAULT);
         $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
         $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
       } else if ($action == "update") {
         if($data->password != ""){
+          $data->password = password_hash($data->password, PASSWORD_DEFAULT);
           $query = $this->pdo->prepare("UPDATE classes SET name = :name, password = :password WHERE id = :id");
           $result = $query->execute(['name' => $data->name, 'password' => $data->password, 'id' => $data->id]);
         } else {

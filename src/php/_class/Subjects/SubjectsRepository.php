@@ -13,29 +13,29 @@ class SubjectsRepository
     //(DH)
     public function __construct(PDO $pdo)
     {
-        $this->pdo = $pdo;
+      $this->pdo = $pdo;
     }
 
     //Holt ein einzelnes Fach nach ID
     //(DH)
     public function fetchSubject($id)
     {
-        $query = $this->pdo->prepare("SELECT * FROM subjects WHERE `id` = :id");
-        $query->execute(['id' => $id]);
-        $query->setFetchMode(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
-        $content = $query->fetch(PDO::FETCH_CLASS);
+      $query = $this->pdo->prepare("SELECT * FROM subjects WHERE `id` = :id");
+      $query->execute(['id' => $id]);
+      $query->setFetchMode(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
+      $content = $query->fetch(PDO::FETCH_CLASS);
 
-        return $content;
+      return $content;
     }
 
     //Holt alle Fächer
     //(DH)
     public function fetchSubjects()
     {
-        $query = $this->pdo->query("SELECT * FROM subjects ORDER BY name ASC");
-        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
+      $query = $this->pdo->query("SELECT * FROM subjects ORDER BY name ASC");
+      $contents = $query->fetchAll(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
 
-        return $contents;
+      return $contents;
     }
 
     //Holt alle favorisierten Fächer von einem User
@@ -63,6 +63,8 @@ class SubjectsRepository
     //(DH, C&P von VP mit Anpassungen)
     public function querySubject($data, $action)
     {
+      $data->name = trim($data->name);
+
       if ($action == "insert") {
         $query = $this->pdo->prepare("INSERT INTO subjects (name) VALUES (:name)");
         $result = $query->execute(['name' => $data->name]);
