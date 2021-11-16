@@ -54,10 +54,11 @@
             });
             $this->twig->addFunction($formatDate);
             $this->twig->addFunction($formatTime);
+            $loginController = $this->container->make("loginController");
 
-            if (!isset($this->GET['page'])) {
-                $loginController = $this->container->make("loginController");
-                $loginController->index("login", $this->twig);
+           # if (!isset($this->GET['page']) || !$this->checkLogin($loginController)) {
+            if (!isset($this->GET['page'])){ 
+            $loginController->index("login", $this->twig);
             } else {
                 if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
                     $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
@@ -70,5 +71,20 @@
                     ));
                 }
             }
+        }
+        private function checkLogin ($loginController){
+            $rtn = false;
+            if (session_status() === PHP_SESSION_ACTIVE){
+                if (isset($_COOKIE["UserLogin"])){
+                    $userID = $_COOKIE["UserLogin"];
+                    $sessionID = $loginController->getSessionID($userID);
+                    if( session_id() == $sessionID){
+                        $rtn = true;
+                    }
+                } else if(isset($_COOKIE["ClassesLogin"])){
+                    $rtn = true;
+                }        
+            }
+            return $rtn;
         }
     }

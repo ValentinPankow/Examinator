@@ -29,6 +29,10 @@ class LoginController
         return $this->userRepository->login($user, $password);
     }
 
+    public function getSessionID($userID){
+        return $this->userRepository->getSessionID($userID);
+    } 
+
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig)

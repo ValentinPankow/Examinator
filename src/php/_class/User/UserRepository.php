@@ -189,4 +189,12 @@ class UserRepository
             return false;
         }
     }
+
+    public function checkSessionID($userID){
+        $query = $this->pdo->prepare("SELECT session_id FROM users WHERE `id` = :id");
+        $query->execute(['id' => $userID]);
+        $content = $query->fetch(PDO::FETCH_DEFAULT);
+
+        return $content[0]["session_id"];
+    }
 }
