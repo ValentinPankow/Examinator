@@ -56,20 +56,27 @@
             $this->twig->addFunction($formatTime);
             $loginController = $this->container->make("loginController");
 
-           # if (!isset($this->GET['page']) || !$this->checkLogin($loginController)) {
-            if (!isset($this->GET['page'])){ 
-            $loginController->index("login", $this->twig);
+            if (!isset($this->GET['page']) || !$this->checkLogin($loginController)) {
+            #if (!isset($this->GET['page'])){ 
+                $loginController->index("login", $this->twig);
             } else {
-                if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
-                    $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
-                    $pageController->index(strtolower($this->GET['page']), $this->twig);
+                if($this->GET["page"] == "logout"){
+                    session_destroy();
+                    setcookie("ClassesLogin","", time()-3600 );
+                    setcookie("UserLogin","", time()-3600 );
+                    header("Refresh:0; url=?page=login");     
                 } else {
-                    echo $this->twig->render("404.twig", array(
-                        'pageTitle' => 'Examinator - 404',
-                        'applicationName' => 'Examinator',
-                        'tpl' => '404'
-                    ));
-                }
+                    if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
+                        $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
+                        $pageController->index(strtolower($this->GET['page']), $this->twig);
+                    } else {
+                        echo $this->twig->render("404.twig", array(
+                            'pageTitle' => 'Examinator - 404',
+                            'applicationName' => 'Examinator',
+                            'tpl' => '404'
+                        ));
+                    }
+                }    
             }
         }
         private function checkLogin ($loginController){
