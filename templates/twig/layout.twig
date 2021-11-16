@@ -181,7 +181,7 @@
                 <img src="dist/img/UnknownUser.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ userName }}</a>
+                <a href="#" class="d-block">{% if firstname is not null and lastname is not null %}{{firstname}} {{lastname}}{% else %}{{className}}{% endif %}</a>
             </div>
         </div>
 
@@ -213,30 +213,32 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item menu-closed">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tools"></i>
-                        <p>
-                             Administration
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="?page=usermanagement" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Benutzerverwaltung</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="?page=classmanagement" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Klassenverwaltung</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-         <hr />       
+                {% if isAdmin %}
+                  <li class="nav-item menu-closed">
+                      <a href="#" class="nav-link">
+                          <i class="nav-icon fas fa-tools"></i>
+                          <p>
+                              Administration
+                              <i class="right fas fa-angle-left"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="?page=usermanagement" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Benutzerverwaltung</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="?page=classmanagement" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Klassenverwaltung</p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
+                {% endif %}
+                <hr />       
                 <li class="nav-item">
                   <a href="?page=logout" class="nav-link" style="background-color: #9a1825">
                       <i class="fas fa-sign-out-alt nav-icon"></i>

@@ -10,5 +10,11 @@
         'exams' => $exams,
         'pageJs' => 'src/js/dashboard.js',
         'tpl' => 'dashboard',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'loginState' => $loginState,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
     ));

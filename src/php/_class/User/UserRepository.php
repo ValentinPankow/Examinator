@@ -54,7 +54,7 @@ class UserRepository
             $passwordOk = password_verify($password, $resultPwd->password);
         }
         
-        $query = $this->pdo->prepare("SELECT password, id FROM classes WHERE `name` = :user");
+        $query = $this->pdo->prepare("SELECT password, id, name FROM classes WHERE `name` = :user");
         $query->execute(['user' => $user]);
         $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
         $resultPwdClasses = $query->fetch(PDO::FETCH_CLASS);
@@ -71,15 +71,29 @@ class UserRepository
             $sesionID = session_id();
             $query = $this->pdo->prepare("UPDATE users SET session_id = :session_id WHERE email = :user");
             $query->execute(['session_id' => $sesionID, "user" => $user]);
-            setcookie("UserLogin","", time()-3600 );
-            setcookie("ClassesLogin","", time()-3600 );
-            setcookie("UserLogin", $resultPwd->id);
+            setcookie("UserLogin","", time()-3600, "/" );
+            setcookie("ClassesLogin","", time()-3600, "/" );
+            setcookie("UserLogin", $resultPwd->id, time()+(3600*24), "/");
+
+            $userData = $this->getUserDataById($resultPwd->id);
+            $_SESSION['isAdmin'] = $userData->is_admin;
+            $_SESSION['isTeacher'] = $userData->is_teacher;
+            $_SESSION['firstname'] = $userData->first_name;
+            $_SESSION['lastname'] = $userData->last_name;
+
+            unset($_SESSION['class_name']);
+ 
             $login = true;
         } else if ($passwordClassesOk && $resultPwdClasses ){ 
             session_start();
-            setcookie("ClassesLogin","", time()-3600 );
-            setcookie("UserLogin","", time()-3600 );
-            setcookie("ClassesLogin", $resultPwdClasses->id);
+            setcookie("ClassesLogin","", time()-3600, "/" );
+            setcookie("UserLogin","", time()-3600, "/" );
+            setcookie("ClassesLogin", $resultPwdClasses->id, time()+(3600*24), "/");
+            $_SESSION['class_name'] = $resultPwdClasses->name;
+            unset($_SESSION['isAdmin']);
+            unset($_SESSION['isTeacher']);
+            unset($_SESSION['firstname']);
+            unset($_SESSION['lastname']);
             $login = true;
         }
         return $login;
@@ -190,11 +204,11 @@ class UserRepository
         }
     }
 
-    public function checkSessionID($userID){
+    public function getSessionID($userID){
         $query = $this->pdo->prepare("SELECT session_id FROM users WHERE `id` = :id");
         $query->execute(['id' => $userID]);
         $content = $query->fetch(PDO::FETCH_DEFAULT);
 
-        return $content[0]["session_id"];
+        return $content["session_id"];
     }
 }

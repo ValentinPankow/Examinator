@@ -19,6 +19,7 @@ class UserController
     {
         $users = $content['users'];
         $twig = $content['twig'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
@@ -26,7 +27,7 @@ class UserController
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
         //Example für fetchAll (SELECT * FROM bars)
         $users = $this->repository->fetchUsers();
@@ -35,7 +36,8 @@ class UserController
 
         $this->render("{$tpl}", [
             'users' => $users,
-            'twig' => $twig
+            'twig' => $twig,
+            'loginState' => $loginState
         ]);
     }
 

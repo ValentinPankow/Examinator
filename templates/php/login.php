@@ -7,5 +7,12 @@
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/login.js',
         'tpl' => 'login',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'loginState' => $loginState,
+        'loginState' => $loginState,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
     ));

@@ -38,6 +38,7 @@ function login(){
                 console.log(obj);
                 if (obj.success) {
                     triggerResponseMsg('success', $('.loginSuccess').html());
+                    location.href = "?page=dashboard";
                 } else {
                     triggerResponseMsg('error', $('.loginError').html());
                 }
