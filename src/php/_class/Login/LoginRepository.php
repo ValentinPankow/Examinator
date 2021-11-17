@@ -14,5 +14,5 @@ class LoginRepository
     {
         $this->pdo = $pdo;
     }
-
+    
 }

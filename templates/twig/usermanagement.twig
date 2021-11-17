@@ -64,6 +64,7 @@
                   <div class="row">
                     <div class="col text-center">
                       <button type="button" class="btn btn-primary" id="addUser">Benutzer hinzufügen</button>
+                      <button type="button" class="btn btn-primary" id="importUser">Benutzerliste importieren</button>
                     </div>
                   </div>
                 </div>
@@ -89,7 +90,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">Benutzer hinzufügen</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style>
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -220,7 +221,25 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-
+  <div class="modal fade" id="importUserModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Benutzer Importieren</h4>
+        </div>
+        <div class="modal-body">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputUpload">
+            <label class="custom-file-label" for="inputUpload">Datei auswählen</label>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" id="importUsers">Importieren</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Modal delete exams -->
   <div class="modal fade" id="deleteUserModal">
     <div class="modal-dialog modal-sm modal-dialog-centered">
