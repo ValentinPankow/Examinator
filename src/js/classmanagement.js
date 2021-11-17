@@ -113,6 +113,7 @@ function editClass(id)
         errorMsg = $('.passwordNotEqual').html();
     }
 
+    // Fehlermeldung kein Name eingegeben
     if ($('#editName').val() == '') {
         errorMsg = $('.noNameSelected').html();
     }
@@ -185,7 +186,7 @@ function getClass(id) {
     );
 }
 
-//Öffnet das Modal zum editieren in der Klassenverwaltung
+//Öffnet das Modal zum löschen in der Klassenverwaltung
 //DH (Zumeist C&P von VP mit Anpassungen)
 $('.delete').on('click',  function () {
     let button = $(this);
@@ -199,6 +200,9 @@ $('#deleteClassModal').find('button[name="deleteClass"]').on('click', function()
     deleteClass($('#deleteClassModal').find('button[name="deleteClass"]').attr('data-id'));
 });
 
+
+//Löscht eine Klasse mithilfe der ID
+// DH (Zumeist C&P vo VP mit Anpassungen)
 function deleteClass(id) {
     $.post(
         'src/php/_ajax/ajax.deleteClass.php',

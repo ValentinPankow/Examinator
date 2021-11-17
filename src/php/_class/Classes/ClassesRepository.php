@@ -76,7 +76,7 @@ class ClassesRepository
     //(DH, C&P von VP mit Anpassungen)
     public function queryClass($data, $action)
     {
-      //Leerzeichen vor den 
+      //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
 
       if ($action == "insert") {

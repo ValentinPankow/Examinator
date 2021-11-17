@@ -2,7 +2,6 @@
     //Ajax um ein Fach zu löschen
     //(DH)
 
-
     require_once '../_class/Core/Container.php';
     require_once '../_class/Subjects/SubjectManagement/SubjectManagementController.php';
     require_once '../_class/Subjects/SubjectsModel.php';

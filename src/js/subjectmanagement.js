@@ -102,6 +102,7 @@ function editSubject(id)
   // Variable für Fehlermeldung
   let errorMsg = null;
 
+  // Fehlermeldung, wenn kein Name angegeben wurde
   if ($('#editName').val() == '') {
       errorMsg = $('.noNameSelected').html();
   }
@@ -140,7 +141,8 @@ function editSubject(id)
 }
 
 
-
+// Holt sich ein Fach nach der ID (Beim öffnen des Modals zum editieren benötigt)
+// (DH)
 function getSubject(id) {
   $.post(
       'src/php/_ajax/ajax.getSubject.php',
@@ -172,8 +174,8 @@ function getSubject(id) {
 }
 
 
-// DH (Zumeist C&P von VP mit Anpassungen)
 //Öffnet das Modal zum editieren in der Klassenverwaltung
+// DH (Zumeist C&P von VP mit Anpassungen)
 $('.delete').on('click',  function () {
   let button = $(this);
   $('#deleteSubjectModal').find('button[name="deleteSubject"]').attr('data-id', button.attr('data-id'));
@@ -186,6 +188,10 @@ $('#deleteSubjectModal').find('button[name="deleteSubject"]').on('click', functi
   deleteSubject($('#deleteSubjectModal').find('button[name="deleteSubject"]').attr('data-id'));
 });
 
+
+
+//Löscht ein Fach mithilfe der ID
+// DH (Zumeist C&P vo VP mit Anpassungen)
 function deleteSubject(id) {
   $.post(
       'src/php/_ajax/ajax.deleteSubject.php',

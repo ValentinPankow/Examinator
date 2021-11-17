@@ -1,27 +1,30 @@
 <?php
 
-  require_once '../_class/Core/Container.php';
-  require_once '../_class/Subjects/SubjectManagement/SubjectManagementController.php';
-  require_once '../_class/Subjects/SubjectsModel.php';
-  require_once '../_class/Subjects/SubjectsRepository.php';
-  require_once '../_class/User/UserRepository.php';
+    //Ajax um ein einzelnes Fach aus der Datenbank auszulesen
+    //(DH)
 
-  $data = (OBJECT) $_POST['data'];
+    require_once '../_class/Core/Container.php';
+    require_once '../_class/Subjects/SubjectManagement/SubjectManagementController.php';
+    require_once '../_class/Subjects/SubjectsModel.php';
+    require_once '../_class/Subjects/SubjectsRepository.php';
+    require_once '../_class/User/UserRepository.php';
 
-  $container = new Core\Container();
+    $data = (OBJECT) $_POST['data'];
 
-  $subjectmanagementController = $container->make("subjectmanagementController");
+    $container = new Core\Container();
 
-  $subject = $subjectmanagementController->fetchSubject($data->id);
+    $subjectmanagementController = $container->make("subjectmanagementController");
 
-  $obj = new stdClass;
+    $subject = $subjectmanagementController->fetchSubject($data->id);
 
-  if ($subject) {
-      $obj->subject = $subject;
-      $obj->success = true;
-  } else {
-      $obj->success = false;
-  }
+    $obj = new stdClass;
 
-  $rtn = json_encode($obj);
-  echo $rtn;
+    if ($subject) {
+        $obj->subject = $subject;
+        $obj->success = true;
+    } else {
+        $obj->success = false;
+    }
+
+    $rtn = json_encode($obj);
+    echo $rtn;
