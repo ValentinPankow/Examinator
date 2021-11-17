@@ -14,6 +14,16 @@ const Toast = Swal.mixin({
 })
 
 $('#loginBtn').on('click', function() {
+   login();
+});
+
+$('#inputPassword').keypress(function(e) {
+    if(e.which == 13){
+        login();
+    }
+ });
+
+function login(){
     $.post(
         'src/php/_ajax/ajax.login.php',
         {
@@ -25,14 +35,16 @@ $('#loginBtn').on('click', function() {
         function(rtn) {
             try {
                 let obj = JSON.parse(rtn);
-                if (obj.user) {
-                    triggerResponseMsg('success', $('.userFound').html());
+                console.log(obj);
+                if (obj.success) {
+                    triggerResponseMsg('success', $('.loginSuccess').html());
+                    location.href = "?page=dashboard";
                 } else {
-                    triggerResponseMsg('error', $('.userNotFound').html());
+                    triggerResponseMsg('error', $('.loginError').html());
                 }
             } catch(e) {
                 console.log(e);
             }
         }
     );
-});
+}

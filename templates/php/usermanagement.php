@@ -2,16 +2,12 @@
 
     require "sharedVars.php";
 
-    echo $twig->render('login.twig', array(
-        'pageTitle' => 'Examinator - Login',
+    echo $twig->render('usermanagement.twig', array(
+        'pageTitle' => 'Examinator - Benutzerverwaltung',
+        'userName' => 'User',
         'applicationName' => 'Examinator',
-        'pageJs' => 'src/js/login.js',
-        'tpl' => 'login',
-<<<<<<< HEAD
-        'darkMode' => $darkMode
-    ));
-
-=======
+        'pageJs' => 'src/js/usermanagement.js',
+        'tpl' => 'usermanagement',
         'darkMode' => $darkMode,
         'loginState' => $loginState,
         'isAdmin' => $isAdmin,
@@ -20,4 +16,3 @@
         'lastname' => $lastname,
         'className' => $className
     ));
->>>>>>> dev

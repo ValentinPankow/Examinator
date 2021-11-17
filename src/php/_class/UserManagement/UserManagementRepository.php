@@ -1,11 +1,11 @@
 <?php
 
-namespace Login;
+namespace UserManagement;
 use PDO;
-use Login\LoginModel;
+use User\UserModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class LoginRepository
+class UserManagementRepository
 {
     private $pdo;
 
@@ -14,5 +14,4 @@ class LoginRepository
     {
         $this->pdo = $pdo;
     }
-
 }

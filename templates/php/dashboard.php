@@ -20,6 +20,7 @@
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/dashboard.js',
         'tpl' => 'dashboard',
+<<<<<<< HEAD
         'exams' => $exams,
         'class' => $class,
         'login_type' => $login_type,
@@ -28,3 +29,13 @@
     }
 
 
+=======
+        'darkMode' => $darkMode,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'loginState' => $loginState,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
+    ));
+>>>>>>> dev

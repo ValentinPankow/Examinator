@@ -10,8 +10,19 @@
         'tpl' => 'exams',
         'darkMode' => $darkMode,
         'classes' => $classes,
+<<<<<<< HEAD
         'subjects' => $subjects
     ));
 
 
 
+=======
+        'subjects' => $subjects,
+        'loginState' => $loginState,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
+    ));
+>>>>>>> dev
