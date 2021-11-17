@@ -16,14 +16,16 @@ class ClassManagementController
     private function render ($view, $content)
     {
         $twig = $content['twig'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
 
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
         $this->render("{$tpl}", [
-            'twig' => $twig
+            'twig' => $twig,
+            'loginState' => $loginState
         ]);
     }
 }
