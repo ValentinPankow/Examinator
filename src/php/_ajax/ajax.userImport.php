@@ -9,7 +9,7 @@
     $userController = $container->make("userController");
     
     // Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
-	$upload_url = "dist/import";
+	$upload_url = "../../../dist/import/";
 	// Array of allowed data types
 	$allowed = array('csv');
 	$filename = $_FILES['file']['name'];
@@ -34,23 +34,23 @@
 			$counter = 1; // to check if first row in csv is a header row
 
 			// Go throu each row and seperate the values by ';'
-			while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+			while (($fData = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 				// Define the variables for the columns of csv and store the values in them
 				$data = new stdClass;
-				$data -> firstname = $data[0];
-				$data -> lastname = $data[1];
-				$data -> email = $data[2];
-				$data -> password = $data[3];
-				$data -> isAdmin = $data[4];
-				$data -> isTeacher = $data[5];
+				$data -> firstname = $fData[0];
+				$data -> lastname = $fData[1];
+				$data -> email = $fData[2];
+				$data -> password = $fData[3];
+				$data -> isAdmin = $fData[4];
+				$data -> isTeacher = $fData[5];
 				
 
 				// Check for correct headings to ensure correct format. ------ In this example the format of the csv headers has to be: is,correct,format
 				if ($counter == 1 && ($data -> firstname != 'firstname' || $data -> lastname != 'lastname' || $data -> email != 'email' ||
                 $data -> password != 'password' ||$data -> session_id != 'session_id' || $data -> isAdmin != 'isAdmin' || $data -> isTeacher != 'isTeacher')) {
 					// Not the correct format -> break the loop to not go further
-					writeLog("Kopfzeile hat inkorrektes Format", "../../../dist/import/log/userImport.log");
+					writeLog("Kopfzeile hat inkorrektes Format", "../../../dist/import/logs/userImport.log");
                     break;
 				} else {
 					// If not header row
@@ -58,15 +58,15 @@
 						$duplicate = fales;
                         $importOk = $userController->queryUser($data,"insert", $duplicate);
                         if($importOk){
-                            writeLog("Import war erfolgreich", "../../../dist/import/log/userImport.log");
+                            writeLog("Import war erfolgreich", "../../../dist/import/logs/userImport.log");
 							$sucssesCount ++;    					    
                         } else {
 							if($duplicate){
 								writeLog("Der Benutzer: ".$data -> firstname." ".$data -> lastname." mit der E-Mail Adresse: ". $data -> email . " existiert bereits." 
-                            	, "../../../dist/import/log/userImport.log");
+                            	, "../../../dist/import/logs/userImport.log");
 							}else{
 								writeLog("Der Benutzer: ".$data -> firstname." ".$data -> lastname." mit der E-Mail Adresse: ". $data -> email . " konnte nicht importiert werden." 
-                            	, "../../../dist/import/log/userImport.log");
+                            	, "../../../dist/import/logs/userImport.log");
 							}
 							$failCount ++;
                         }

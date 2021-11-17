@@ -82,7 +82,7 @@ $('input#inputUpload').on('change', function (e) {
     $(this).next('.custom-file-label').html(fileName);
 });
 
-$('button#importUsersd').on('click', function () {
+$('button#importUsers').on('click', function () {
     // Get the selected file(s) and store them in the files variable --- [0].files; because we just want to have one file
     let fd = new FormData();
     let files = $('#inputUpload')[0].files;
