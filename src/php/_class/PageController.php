@@ -60,7 +60,11 @@
             $loginController = $this->container->make("loginController");
 
             if (!isset($this->GET['page']) || !$this->checkLogin($loginController)) {
-                $loginController->index("login", $this->twig, false);
+                if (!$this->checkLogin($loginController)) {
+                    $loginController->index("login", $this->twig, false);
+                } else {
+                    header("Refresh:0; url=?page=dashboard");
+                }
             } else {
                 if($this->GET["page"] == "logout"){
                     if (session_status() === PHP_SESSION_ACTIVE) {

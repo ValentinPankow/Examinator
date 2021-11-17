@@ -197,22 +197,26 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
-                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                        <p>
-                            Klassen
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
-                        <i class="nav-icon fas fa-pen-fancy"></i>
-                        <p>
-                            Klausuren
-                        </p>
-                    </a>
-                </li>
+                {% if isAdmin or isTeacher %}
+                  <li class="nav-item">
+                      <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
+                          <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                          <p>
+                              Klassen
+                          </p>
+                      </a>
+                  </li>
+                {% endif %}
+                {% if isAdmin or isTeacher %}
+                  <li class="nav-item">
+                      <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
+                          <i class="nav-icon fas fa-pen-fancy"></i>
+                          <p>
+                              Klausuren
+                          </p>
+                      </a>
+                  </li>
+                {% endif %}
                 {% if isAdmin %}
                   <li class="nav-item menu-closed">
                       <a href="#" class="nav-link">
