@@ -8,5 +8,11 @@
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/usermanagement.js',
         'tpl' => 'usermanagement',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'loginState' => $loginState,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
     ));

@@ -3,6 +3,7 @@
 namespace User;
 use PDO;
 use User\UserModel;
+use Classes\ClassesModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
 class UserRepository
@@ -40,14 +41,62 @@ class UserRepository
         return $content;
     }
 
-    public function fetchUserByMail($mail)
+    public function login($user, $password)
     {
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE `email` = :mail");
-        $query->execute(['mail' => $mail]);
+        $query = $this->pdo->prepare("SELECT password, id FROM users WHERE `email` = :user");
+        $query->execute(['user' => $user]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
-        $content = $query->fetch(PDO::FETCH_CLASS);
+        $resultPwd = $query->fetch(PDO::FETCH_CLASS);
 
-        return $content;
+        #$hashedPassword = password_hash($resultPwd->password, PASSWORD_DEFAULT);
+        $passwordOk = false;
+        if ($resultPwd){
+            $passwordOk = password_verify($password, $resultPwd->password);
+        }
+        
+        $query = $this->pdo->prepare("SELECT password, id, name FROM classes WHERE `name` = :user");
+        $query->execute(['user' => $user]);
+        $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+        $resultPwdClasses = $query->fetch(PDO::FETCH_CLASS);
+        #$hashedPasswordClasses = password_hash($resultPwdClasses->password, PASSWORD_DEFAULT);
+        $passwordClassesOk = false;
+        if ($resultPwdClasses){
+            $passwordClassesOk = password_verify($password, $resultPwdClasses->password);
+        }
+        
+        $login = false;
+        if ($passwordOk && $resultPwd){ 
+            session_start();
+            session_regenerate_id(true);
+            $sesionID = session_id();
+            $query = $this->pdo->prepare("UPDATE users SET session_id = :session_id WHERE email = :user");
+            $query->execute(['session_id' => $sesionID, "user" => $user]);
+            setcookie("UserLogin","", time()-3600, "/" );
+            setcookie("ClassesLogin","", time()-3600, "/" );
+            setcookie("UserLogin", $resultPwd->id, time()+(3600*24), "/");
+
+            $userData = $this->getUserDataById($resultPwd->id);
+            $_SESSION['isAdmin'] = $userData->is_admin;
+            $_SESSION['isTeacher'] = $userData->is_teacher;
+            $_SESSION['firstname'] = $userData->first_name;
+            $_SESSION['lastname'] = $userData->last_name;
+
+            unset($_SESSION['class_name']);
+ 
+            $login = true;
+        } else if ($passwordClassesOk && $resultPwdClasses ){ 
+            session_start();
+            setcookie("ClassesLogin","", time()-3600, "/" );
+            setcookie("UserLogin","", time()-3600, "/" );
+            setcookie("ClassesLogin", $resultPwdClasses->id, time()+(3600*24), "/");
+            $_SESSION['class_name'] = $resultPwdClasses->name;
+            unset($_SESSION['isAdmin']);
+            unset($_SESSION['isTeacher']);
+            unset($_SESSION['firstname']);
+            unset($_SESSION['lastname']);
+            $login = true;
+        }
+        return $login;
     }
 
     //Fetcht alle Einträge aus der Datenbanktabelle
@@ -153,5 +202,13 @@ class UserRepository
         } else {
             return false;
         }
+    }
+
+    public function getSessionID($userID){
+        $query = $this->pdo->prepare("SELECT session_id FROM users WHERE `id` = :id");
+        $query->execute(['id' => $userID]);
+        $content = $query->fetch(PDO::FETCH_DEFAULT);
+
+        return $content["session_id"];
     }
 }

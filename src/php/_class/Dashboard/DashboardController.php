@@ -24,13 +24,14 @@ class DashboardController
         $twig = $content['twig'];
         $user = $content['user'];
         $exams = $content['exams'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
 
 
     //Sucht sich alle Dashboards aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
         //Example für fetchAll (SELECT * FROM Dashboards)
         // $Dashboards = $this->repository->fetchDashboards();
@@ -43,7 +44,8 @@ class DashboardController
         $this->render("{$tpl}", [
             'twig' => $twig,
             'user' => $user,
-            'exams' => $exams
+            'exams' => $exams,
+            'loginState' => $loginState
         ]);
     }
 

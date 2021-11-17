@@ -5,6 +5,8 @@
     require_once '../_class/Login/LoginController.php';
     require_once '../_class/User/UserRepository.php';
     require_once '../_class/User/UserModel.php';
+    require_once '../_class/Classes/ClassesModel.php';
+
 
     $data = (object) $_POST['data'];
 
@@ -12,9 +14,9 @@
 
     $loginController = $container->make("loginController");
 
-    $user = $loginController->getUserByMail($data->user);
+    $login = $loginController->login($data->user, $data->password);
 
     $obj = new stdClass;
-    $obj->user = $user;
+    $obj->success = $login;
     $rtn = json_encode($obj);
     echo $rtn;

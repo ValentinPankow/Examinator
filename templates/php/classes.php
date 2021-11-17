@@ -8,5 +8,11 @@
         'applicationName' => 'Examinator',
         'pageJs' => 'src/js/classes.js',
         'tpl' => 'classes',
-        'darkMode' => $darkMode
+        'darkMode' => $darkMode,
+        'loginState' => $loginState,
+        'isAdmin' => $isAdmin,
+        'isTeacher' => $isTeacher,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'className' => $className
     ));
