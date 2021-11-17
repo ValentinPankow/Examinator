@@ -8,54 +8,56 @@
   {{ block("css", "layout.twig") }}
 </head>
 <body class="hold-transition login-page">
-  <div class="login-box">
-    <!-- /.login-logo -->
-    <div class="login-logo pb-2">
-      <a href="index.php"><img src="dist/img/ExaminatorRoundWhite.png" alt="AdminLTE Logo" class="brand-image align-center" height="100" width="100"></a>
-    </div>
-    <div class="card card-outline card-primary">
-      <div class="card-header text-center">
-        <a href="index.php" class="h1"><b>{{applicationName}}</b></a>
+  {% if not loginState %}
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="login-logo pb-2">
+        <a href="index.php"><img src="dist/img/ExaminatorRoundWhite.png" alt="AdminLTE Logo" class="brand-image align-center" height="100" width="100"></a>
       </div>
-      <div class="card-body text-center">
-        <p class="login-box-msg">Login</p>
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <a href="index.php" class="h1"><b>{{applicationName}}</b></a>
+        </div>
+        <div class="card-body text-center">
+          <p class="login-box-msg">Login</p>
 
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="E-Mail" id="inputUser">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control" placeholder="E-Mail" id="inputUser">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Passwort" id="inputPassword">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="Passwort" id="inputPassword">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <!-- /.col -->
-            <div class="col-12 mb-2">
-              <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
+            <div class="row">
+              <!-- /.col -->
+              <div class="col-12 mb-2">
+                <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
+              </div>
+              <!-- /.col -->
             </div>
-            <!-- /.col -->
-          </div>
 
-        <p class="mb-1">
-          <a href="#">Passwort vergessen?</a>
-        </p>
+          <p class="mb-1">
+            <a href="#">Passwort vergessen?</a>
+          </p>
+        </div>
+        <!-- /.card-body -->
       </div>
-      <!-- /.card-body -->
+      <!-- /.card -->
     </div>
-    <!-- /.card -->
-  </div>
-  <!-- /.login-box -->
+    <!-- /.login-box -->
 
-  {{ block("responseMsg", "layout.twig") }}
+    {{ block("responseMsg", "layout.twig") }}
 
-  {{ block("js", "layout.twig") }}
+    {{ block("js", "layout.twig") }}
+  {% endif %}
 </body>
 </html>

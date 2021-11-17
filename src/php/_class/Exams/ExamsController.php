@@ -25,21 +25,23 @@ class ExamsController
         $twig = $content['twig'];
         $classes = $content['classes'];
         $subjects = $content['subjects'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
         $classes = $this->classesRepository->fetchClasses();
         $subjects = $this->subjectsRepository->fetchSubjects();
         $this->render("{$tpl}", [
             'twig' => $twig,
             'classes' => $classes,
-            'subjects' => $subjects
-        ]);
+            'subjects' => $subjects,
+            'loginState' => $loginState
+        ]); 
     }
 
     public function queryExam($data, $action) {
