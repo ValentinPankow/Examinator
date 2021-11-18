@@ -10,13 +10,6 @@
         'tpl' => 'exams',
         'darkMode' => $darkMode,
         'classes' => $classes,
-<<<<<<< HEAD
-        'subjects' => $subjects
-    ));
-
-
-
-=======
         'subjects' => $subjects,
         'loginState' => $loginState,
         'isAdmin' => $isAdmin,
@@ -25,4 +18,3 @@
         'lastname' => $lastname,
         'className' => $className
     ));
->>>>>>> dev

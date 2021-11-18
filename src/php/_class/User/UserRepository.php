@@ -23,11 +23,7 @@ class UserRepository
     //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
     public function fetchUserById($id)
     {
-<<<<<<< HEAD
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
-=======
         $query = $this->pdo->prepare("SELECT * FROM users WHERE `id` = :id");
->>>>>>> dev
         $query->execute(['id' => $id]);
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
@@ -37,13 +33,8 @@ class UserRepository
 
     public function getUserDataById($id)
     {
-<<<<<<< HEAD
-        $query = $this->pdo->prepare("SELECT * FROM users WHERE email = :mail");
-        $query->execute(['mail' => $mail]);
-=======
         $query = $this->pdo->prepare("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users WHERE `id` = :id");
         $query->execute(['id' => $id]);
->>>>>>> dev
         $query->setFetchMode(PDO::FETCH_CLASS, "User\\UserModel");
         $content = $query->fetch(PDO::FETCH_CLASS);
 
@@ -114,8 +105,6 @@ class UserRepository
     public function fetchUsers()
     {
         $query = $this->pdo->query("SELECT * FROM users");
-<<<<<<< HEAD
-=======
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
 
         return $contents;
@@ -124,14 +113,10 @@ class UserRepository
     public function fetchUserData()
     {
         $query = $this->pdo->query("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users");
->>>>>>> dev
         $contents = $query->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
 
         return $contents;
     }
-<<<<<<< HEAD
-}
-=======
 
     public function queryUser($data, $action, &$duplicate = false) {
         if (isset($data->changePassword)) {
@@ -227,4 +212,3 @@ class UserRepository
         return $content["session_id"];
     }
 }
->>>>>>> dev

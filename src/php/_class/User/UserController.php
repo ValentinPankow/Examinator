@@ -40,8 +40,6 @@ class UserController
             'loginState' => $loginState
         ]);
     }
-<<<<<<< HEAD
-=======
 
     public function listAccounts() {
         return $this->repository->fetchUserData();
@@ -63,7 +61,6 @@ class UserController
         return $this->repository->deleteUserById($id);
     }
 
->>>>>>> dev
 }
 
 ?>

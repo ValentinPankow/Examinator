@@ -6,7 +6,6 @@ use User\UserRepository;
 
 class ClassesController
 {
-<<<<<<< HEAD
   private $repository;
   private $userRepository;
 
@@ -34,7 +33,7 @@ class ClassesController
   public function index($tpl, $twig)
   {
     //$userId = $auth->user->id;
-    $userId = 2;
+    $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user){
@@ -49,7 +48,6 @@ class ClassesController
       ]);
     }else{
       header("Location: http://localhost:8000/?page=dashboard");
-=======
     private $repository;
 
     //Übergibt das Repository vom Container
@@ -84,7 +82,6 @@ class ClassesController
             'twig' => $twig,
             'loginState' => $loginState
         ]);
->>>>>>> dev
     }
   }
 

@@ -2,17 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
-<<<<<<< HEAD
--- Host: mariadb
--- Erstellungszeit: 29. Okt 2021 um 12:19
--- Server-Version: 10.6.2-MariaDB-1:10.6.2+maria~focal
--- PHP-Version: 7.4.24
-=======
 -- Host: 127.0.0.1
 -- Erstellungszeit: 25. Okt 2021 um 22:04
 -- Server-Version: 10.4.21-MariaDB
 -- PHP-Version: 8.0.10
->>>>>>> dev
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,21 +38,15 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `name`, `password`) VALUES
-<<<<<<< HEAD
-(1, '12ITa', '1234'),
-(2, '11ITa', '1234'),
-(3, '10ITa', '1234'),
-(4, '10ITb', '1234'),
-(5, '11ITb', '1234'),
-(6, '12ITb', '1234'),
-(7, '10ITc', '1234'),
-(8, '11ITc', '1234'),
-(9, '12ITc', '1234');
-=======
 (1, '12ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
 (2, '11ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
-(3, '10ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6');
->>>>>>> dev
+(3, '10ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(4, '10ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(5, '11ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(6, '12ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(7, '10ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(8, '11ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(9, '12ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6');
 
 -- --------------------------------------------------------
 

@@ -9,7 +9,6 @@ use Exams\ExamsController;
 use Exams\ExamsRepository;
 use User\UserController;
 use User\UserRepository;
-<<<<<<< HEAD
 use Favorites\FavoritesController;
 use Favorites\FavoritesRepository;
 use Classes\ClassesController;
@@ -19,10 +18,8 @@ use Classes\ClassOverview\ClassOverviewController;
 use Subjects\SubjectsController;
 use Subjects\SubjectsRepository;
 use Subjects\SubjectManagement\SubjectManagementController;
-=======
 use UserManagement\UserManagementController;
 use UserManagement\UserManagementRepository;
->>>>>>> dev
 
 use Login\LoginController;
 use Login\LoginRepository;
@@ -33,68 +30,8 @@ class Container
   //Enthält alle Objekte die von make() erstellt werden
   private $instances = [];
 
-<<<<<<< HEAD
   //Enthält die Templates zur Erstellung der Objekte
   private $receipts = [];
-=======
-    //Wird benötigt, da man die Funktionen nicht beim Deklarieren zuweisen kann
-    //Hier werden die neuen Controller/Repositorys erstellt
-    public function __construct()
-    {
-        $this->receipts = [
-            'dashboardController' => function(){
-                return new DashboardController($this->make("userRepository"), $this->make("examsRepository"));
-            },
-            'dashboardRepository' => function(){
-                return new DashboardRepository($this->make("pdo"));
-            },
-            'loginController' => function(){
-                return new LoginController($this->make("loginRepository"), $this->make("userRepository"));
-            },
-            'loginRepository' => function(){
-                return new LoginRepository($this->make("pdo"));
-            },
-            'classesController' => function(){
-                return new ClassesController($this->make("classesRepository"));
-            },
-            'classesRepository' => function(){
-                return new ClassesRepository($this->make("pdo"));
-            },
-            'examsController' => function(){
-                return new ExamsController($this->make("examsRepository"), $this->make("classesRepository"), $this->make("subjectsRepository"));
-            },
-            'examsRepository' => function(){
-                return new ExamsRepository($this->make("pdo"));
-            },
-            'subjectsController' => function(){
-                return new SubjectsController($this->make("SubjectsRepository"));
-            },
-            'subjectsRepository' => function(){
-                return new SubjectsRepository($this->make("pdo"));
-            },
-            'userController' => function(){
-                return new UserController($this->make("userRepository"));
-            },
-            'userRepository' => function(){
-                return new UserRepository($this->make("pdo"));
-            },
-            'usermanagementController' => function(){
-                return new UserManagementController($this->make("usermanagementRepository"));
-            },
-            'usermanagementRepository' => function(){
-                return new UserManagementRepository($this->make("pdo"));
-            },
-            //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
-            'pdo' => function(){
-                $pdo = new PDO('mysql:host=localhost;dbname=examinator;charset=utf8',
-                'root',
-                '');
-                $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-                return $pdo;
-            }
-        ];
-    }
->>>>>>> dev
 
   //Wird benötigt, da man die Funktionen nicht beim deklarieren zuweisen kann
   //Hier werden die neuen Controller/Repositorys/DB Verbindung erstellt
@@ -126,6 +63,9 @@ class Container
       'examsRepository' => function(){
         return new ExamsRepository($this->make("pdo"));
       },
+      'subjectsController' => function(){
+        return new SubjectsController($this->make("SubjectsRepository"));
+      },
       'subjectsRepository' => function(){
         return new SubjectsRepository($this->make("pdo"));
       },
@@ -146,6 +86,12 @@ class Container
       },
       'subjectmanagementController' => function(){
         return new SubjectManagementController($this->make("subjectsRepository"), $this->make("userRepository"));
+      },
+      'usermanagementController' => function(){
+        return new UserManagementController($this->make("usermanagementRepository"));
+      },
+      'usermanagementRepository' => function(){
+          return new UserManagementRepository($this->make("pdo"));
       },
       //Stellt DB Verbindung her und gibt Sie zurück, falls das Objekt eine braucht
       'pdo' => function(){
