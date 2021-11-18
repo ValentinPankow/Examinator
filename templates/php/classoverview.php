@@ -1,20 +1,17 @@
 <?php
   //(DH)
-
   require "sharedVars.php";
 
-  echo $twig->render('classes.twig', array(
+  echo $twig->render('classoverview.twig', array(
       'pageTitle' => 'Examinator - Klassen',
       'applicationName' => 'Examinator',
-      'pageJs' => 'src/js/classes.js',
-      'tpl' => 'classes',
+      'pageJs' => 'src/js/classoverview.js',
+      'tpl' => 'classoverview',
       'darkMode' => $darkMode,
-      'loginState' => $loginState,
+      'class' => $class,
       'isAdmin' => $isAdmin,
       'isTeacher' => $isTeacher,
       'firstname' => $firstname,
       'lastname' => $lastname,
-      'className' => $className,
-      'classes' => $classes,
-      'favoriteClasses' => $favoriteClasses
+      'className' => $className
   ));

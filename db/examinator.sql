@@ -40,7 +40,13 @@ CREATE TABLE `classes` (
 INSERT INTO `classes` (`id`, `name`, `password`) VALUES
 (1, '12ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
 (2, '11ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
-(3, '10ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6');
+(3, '10ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(4, '10ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(5, '11ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(6, '12ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(7, '10ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(8, '11ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(9, '12ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6');
 
 -- --------------------------------------------------------
 
@@ -128,14 +134,27 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `sess
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users_classes`
+-- Tabellenstruktur für Tabelle `user_favorites`
 --
 
-CREATE TABLE `users_classes` (
+CREATE TABLE `user_favorites` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL
+  `class_id` int(11) DEFAULT NULL,
+  `subject_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Daten für Tabelle `user_favorites`
+--
+
+INSERT INTO `user_favorites` (`id`, `user_id`, `class_id`, `subject_id`) VALUES
+(1, 1, 1, NULL),
+(2, 1, NULL, 1),
+(3, 2, 1, NULL),
+(4, 2, 4, NULL),
+(5, 2, 5, NULL),
+(6, 2, 6, NULL);
 
 --
 -- Indizes der exportierten Tabellen
@@ -170,12 +189,10 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- Indizes für die Tabelle `users_classes`
+-- Indizes für die Tabelle `user_favorites`
 --
-ALTER TABLE `users_classes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_classes_classes` (`class_id`),
-  ADD KEY `fk_users_classes_users` (`user_id`);
+ALTER TABLE `user_favorites`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -185,7 +202,7 @@ ALTER TABLE `users_classes`
 -- AUTO_INCREMENT für Tabelle `classes`
 --
 ALTER TABLE `classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT für Tabelle `exams`
@@ -206,10 +223,10 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT für Tabelle `users_classes`
+-- AUTO_INCREMENT für Tabelle `user_favorites`
 --
-ALTER TABLE `users_classes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user_favorites`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints der exportierten Tabellen
@@ -222,13 +239,6 @@ ALTER TABLE `exams`
   ADD CONSTRAINT `fk_exams_classes` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
   ADD CONSTRAINT `fk_exams_subjects` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`),
   ADD CONSTRAINT `fk_exams_users` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`);
-
---
--- Constraints der Tabelle `users_classes`
---
-ALTER TABLE `users_classes`
-  ADD CONSTRAINT `fk_users_classes_classes` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`),
-  ADD CONSTRAINT `fk_users_classes_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
