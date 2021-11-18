@@ -1,4 +1,5 @@
 // Benachrichtungs Element erzeugen
+
 //(DH C&P von VP)
 const Toast = Swal.mixin({
     toast: true,
@@ -151,6 +152,7 @@ function editClass(id)
             }
         );
     }
+
 }
 
 
