@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Übersicht</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Übersicht</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Main row -->
+        <div class="row">
+          <div class="col">
+            <h2>Anstehende Klausuren</h2>
+          </div>
+        </div>
+        <div class="row">
+          {% set count = 0 %}
+          {% set break = false %}
+          {% for exam in exams if not break %}
+            {% set count = count + 1 %}
+            {% if count == 6 %}
+              {% set break = true %}
+            {% endif %}
+            <div class="col-4">
+              <div class="card card-secondary">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <b>{{ exam.subject }}{% if exam.room %} - Raum: {{ exam.room }}{% endif %}</b>
+                    <br />
+                    {{ formatDate(exam.date) }} <i class="far fa-calendar mr-1"></i> | 
+                    {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
+                      {{ exam.lessonFrom }}. Std. bis {{ exam.lessonTo }}. Std.
+                    {% elseif exam.timeFrom is defined and exam.timeTo is defined %}
+                      von {{ formatTime(exam.timeFrom) }} <i class="far fa-clock mr-1"></i> bis {{ formatTime(exam.timeTo) }} <i class="far fa-clock mr-1"></i>
+                    {% endif %}
+                  </h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-sm">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="card-body">
+                {% if exam.topic or exam.other %}
+                  {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                    <div class="row">
+                      <div class="col">
+                        <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                    <div class="row">
+                      <div class="col">
+                        <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endif %}
+                {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
+                  <div class="row">
+                    <div class="col">
+                      <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
+                    </div>
+                  </div>
+                {% endif %}
+                </div>
+                <!-- /.card-body -->
+              </div>
+            </div>
+            {% if count is divisible by(3) %}
+              </div> <!-- Schließt die Row und eröffnet eine Neue nach jeder dritten Klausur -->
+              <div class="row">
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div>
+          <!-- Left col -->
+          <section class="col-lg-7 connectedSortable">
+            <!-- Do something here!-->
+          </section>
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-5 connectedSortable">
+            <!-- Do something here!-->
+          </section>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  {{ block("footer", "layout.twig") }}
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+{{ block("js", "layout.twig") }}
+</body>
+</html>
