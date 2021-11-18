@@ -206,13 +206,19 @@
                           </p>
                       </a>
                   </li>
-                {% endif %}
-                {% if isAdmin or isTeacher %}
                   <li class="nav-item">
                       <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
                           <i class="nav-icon fas fa-pen-fancy"></i>
                           <p>
                               Klausuren
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="?page=favorites" class="nav-link {% if tpl == "favorites" %}active{% endif %}">
+                          <i class="nav-icon fas fa-star"></i>
+                          <p>
+                              Favoriten
                           </p>
                       </a>
                   </li>
@@ -239,6 +245,12 @@
                                   <p>Klassenverwaltung</p>
                               </a>
                           </li>
+                          <li class="nav-item">
+                            <a href="?page=subjectmanagement" class="nav-link  {% if tpl == "subjectmanagement" %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Fachverwaltung</p>
+                            </a>
+                        </li>
                       </ul>
                   </li>
                 {% endif %}
@@ -284,6 +296,25 @@
     <span class="errorGetExam">Die Klausur konnte nicht geladen werden!</span>
     <span class="successChangeExam">Die Klausur wurde erfolgreich geändert!</span>
     <span class="errorChangeExam">Die Klausur konnte nicht geändert werden!</span>
+
+    <span class="noNameSelected">Es wurde kein Name ausgewählt!</span>
+    <span class="passwordNotEqual">Die Passwörter stimmen nicht überein!</span>
+
+    <span class="errorGetClass">Die Klasse konnte nicht geladen werden!</span>
+    <span class="successCreateClass">Die Klasse wurde erfolgreich erstellt!</span>
+    <span class="errorCreateClass">Die Klasse konnte nicht erstellt werden!</span>
+    <span class="successEditClass">Die Klasse wurde erfolgreich geändert!</span>
+    <span class="errorEditClass">Die Klasse konnte nicht geändert werden!</span>
+    <span class="successDeleteClass">Die Klasse wurde erfolgreich gelöscht!</span>
+    <span class="errorDeleteClass">Die Klasse konnte nicht gelöscht werden!</span>
+
+    <span class="errorGetSubject">Das Fach konnte nicht geladen werden!</span>
+    <span class="successCreateSubject">Das Fach wurde erfolgreich erstellt!</span>
+    <span class="errorCreateSubject">Das Fach konnte nicht erstellt werden!</span>
+    <span class="successEditSubject">Das Fach wurde erfolgreich geändert!</span>
+    <span class="errorEditSubject">Das Fach konnte nicht geändert werden!</span>
+    <span class="successDeleteSubject">Das Fach wurde erfolgreich gelöscht!</span>
+    <span class="errorDeleteSubject">Das Fach konnte nicht gelöscht werden!</span>
     <span class="successCreateUser">Der Benutzer wurde erfolgreich erstellt!</span>
     <span class="errorCreateUser">Der Benutzer konnte nicht erstellt werden!</span>
     <span class="errorMail">Die E-Mail-Adresse ist ungültig!</span>

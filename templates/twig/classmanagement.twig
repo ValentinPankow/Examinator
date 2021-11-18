@@ -1,0 +1,203 @@
+{# Creator = DH #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Klassenverwaltung</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Klassenverwaltung</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h2>Klasse anlegen</h2>
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-12">
+                      <label for="inputClassName">Klasse</label>
+                      <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Klassen Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="password">Passwort</label>
+                      <input type="password" class="form-control" id="createPassword" autocomplete="new-password" placeholder="********">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="passwordConfirmation">Passwort bestätigen</label>
+                      <input type="password" class="form-control" id="createPasswordConfirmation" autocomplete="new-password" placeholder="********">
+                    </div>
+                    <div class="col-12 text-right">
+                      <button class="btn align-self-end text-white" id="saveClass" style="background-color: #EE4D00">Anlegen</button>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <h2>Klassen importieren</h2>
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-row">
+                    <div class="form-group col-12">
+                        <div class="mb-3">
+                          Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
+                        </div>
+                      <label class="btn text-white" style="background-color: #EE4D00" for="fileUpload">
+                          <input id="fileUpload" type="file" style="display:none"
+                          onchange="$('#upload-file-info').text(this.files[0].name)">
+                          Datei auswählen
+                      </label>
+                      <span class='label label-info font-weight-bold pl-2' id="upload-file-info"></span>
+                    <div class="col-12 text-right">
+                      <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Importieren</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <h2>Alle Klassen</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-header" style="background-color: #EE4D00">
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  {% for class in classes %}
+                    <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                      <div class="card" style="border: 1px solid #EE4D00;">
+                        <div class="card-header">
+                          <h3 class="card-title">
+                            <b style="vertical-align: sub">{{class.name}}</b>
+                          </h3>
+                          <div class="card-tools pr-3">
+                            <button type="button" class="btn btn-sm text-white edit" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm text-white ml-2 delete" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-trash"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="editClassModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="card">
+                <div class="card-header" style="background-color: #EE4D00">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="card-body">
+                    <div class="form-row">
+                      <div class="form-group col-12">
+                        <label for="inputClassName">Klassen Name</label>
+                        <input type="text" class="form-control" id="editName">
+                      </div>
+                         <div class="row">
+                          <div class="col pb-3 pt-3 text-bold">
+                            Bitte das Passwort leer lassen, falls keine Änderung gewünscht ist.
+                          </div>
+                        </div>
+                      <div class="form-group col-md-6">
+                        <label for="password">Passwort</label>
+                        <input type="password" class="form-control" id="editPassword" autocomplete="new-password" placeholder="********">
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label for="passwordConfirmation">Passwort bestätigen</label>
+                        <input type="password" class="form-control" id="editPasswordConfirmation" autocomplete="new-password" placeholder="********">
+                      </div>
+                      <div class="col-12 text-right">
+                        <span><button class="btn align-self-end text-white" name="editClass" id="editClass" style="background-color: #EE4D00">Ändern</button></span>
+                        <span><button class="btn align-self-end text-white" name="close" data-dismiss="modal" style="background-color: #EE4D00">Abbrechen</button></span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div id="deleteClassModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="card p-0 m-0">
+                <div class="card-header" style="background-color: #EE4D00">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col text-bold mb-4">
+                      Sind Sie sich sicher, dass Sie die Klasse löschen wollen?
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span><button class="btn align-self-end text-white" name="deleteClass" id="deleteClass" style="background-color: #EE4D00">Ja</button></span>
+                    </div>
+                    <div class="col-6 text-right">
+                      <span><button class="btn align-self-end text-white" name="close" data-dismiss="modal" style="background-color: #EE4D00">Nein</button></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div> <!-- Container -->
+    </section> <!-- Content -->
+  </div> <!-- Content Wrapper -->
+  {{ block("responseMsg", "layout.twig") }}
+  {{ block("footer", "layout.twig") }}
+</div> <!-- Wrapper -->
+{{ block("js", "layout.twig") }}
+</body>
+</html>

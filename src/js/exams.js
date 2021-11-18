@@ -419,7 +419,6 @@ function changeExam(id) {
 }
 
 function getExam(id) {
-
     $.post(
         'src/php/_ajax/ajax.getExam.php',
         {
@@ -446,6 +445,7 @@ function getExam(id) {
                     $('#inputTimeToChange').val(obj.exam.timeTo);
                     obj.exam.lessonFrom != null ? $('#selectLessonFromChange').val(obj.exam.lessonFrom) : $('#selectLessonFromChange').val("-");
                     obj.exam.lessonTo != null ? $('#selectLessonToChange').val(obj.exam.lessonTo) : $('#selectLessonToChange').val("-");
+
                     summernoteTopicChange.summernote('code', obj.exam.topic);
 
                     if (obj.exam.other) {
@@ -470,7 +470,7 @@ function getExam(id) {
 }
 
 function deleteExam(id) {
-
+  
     $.post(
         'src/php/_ajax/ajax.deleteExam.php',
         {
