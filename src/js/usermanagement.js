@@ -71,6 +71,55 @@ $("#addUser").on("click", function() {
     $("#addUserModal").modal("show");
 });
 
+$("#importUser").on("click", function() {
+    $("#importUserModal").modal("show");
+});
+
+$('input#inputUpload').on('change', function (e) {
+    //get the file name
+    let fileName = e.target.files[0].name;
+    //replace the "Choose a file" label
+    $(this).next('.custom-file-label').html(fileName);
+});
+
+$('button#importUsers').on('click', function () {
+    // Get the selected file(s) and store them in the files variable --- [0].files; because we just want to have one file
+    let fd = new FormData();
+    let files = $('#inputUpload')[0].files;
+
+	// Add the file to the form data variable
+    if (files.length > 0) {
+        fd.append('file', files[0]);
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: 'src/php/_ajax/ajax.userImport.php',
+        contentType: false,
+        processData: false,
+        data: fd,
+        success: function (rtn) {
+			// Parse the response JSON from php to an object
+            let obj = JSON.parse(rtn);
+			// Upload Successful
+            if (obj.status == 'success') {
+                triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+            } else {
+                if (obj.status == "type_error") {
+					// File is not of the correct type
+                    triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else {
+					// File upload error
+                    triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
+                }
+            }
+
+			// Clear the upload file input
+            $('#inputUpload').val('');
+        }
+    });
+});   
+
 $("#accountsTable").on("click", 'button[name="editAccount"]', function() {
     let button = $(this);
     $('#editUserModal').find('button[name="save"]').attr('data-id', button.attr('data-id'));
