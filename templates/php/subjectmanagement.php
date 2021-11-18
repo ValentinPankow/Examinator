@@ -1,16 +1,14 @@
 <?php
-
   //(DH)
   require "sharedVars.php";
 
-  echo $twig->render('classmanagement.twig', array(
+  echo $twig->render('subjectmanagement.twig', array(
     'pageTitle' => 'Examinator - Klassenverwaltung',
-    'userName' => $userName,
     'applicationName' => 'Examinator',
-    'pageJs' => 'src/js/classmanagement.js',
-    'tpl' => 'classmanagement',
+    'pageJs' => 'src/js/subjectmanagement.js',
+    'tpl' => 'subjectmanagement',
     'darkMode' => $darkMode,
-    'classes' => $classes,
+    'subjects' => $subjects,
     'isAdmin' => $isAdmin,
     'isTeacher' => $isTeacher,
     'firstname' => $firstname,

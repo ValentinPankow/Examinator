@@ -10,363 +10,367 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  {{ block("preloader", "layout.twig") }}
+  {% if isAdmin or isTeacher %}
 
-  {{ block("navbar", "layout.twig") }}
+    {{ block("preloader", "layout.twig") }}
 
-  {{ block("sidebar", "layout.twig") }}
+    {{ block("navbar", "layout.twig") }}
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Klausuren</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
-              <li class="breadcrumb-item active">Klausuren</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    {{ block("sidebar", "layout.twig") }}
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <!-- Left col -->
-          <div class="col-md-6">
-            <!-- Do something here!-->
-            <div class="card card-primary">
-              <div class="overlay card-overlay" style="display: none" id="createExamOverlay">
-                <i class="fas fa-2x fa-sync fa-spin"></i>
-              </div>
-              <div class="card-header">
-                <h3 class="card-title">Klausuren hinzufügen</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-                <div class="card-body">
-                  <div class="input-group">
-                    <div class="form-group offset-sm-4 col-sm-4">
-                      <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="rbTime" name="rbChooseTime">
-                        <label for="rbTime" class="custom-control-label">Uhrzeit angeben</label>
-                      </div>
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <div class="custom-control custom-radio">
-                        <input class="custom-control-input" type="radio" id="rbLesson" name="rbChooseTime" checked="">
-                        <label for="rbLesson" class="custom-control-label">Schulstunden angeben</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="input-group">
-                    <div class="form-group col-sm-4">
-                      <label for="inputDate">Datum</label>
-                      <input type="date" class="form-control" id="inputDate" placeholder="">
-                    </div>
-                    <div class="form-group col-sm-2">
-                      <label for="inputTimeFrom">Uhrzeit (von)</label>
-                      <input type="time" class="form-control" id="inputTimeFrom" placeholder="" disabled>
-                    </div>
-                    <div class="form-group col-sm-2 custom-radio">
-                      <label for="inputTimeTo">Uhrzeit (bis)</label>
-                      <input type="time" class="form-control" id="inputTimeTo" placeholder="" disabled>
-                    </div>
-                    <div class="form-group col-sm-2">
-                      <label for="selectLessonFrom">Stunde (von)</label>
-                      <select class="form-control" id="selectLessonFrom">
-                        <option value="-">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-2">
-                      <label for="selectLessonTo">Stunde (bis)</label>
-                      <!-- <input type="text" class="form-control" id="inputLessonTo" placeholder=""> -->
-                      <select class="form-control" id="selectLessonTo">
-                        <option value="-">-</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <label for="selectClass">Klasse</label>
-                      <select class="form-control" id="selectClass">
-                        <!-- do twig code here -->
-                        <option value="-">-</option>
-                        {% for class in classes %}
-                          <option value="{{ class.id }}">{{ class.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <label for="selectSubject">Fach</label>
-                      <select class="form-control" id="selectSubject">
-                        <!-- do twig code here -->
-                        <option value="-">-</option>
-                        {% for subject in subjects %}
-                          <option value="{{ subject.id }}">{{ subject.name }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <label for="inputRoom">Raum</label>
-                      <input type="text" class="form-control" id="inputRoom" placeholder="Raum">
-                    </div>
-                  </div>
-                  <label for="textTopic">Themen</label>
-                  <textarea id="textTopic">
-                    
-                  </textarea>
-                  <div class="form-group col-sm-12">
-                    <div class="custom-control custom-checkbox">
-                      <input class="custom-control-input" type="checkbox" id="chkActivateOther">
-                      <label for="chkActivateOther" class="custom-control-label">Sonstige Informationen angeben</label>
-                    </div>
-                  </div>
-                  <div style="display: none" id="otherWrapper">
-                    <textarea id="textOther">
-                      
-                    </textarea>
-                  </div>
-                </div>
-                <!-- /.card-body -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Klausuren</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+                <li class="breadcrumb-item active">Klausuren</li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
 
-                <div class="card-footer">
-                  <button class="btn btn-primary" id="saveExam">Speichern</button>
-                </div>
-
-            </div>
-          </div>
-
-          <!-- right col -->
-          <div class="col-md-6">
-            <div class="col-12">
-              <div class="card">
-                <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <!-- Left col -->
+            <div class="col-md-6">
+              <!-- Do something here!-->
+              <div class="card card-primary">
+                <div class="overlay card-overlay" style="display: none" id="createExamOverlay">
                   <i class="fas fa-2x fa-sync fa-spin"></i>
                 </div>
                 <div class="card-header">
-                  <h3 class="card-title">Klausuren ändern / löschen</h3>
+                  <h3 class="card-title">Klausuren hinzufügen</h3>
                 </div>
-                <div class="card-body">
-                  <table id="examsTable" class="table table-bordered table-hover" style="width: 100%">
-                    <thead>
-                      <tr>
-                        <th>Datum</th>
-                        <th>Fach</th>
-                        <th>Klasse</th>
-                        <th>Raum</th>
-                        <th>Von</th>
-                        <th>Bis</th>
-                        <th>Ändern</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                <!-- /.card-header -->
+                <!-- form start -->
+                  <div class="card-body">
+                    <div class="input-group">
+                      <div class="form-group offset-sm-4 col-sm-4">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="rbTime" name="rbChooseTime">
+                          <label for="rbTime" class="custom-control-label">Uhrzeit angeben</label>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <div class="custom-control custom-radio">
+                          <input class="custom-control-input" type="radio" id="rbLesson" name="rbChooseTime" checked="">
+                          <label for="rbLesson" class="custom-control-label">Schulstunden angeben</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group">
+                      <div class="form-group col-sm-4">
+                        <label for="inputDate">Datum</label>
+                        <input type="date" class="form-control" id="inputDate" placeholder="">
+                      </div>
+                      <div class="form-group col-sm-2">
+                        <label for="inputTimeFrom">Uhrzeit (von)</label>
+                        <input type="time" class="form-control" id="inputTimeFrom" placeholder="" disabled>
+                      </div>
+                      <div class="form-group col-sm-2 custom-radio">
+                        <label for="inputTimeTo">Uhrzeit (bis)</label>
+                        <input type="time" class="form-control" id="inputTimeTo" placeholder="" disabled>
+                      </div>
+                      <div class="form-group col-sm-2">
+                        <label for="selectLessonFrom">Stunde (von)</label>
+                        <select class="form-control" id="selectLessonFrom">
+                          <option value="-">-</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-2">
+                        <label for="selectLessonTo">Stunde (bis)</label>
+                        <!-- <input type="text" class="form-control" id="inputLessonTo" placeholder=""> -->
+                        <select class="form-control" id="selectLessonTo">
+                          <option value="-">-</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <label for="selectClass">Klasse</label>
+                        <select class="form-control" id="selectClass">
+                          <!-- do twig code here -->
+                          <option value="-">-</option>
+                          {% for class in classes %}
+                            <option value="{{ class.id }}">{{ class.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <label for="selectSubject">Fach</label>
+                        <select class="form-control" id="selectSubject">
+                          <!-- do twig code here -->
+                          <option value="-">-</option>
+                          {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.name }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group col-sm-4">
+                        <label for="inputRoom">Raum</label>
+                        <input type="text" class="form-control" id="inputRoom" placeholder="Raum">
+                      </div>
+                    </div>
+                    <label for="textTopic">Themen</label>
+                    <textarea id="textTopic">
+                      
+                    </textarea>
+                    <div class="form-group col-sm-12">
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" id="chkActivateOther">
+                        <label for="chkActivateOther" class="custom-control-label">Sonstige Informationen angeben</label>
+                      </div>
+                    </div>
+                    <div style="display: none" id="otherWrapper">
+                      <textarea id="textOther">
+                        
+                      </textarea>
+                    </div>
+                  </div>
+                  <!-- /.card-body -->
 
-                    </tbody>
-                  </table>
+                  <div class="card-footer">
+                    <button class="btn btn-primary" id="saveExam">Speichern</button>
+                  </div>
+
+              </div>
+            </div>
+
+            <!-- right col -->
+            <div class="col-md-6">
+              <div class="col-12">
+                <div class="card">
+                  <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+                    <i class="fas fa-2x fa-sync fa-spin"></i>
+                  </div>
+                  <div class="card-header">
+                    <h3 class="card-title">Klausuren ändern / löschen</h3>
+                  </div>
+                  <div class="card-body">
+                    <table id="examsTable" class="table table-bordered table-hover" style="width: 100%">
+                      <thead>
+                        <tr>
+                          <th>Datum</th>
+                          <th>Fach</th>
+                          <th>Klasse</th>
+                          <th>Raum</th>
+                          <th>Von</th>
+                          <th>Bis</th>
+                          <th>Ändern</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-    <!-- /.content -->
-  </div>
-  {{ block("footer", "layout.twig") }}
+      </section>
+      <!-- /.content -->
+    </div>
+    {{ block("footer", "layout.twig") }}
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
 
-  <!-- Modal change exams -->
-  <div class="modal fade" id="changeExamsModal">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg" style="max-width: 850px">
-      <div class="modal-content">
-        <div class="overlay">
-          <i class="fas fa-2x fa-sync fa-spin"></i>
-        </div>
-        <div class="modal-header">
-          <h4 class="modal-title">Klausuren ändern</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <div class="card card-primary">
-          <div class="card-body">
-            <div class="input-group">
-              <div class="form-group offset-sm-4 col-sm-4">
-                <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" id="rbTimeChange" name="rbChooseTimeChange">
-                  <label for="rbTimeChange" class="custom-control-label">Uhrzeit angeben</label>
+    <!-- Modal change exams -->
+    <div class="modal fade" id="changeExamsModal">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg" style="max-width: 850px">
+        <div class="modal-content">
+          <div class="overlay">
+            <i class="fas fa-2x fa-sync fa-spin"></i>
+          </div>
+          <div class="modal-header">
+            <h4 class="modal-title">Klausuren ändern</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <div class="card card-primary">
+            <div class="card-body">
+              <div class="input-group">
+                <div class="form-group offset-sm-4 col-sm-4">
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="rbTimeChange" name="rbChooseTimeChange">
+                    <label for="rbTimeChange" class="custom-control-label">Uhrzeit angeben</label>
+                  </div>
+                </div>
+                <div class="form-group col-sm-4">
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" type="radio" id="rbLessonChange" name="rbChooseTimeChange" checked="">
+                    <label for="rbLessonChange" class="custom-control-label">Schulstunden angeben</label>
+                  </div>
                 </div>
               </div>
-              <div class="form-group col-sm-4">
-                <div class="custom-control custom-radio">
-                  <input class="custom-control-input" type="radio" id="rbLessonChange" name="rbChooseTimeChange" checked="">
-                  <label for="rbLessonChange" class="custom-control-label">Schulstunden angeben</label>
+              <div class="input-group">
+                <div class="form-group col-sm-4">
+                  <label for="inputDateChange">Datum</label>
+                  <input type="date" class="form-control" id="inputDateChange" placeholder="">
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="inputTimeFromChange">Uhrzeit (von)</label>
+                  <input type="time" class="form-control" id="inputTimeFromChange" placeholder="" disabled>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="inputTimeToChange">Uhrzeit (bis)</label>
+                  <input type="time" class="form-control" id="inputTimeToChange" placeholder="" disabled>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="selectLessonFromChange">Stunde (von)</label>
+                  <select class="form-control" id="selectLessonFromChange">
+                    <option value="-">-</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label for="selectLessonToChange">Stunde (bis)</label>
+                  <!-- <input type="text" class="form-control" id="inputLessonTo" placeholder=""> -->
+                  <select class="form-control" id="selectLessonToChange">
+                    <option value="-">-</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="selectClassChange">Klasse</label>
+                  <select class="form-control" id="selectClassChange">
+                    <!-- do twig code here -->
+                    <option value="-">-</option>
+                    {% for class in classes %}
+                      <option value="{{ class.id }}">{{ class.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="selectSubjectChange">Fach</label>
+                  <select class="form-control" id="selectSubjectChange">
+                    <!-- do twig code here -->
+                    <option value="-">-</option>
+                    {% for subject in subjects %}
+                      <option value="{{ subject.id }}">{{ subject.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="inputRoomChange">Raum</label>
+                  <input type="text" class="form-control" id="inputRoomChange" placeholder="Raum">
                 </div>
               </div>
-            </div>
-            <div class="input-group">
-              <div class="form-group col-sm-4">
-                <label for="inputDateChange">Datum</label>
-                <input type="date" class="form-control" id="inputDateChange" placeholder="">
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="inputTimeFromChange">Uhrzeit (von)</label>
-                <input type="time" class="form-control" id="inputTimeFromChange" placeholder="" disabled>
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="inputTimeToChange">Uhrzeit (bis)</label>
-                <input type="time" class="form-control" id="inputTimeToChange" placeholder="" disabled>
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="selectLessonFromChange">Stunde (von)</label>
-                <select class="form-control" id="selectLessonFromChange">
-                  <option value="-">-</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                </select>
-              </div>
-              <div class="form-group col-sm-2">
-                <label for="selectLessonToChange">Stunde (bis)</label>
-                <!-- <input type="text" class="form-control" id="inputLessonTo" placeholder=""> -->
-                <select class="form-control" id="selectLessonToChange">
-                  <option value="-">-</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                </select>
-              </div>
-              <div class="form-group col-sm-4">
-                <label for="selectClassChange">Klasse</label>
-                <select class="form-control" id="selectClassChange">
-                  <!-- do twig code here -->
-                  <option value="-">-</option>
-                  {% for class in classes %}
-                    <option value="{{ class.id }}">{{ class.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-group col-sm-4">
-                <label for="selectSubjectChange">Fach</label>
-                <select class="form-control" id="selectSubjectChange">
-                  <!-- do twig code here -->
-                  <option value="-">-</option>
-                  {% for subject in subjects %}
-                    <option value="{{ subject.id }}">{{ subject.name }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <div class="form-group col-sm-4">
-                <label for="inputRoomChange">Raum</label>
-                <input type="text" class="form-control" id="inputRoomChange" placeholder="Raum">
-              </div>
-            </div>
-            <label for="textTopicChange">Themen</label>
-            <textarea id="textTopicChange">
-              
-            </textarea>
-            <div class="form-group col-sm-12">
-              <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" type="checkbox" id="chkActivateOtherChange">
-                <label for="chkActivateOtherChange" class="custom-control-label">Sonstige Informationen angeben</label>
-              </div>
-            </div>
-            <div style="display: none" id="otherWrapperChange">
-              <textarea id="textOtherChange">
+              <label for="textTopicChange">Themen</label>
+              <textarea id="textTopicChange">
                 
               </textarea>
+              <div class="form-group col-sm-12">
+                <div class="custom-control custom-checkbox">
+                  <input class="custom-control-input" type="checkbox" id="chkActivateOtherChange">
+                  <label for="chkActivateOtherChange" class="custom-control-label">Sonstige Informationen angeben</label>
+                </div>
+              </div>
+              <div style="display: none" id="otherWrapperChange">
+                <textarea id="textOtherChange">
+                  
+                </textarea>
+              </div>
             </div>
+            <!-- /.card-body -->
           </div>
-          <!-- /.card-body -->
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+            <button type="button" class="btn btn-primary" name="save">Speichern</button>
+          </div>
         </div>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-          <button type="button" class="btn btn-primary" name="save">Speichern</button>
-        </div>
+        <!-- /.modal-content -->
       </div>
-      <!-- /.modal-content -->
+      <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
+    <!-- /.modal -->
 
-  <!-- Modal delete exams -->
-  <div class="modal fade" id="deleteExamsModal">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Klausur löschen</h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <!-- Modal delete exams -->
+    <div class="modal fade" id="deleteExamsModal">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Klausur löschen</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Möchten Sie diese Klausur wirklich löschen?</p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+            <button type="button" class="btn btn-danger" name="delete">Löschen</button>
+          </div>
         </div>
-        <div class="modal-body">
-          <p>Möchten Sie diese Klausur wirklich löschen?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-          <button type="button" class="btn btn-danger" name="delete">Löschen</button>
-        </div>
+        <!-- /.modal-content -->
       </div>
-      <!-- /.modal-content -->
+      <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
+    <!-- /.modal -->
 
-  {{ block("responseMsg", "layout.twig") }}
+    {{ block("responseMsg", "layout.twig") }}
+
+  {% endif %}
 
 </div>
 <!-- ./wrapper -->

@@ -1,62 +1,54 @@
 <?php
-namespace Classes;
+  
+  namespace Classes;
 
-use Classes\ClassesRepository;
+  use Classes\ClassesRepository;
+  use User\UserRepository;
 
-class ClassesController
-{
+  class ClassesController
+  {
     private $repository;
+    private $userRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(ClassesRepository $repository)
+    //(DH)
+    public function __construct(ClassesRepository $repository, UserRepository $userRepository)
     {
-        $this->repository = $repository;
+      $this->repository = $repository;
+      $this->userRepository = $userRepository;
     }
 
-    //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
-    //Beispiel siehe index()
     private function render($view, $content)
     {
-        $classes = $content['classes'];
-        $twig = $content['twig'];
-        $loginState = $content['loginState'];
+      $classes = $content['classes'];
+      $favoriteClasses = $content['favoriteClasses'];
+      $twig = $content['twig'];
+      $loginState = $content['loginState'];
 
-        include "./templates/php/{$view}.php";
+      include "./templates/php/{$view}.php";
     }
 
-
-    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    // public function index($id, $tpl, $twig)
+    //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)
+    //(DH)
     public function index($tpl, $twig, $loginState)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $classes = $this->repository->fetchClasses();
+      //$userId = $auth->user->id;
+      $userId = $_COOKIE['UserLogin'];
+      $user = $this->userRepository->fetchUserById($userId);
 
-        // var_dump($id);
+      if($user){
+        $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
+        $classes = $this->repository->fetchClasses();
 
         $this->render("{$tpl}", [
             'classes' => $classes,
+            'favoriteClasses' => $favoriteClasses,
             'twig' => $twig,
             'loginState' => $loginState
         ]);
+      }else{
+        header("Location: http://localhost:8000/?page=dashboard");
+      }
     }
 
-    public function listClasses() {
-        return $this->repository->fetchClassData();
-    }
-
-    public function queryClass($data, $action, &$duplicate = false) {
-        return $this->repository->queryClass($data, $action, $duplicate);
-    }
-
-    public function getClassDataById($id) {
-        return $this->repository->getClassDataById($id);
-    }
-
-    public function deleteClassById($id) {
-        return $this->repository->deleteClassById($id);
-    }
-
-}
-
-?>
+  }

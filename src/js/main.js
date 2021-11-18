@@ -69,6 +69,7 @@ function isMail(mail) {
     return regEx.test(String(mail).toLowerCase());
 }
 
+
 function formatDate(dateStr) {
     return dateStr.substring(8, 10) + "." + dateStr.substring(5, 7) + "." + dateStr.substring(0, 4);
 }

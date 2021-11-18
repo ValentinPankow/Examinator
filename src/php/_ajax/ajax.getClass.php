@@ -1,17 +1,21 @@
 <?php
 
+    //Ajax um eine einzelne Klasse aus der Datenbank auszulesen
+    //(DH)
+
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassesRepository.php';
-    require_once '../_class/Classes/ClassesController.php';
     require_once '../_class/Classes/ClassesModel.php';
+    require_once '../_class/Classes/ClassManagement/ClassManagementController.php';
+    require_once '../_class/User/UserRepository.php';
 
     $data = (OBJECT) $_POST['data'];
 
     $container = new Core\Container();
 
-    $classController = $container->make("classesController");
+    $classManagementController = $container->make("classmanagementController");
 
-    $class = $classController->getClassDataById($data->id);
+    $class = $classManagementController->fetchClass($data->id);
 
     $obj = new stdClass;
 
@@ -21,6 +25,6 @@
     } else {
         $obj->success = false;
     }
-    
+
     $rtn = json_encode($obj);
     echo $rtn;

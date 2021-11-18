@@ -20,7 +20,7 @@ class UserRepository
     //Prepare & Execute werden benötigt wegen SQL Injektions :param und execute :param => $param ist hier Standard
     //FetchMode wird nur bei einem einzelnen Fetch benötigt
     //PDO::FETCH_CLASS wandelt das Array in die Attribute der Klasse um
-    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen) 
+    //Achtung! Die Namenskonvention des Models muss gleich der Datenbank sein (ansonsten AS benutzen)
     public function fetchUserById($id)
     {
         $query = $this->pdo->prepare("SELECT * FROM users WHERE `id` = :id");

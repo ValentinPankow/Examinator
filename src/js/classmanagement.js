@@ -1,9 +1,11 @@
 // Benachrichtungs Element erzeugen
+
+//(DH C&P von VP)
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
     showConfirmButton: false,
-    timer: 4000,
+    timer: 3000,
     timerProgressBar: true,
     customClass: {
         popup: "swal2-popup-custom"
@@ -14,282 +16,217 @@ const Toast = Swal.mixin({
     }
 })
 
-let classesTable = null;
-
-$(document).ready(function(){
-    classesTable = $('#classesTable').DataTable({
-        "responsive": true,
-        "autowidth": true,
-        "lengthMenu": [[5, 10, 25, 50], [5, 10, 25, 50]],
-        "ordering": false,
-        "ajax": {
-            "url": "src/php/_ajax/ajax.listClasses.php",
-            "dataSrc": "classes"
-        },
-        "columns": [
-            { "data": "name" },
-            { 
-                searchable: false,
-                orderable: false,
-                "data": "id",
-                render: function (account) { return '\
-                    <div class="btn-group">\
-                        <button type="button" class="btn btn-primary" name="editClass" data-id="'+account+'"><i class="fas fa-pen"></i></button>\
-                        <button type="button" class="btn btn-danger" name="deleteClass" data-id="'+account+'"><i class="fas fa-trash"></i></button>\
-                    </div>'
-                }
-            }
-        ],
-        fixedHeader: {
-            header: true,
-            footer: true
-        },
-        "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/de_de.json"
-        }
-    });
+//Öffnet die Funktion zum abspeichern einer neuen Klasse beim anklicken des Buttons "Anlegen"
+//(DH)
+$('#saveClass').on('click', function() {
+    saveNewClass();
 });
 
-$("#importClass").on("click", function() {
-    $("#importClassModal").modal("show");
-});
+//Speichert eine neue Klasse über "Anlegen"
+//DH (C&P von VP mit eigenen Anpassungen)
+function saveNewClass()
+{
+    let name = $('#createName').val();
+    let password = $('#createPassword').val();
 
-
-$("#addClass").on("click", function() {
-    $("#addClassModal").modal("show");
-});
-
-$('#classesTable').on("click", 'button[name="editClass"]', function () {
-    let button = $(this);
-    $('#editClassModal').find('button[name="save"]').attr('data-id', button.attr('data-id'));
-    $('#editClassModal').modal('show');
-});
-
-$('#classesTable').on("click", 'button[name="deleteClass"]', function () {
-    let button = $(this);
-    $('#deleteClassModal').find('button[name="delete"]').attr('data-id', button.attr('data-id'));
-    $('#deleteClassModal').modal('show');
-});
-
-$('#editClassModal').on('shown.bs.modal', function () {
-    getClassData($("#editClassModal").find('button[name="save"]').attr('data-id'));
-});
-
-$("#editClassModal").find('button[name="save"]').on('click', function () {
-    editClass($("#editClassModal").find('button[name="save"]').attr('data-id'));
-});
-
-$('#deleteClassModal').find('button[name="delete"]').on('click', function () {
-    deleteClass($('#deleteClassModal').find('button[name="delete"]').attr('data-id'));
-});
-
-$('#passwordChange').on("change", function () {
-    if ($('#passwordChange').is(':checked')) {
-        $('#inputEditPassword').prop('disabled', false);
-        $('#inputEditConfirmPassword').prop('disabled', false);
-        $('#inputEditPassword').val("");
-        $('#inputEditConfirmPassword').val("");
-    } else {
-        $('#inputEditPassword').prop('disabled', true);
-        $('#inputEditConfirmPassword').prop('disabled', true);
-        $('#inputEditPassword').val("--------");
-        $('#inputEditConfirmPassword').val("--------");
-    }
-});
-
-$('#editClassModal').on('hidden.bs.modal', function () {
-    $('#editClassModal').find('.overlay').show();
-    $('#inputEditName').val("");
-    $('#inputEditPassword').val("--------");
-    $('#inputEditConfirmPassword').val("--------");
-    $('#passwordChange').prop('checked', false);
-});
-
-$('#addClassModal').on('hidden.bs.modal', function () {
-    $('#addClassModal').find('.overlay').show();
-    $('#inputName').val("");
-    $('#inputPassword').val("");
-    $('#inputConfirmPassword').val("");
-});
-
-$('#saveNewClass').on("click", function () {
-    addNewClass();
-});
-
-function addNewClass() {
-    let nameValue = $('#inputName').val().trim();
-    let passwordValue = $('#inputPassword').val();
-    let confirmPasswordValue = $('#inputConfirmPassword').val();
-
+    // Variable für Fehlermeldung
     let errorMsg = null;
-    if(nameValue == null) {
-        errorMsg = $('.missingInput').html();
-    }
-    if (passwordValue != confirmPasswordValue) {
-        errorMsg = $('.errorPassword').html();
-    }
-    if (passwordValue.length < 8) {
-        errorMsg = $('.errorPasswordLength').html();
-    }
-    if(nameValue == "" || passwordValue == "" || confirmPasswordValue == "") {
-        errorMsg = $('.missingInput').html();
+
+    // Fehlermeldung Passworteingabe ist nicht gleich
+    if ($('#createPassword').val() != $('#createPasswordConfirmation').val()) {
+        errorMsg = $('.passwordNotEqual').html();
     }
 
+    //Fehlermeldung falls kein Name eingegeben wurde
+    if ($('#createName').val() == '') {
+        errorMsg = $('.noNameSelected').html();
+    }
+
+    //Falls eine Fehlermeldung entsteht, diese zurückgeben [...]
     if (errorMsg != null) {
         triggerResponseMsg('error', errorMsg);
         return false;
-    }
-
+    // [...] ansonsten die neue Klasse versuchen anzulegen
+    } else {
         $.post(
             'src/php/_ajax/ajax.queryClass.php',
             {
                 data: {
                     action: 'insert',
-                    name: nameValue,
-                    password: passwordValue,
+                    name: name,
+                    password: password
                 },
             },
-
-            function (rtn) {
+            function(rtn) {
                 try {
                     let obj = JSON.parse(rtn);
                     if (obj.success) {
+                        // Eingabemaske zurücksetzen
+                        $('#createName').val('');
+                        $('#createPassword').val('');
                         triggerResponseMsg('success', $('.successCreateClass').html());
+                        setTimeout(function() {window.location.reload();}, 3000);
                     } else {
-                        if (obj.error == "insert") {
-                            triggerResponseMsg('error', $('.errorCreateClass').html());
-                        } else {
-                            triggerResponseMsg('error', $('.errorDuplicateClass').html());
-                        }
+                        triggerResponseMsg('error', $('.errorCreateClass').html());
                     }
-
-                    $('#addClassModal').modal("hide");
-                    reloadTable();
-                } catch (e) {
-                    console.log(e);
-                    triggerResponseMsg('error', $('.errorCreateClass').html());
-                }
-            }
-        );
-    }
-
-
-    function getClassData(id) {
-        $.post(
-            'src/php/_ajax/ajax.getClass.php',
-            {
-                data: {
-                    id: id
-                },
-            },
-            function (rtn) {
-                try {
-                    let obj = JSON.parse(rtn);
-                    console.log(obj);
-                    if (obj.success) {
-                        $('#inputEditName').val(obj.class.name);
-                        $('#editClassModal').find('.overlay').fadeOut(500);
-                    }
-                } catch (e) {
+                } catch(e) {
                     console.log(e);
                 }
             }
         );
     }
+}
 
-    function deleteClass(id) {
+//Öffnet das Modal zum editieren in der Klassenverwaltung
+// DH (Zumeist C&P von VP mit Anpassungen)
+$('.edit').on('click',  function () {
+    let button = $(this);
+    $('#editClassModal').find('button[name="editClass"]').attr('data-id', button.attr('data-id'));
+    $('#editClassModal').modal('show');
+});
+
+
+// Wenn das Modal geöffnet wurde, die Klasse laden
+$('#editClassModal').on('shown.bs.modal', function() {
+    getClass($('#editClassModal').find('button[name="editClass"]').attr('data-id'));
+});
+
+
+//Öffnet die Funktion zum editieren einer Klasse beim anklicken des Buttons "Ändern"
+// DH (Zumeist C&P von VP mit Anpassungen)
+$('#editClassModal').find('button[name="editClass"]').on('click', function() {
+    editClass($('#editClassModal').find('button[name="editClass"]').attr('data-id'));
+});
+
+//Ändert die Klasse. Speichert bei Erfolg in die Datenbank, ansonsten gibt es eine Error-Meldung.
+// DH (Zumeist C&P von VP mit Anpassungen)
+function editClass(id)
+{
+    let name = $('#editName').val();
+    let password = $('#editPassword').val();
+    let passwordConfirmation = $('#editPasswordConfirmation').val();
+
+    // Variable für Fehlermeldung
+    let errorMsg = null;
+
+    // Fehlermeldung Passworteingabe ist nicht gleich
+    if ($('#editPassword').val() != $('#editPasswordConfirmation').val()) {
+        errorMsg = $('.passwordNotEqual').html();
+    }
+
+    // Fehlermeldung kein Name eingegeben
+    if ($('#editName').val() == '') {
+        errorMsg = $('.noNameSelected').html();
+    }
+
+    if (errorMsg != null) {
+        triggerResponseMsg('error', errorMsg);
+        return false;
+    } else {
         $.post(
-            'src/php/_ajax/ajax.deleteClass.php',
+            'src/php/_ajax/ajax.queryClass.php',
             {
                 data: {
-                    id: id
+                    id: id,
+                    action: 'update',
+                    name: name,
+                    password: password,
+                    passwordConfirmation: passwordConfirmation
                 },
             },
             function (rtn) {
                 try {
                     let obj = JSON.parse(rtn);
                     if (obj.success) {
-                        triggerResponseMsg('success', $('.successDeleteClass').html());
+                        triggerResponseMsg('success', $('.successEditClass').html());
+                        setTimeout(function() {window.location.reload();}, 3000);
                     } else {
-                        triggerResponseMsg('error', $('.errorDeleteClass').html());
+                        triggerResponseMsg('error', $('.errorEditClass').html());
                     }
-                    $("#deleteClassModal").modal("hide");
-                    reloadTable();
+                    $('#editClassModal').modal('hide');
                 } catch (e) {
                     console.log(e);
+                    triggerResponseMsg('error', $('.errorEditClass').html());
+                    $('#editClassModal').modal('hide');
+                }
+            }
+        );
+    }
+
+}
+
+
+//Ändert die Klasse. Speichert bei Erfolg in die Datenbank, ansonsten gibt es eine Error-Meldung.
+//DH (Zumeist C&P von VP mit Anpassungen)
+function getClass(id) {
+    $.post(
+        'src/php/_ajax/ajax.getClass.php',
+        {
+            data: {
+                id: id
+            },
+        },
+        function (rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+
+                if (obj.success) {
+
+                    // Zurückbekommene Werte den Feldern zuteilen
+                    $('#editName').val(obj.class.name);
+                    $('#editClassModal').find('.overlay').fadeOut(500);
+                } else {
+                    triggerResponseMsg('error', $('.errorGetClass').html());
+                    $('#editClassModal').modal('hide');
+                }
+            } catch (e) {
+                console.log(e);
+                triggerResponseMsg('error', $('.errorGetClass').html());
+                $('#editClassModal').modal('hide');
+            }
+        }
+    );
+}
+
+//Öffnet das Modal zum löschen in der Klassenverwaltung
+//DH (Zumeist C&P von VP mit Anpassungen)
+$('.delete').on('click',  function () {
+    let button = $(this);
+    $('#deleteClassModal').find('button[name="deleteClass"]').attr('data-id', button.attr('data-id'));
+
+    $('#deleteClassModal').modal('show');
+});
+
+
+$('#deleteClassModal').find('button[name="deleteClass"]').on('click', function() {
+    alert($('#deleteClassModal').find('button[name="deleteClass"]').attr('data-id'));
+    deleteClass($('#deleteClassModal').find('button[name="deleteClass"]').attr('data-id'));
+});
+
+
+//Löscht eine Klasse mithilfe der ID
+// DH (Zumeist C&P vo VP mit Anpassungen)
+function deleteClass(id) {
+    $.post(
+        'src/php/_ajax/ajax.deleteClass.php',
+        {
+            data: {
+                id: id
+            },
+        },
+        function(rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                    triggerResponseMsg('success', $('.successDeleteClass').html());
+                    setTimeout(function() {window.location.reload();}, 3000);
+                } else {
                     triggerResponseMsg('error', $('.errorDeleteClass').html());
                 }
+                $('#deleteClassModal').modal('hide');
+            } catch(e) {
+                console.log(e);
             }
-        )
-    }
-
-    function editClass(id) {
-
-        let nameValue = $('#inputEditName').val().trim();
-        let passwordValue = $('#inputEditPassword').val();
-        let confirmPasswordValue = $('#inputEditConfirmPassword').val();
-        let changePassword = $('#passwordChange').is(":checked") ? true : false;
-
-        let errorMsg = null;
-
-        if (passwordValue != confirmPasswordValue && changePassword) {
-           errorMsg = $('.errorPassword').html(); 
         }
-
-        if (passwordValue.length < 8 && changePassword) {
-            errorMsg = $('.errorPasswordLength').html();
-        }
-
-        if (nameValue == "" || (changePassword && (confirmPasswordValue == "" || passwordValue == ""))) {
-            errorMsg = $('.missingInput').html();
-        }
-
-        if (errorMsg != null) {
-            triggerResponseMsg('error', errorMsg);
-            return false;
-        }
-
-        $.post(
-           'src/php/_ajax/ajax.queryClass.php',
-           {
-               data: {
-                   id: id,
-                   action: 'update',
-                   name: nameValue,
-                   password: passwordValue,
-                   changePassword: changePassword
-               },
-           },
-           function (rtn) {
-               try {
-                   let obj = JSON.parse(rtn);
-                   if (obj.success) {
-                       triggerResponseMsg('success', $('.successEditClass').html());
-                   } else {
-                       if (obj.error == "update") {
-                           triggerResponseMsg('error', $('.errorEditClass').html());
-                       } else {
-                           triggerResponseMsg('error', $('.errorDuplicateClass').html());
-                       }
-                   }
-
-                   $("#editClassModal").modal("hide");
-                   reloadTable();
-               } catch (e) {
-                   console.log(e);
-                   triggerResponseMsg('error', $('.errorEditClass').html());
-               }
-           }
-        ); 
-    }
-
-    function reloadTable() {
-        $('#tableOverlay').fadeIn(500);
-        setTimeout(function() { 
-            classesTable.ajax.reload(hideOverlay());
-        }, 150);    
-    }
-    
-    function hideOverlay() {
-        $('#tableOverlay').fadeOut(500);
-    }
+    );
+}

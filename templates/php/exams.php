@@ -10,7 +10,6 @@
         'darkMode' => $darkMode,
         'classes' => $classes,
         'subjects' => $subjects,
-        'loginState' => $loginState,
         'isAdmin' => $isAdmin,
         'isTeacher' => $isTeacher,
         'firstname' => $firstname,

@@ -2,28 +2,22 @@
 
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassesRepository.php';
-    require_once '../_class/Classes/ClassesController.php';
-    require_once '../_class/Classes/ClassesModel.php';
+    require_once '../_class/Classes/ClassManagement/ClassManagementController.php';
+    require_once '../_class/User/UserRepository.php';
 
     $data = (object) $_POST['data'];
 
     $container = new Core\Container();
 
-    $classController = $container->make("classesController");
+    $classManagementController = $container->make("classmanagementController");
 
-    $duplicate = false;
-    $ok = $classController->queryClass($data, $data->action, $duplicate);
+    $ok = $classManagementController->queryClass($data, $data->action);
 
     $obj = new stdClass;
 
     if ($ok) {
         $obj->success = true;
     } else {
-        if ($duplicate) {
-            $obj->error = "duplicate";
-        } else {
-            $obj->error = "insert";
-        }
         $obj->success = false;
     }
 
