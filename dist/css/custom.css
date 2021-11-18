@@ -27,6 +27,7 @@
     filter: invert(1);
 }
 
+
 .dark-mode .fa-spin {
     filter: invert(1);
 }
@@ -37,6 +38,10 @@
 
 .dark-mode .card-overlay {
     background-color: rgba(0,0,0,.4) !important;
+}
+
+.dataTables_filter {
+    overflow: hidden;
 }
 
 /* ---------------------------------------------------------- */

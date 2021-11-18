@@ -9,7 +9,6 @@
         'tpl' => 'login',
         'darkMode' => $darkMode,
         'loginState' => $loginState,
-        'loginState' => $loginState,
         'isAdmin' => $isAdmin,
         'isTeacher' => $isTeacher,
         'firstname' => $firstname,
