@@ -2,15 +2,13 @@
 
     require "sharedVars.php";
 
-    echo $twig->render('exams.twig', array(
-        'pageTitle' => 'Examinator - Klausuren',
+    echo $twig->render('usermanagement.twig', array(
+        'pageTitle' => 'Examinator - Benutzerverwaltung',
         'userName' => 'User',
         'applicationName' => 'Examinator',
-        'pageJs' => 'src/js/exams.js',
-        'tpl' => 'exams',
+        'pageJs' => 'src/js/usermanagement.js',
+        'tpl' => 'usermanagement',
         'darkMode' => $darkMode,
-        'classes' => $classes,
-        'subjects' => $subjects,
         'loginState' => $loginState,
         'isAdmin' => $isAdmin,
         'isTeacher' => $isTeacher,

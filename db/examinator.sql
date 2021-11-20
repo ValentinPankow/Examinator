@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: mariadb
--- Erstellungszeit: 29. Okt 2021 um 12:19
--- Server-Version: 10.6.2-MariaDB-1:10.6.2+maria~focal
--- PHP-Version: 7.4.24
+-- Host: 127.0.0.1
+-- Erstellungszeit: 25. Okt 2021 um 22:04
+-- Server-Version: 10.4.21-MariaDB
+-- PHP-Version: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,15 +38,15 @@ CREATE TABLE `classes` (
 --
 
 INSERT INTO `classes` (`id`, `name`, `password`) VALUES
-(1, '12ITa', '1234'),
-(2, '11ITa', '1234'),
-(3, '10ITa', '1234'),
-(4, '10ITb', '1234'),
-(5, '11ITb', '1234'),
-(6, '12ITb', '1234'),
-(7, '10ITc', '1234'),
-(8, '11ITc', '1234'),
-(9, '12ITc', '1234');
+(1, '12ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(2, '11ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(3, '10ITa', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(4, '10ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(5, '11ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(6, '12ITb', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(7, '10ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(8, '11ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6'),
+(9, '12ITc', '$2y$10$6RspxXZvM4M.s3CIJIZ7q.8uW/kCvRlEdBhZAEqwrJxghoicmifI6');
 
 -- --------------------------------------------------------
 
@@ -117,6 +117,7 @@ CREATE TABLE `users` (
   `last_name` varchar(127) NOT NULL,
   `email` varchar(127) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `session_id` varchar(63) DEFAULT NULL,
   `is_admin` tinyint(1) NOT NULL,
   `is_teacher` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -125,9 +126,10 @@ CREATE TABLE `users` (
 -- Daten für Tabelle `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `is_admin`, `is_teacher`) VALUES
-(1, 'firstname', 'lastname', 'demo@demo.demo', '1234', 0, 0),
-(2, 'name', 'name2', 'demo2@demo.demo', '1234', 1, 1);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `session_id`, `is_admin`, `is_teacher`) VALUES
+(1, 'firstname', 'lastname', 'demo@demo.demo', '$2y$10$/5.1CWmq54TuA7wFeW/SAuHTrN4b.RZEqoaVSKr8wIUjlGMJEkruS', NULL, 0, 1),
+(2, 'name', 'name2', 'demo2@demo.demo', '$2y$10$5QkSaXTpTSXIWLXb3.2Mduqxdfcx.sf14P3qBEl4qjsbIdVYW/AEq', NULL, 0, 1),
+(3, 'test', 'test', 'demo3@demo.de', '$2y$10$Tj04pbgvXsQpAHdXNTmqee/i.rI1qknFmiiDC2nndIpxjcLHEOjSS', NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -218,7 +220,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT für Tabelle `user_favorites`

@@ -181,7 +181,7 @@
                 <img src="dist/img/UnknownUser.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ userName }}</a>
+                <a href="#" class="d-block">{% if firstname is not null and lastname is not null %}{{firstname}} {{lastname}}{% else %}{{className}}{% endif %}</a>
             </div>
         </div>
 
@@ -197,58 +197,69 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
-                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
-                        <p>
-                            Klassen
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
-                        <i class="nav-icon fas fa-pen-fancy"></i>
-                        <p>
-                            Klausuren
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="?page=favorites" class="nav-link {% if tpl == "favorites" %}active{% endif %}">
-                        <i class="nav-icon fas fa-star"></i>
-                        <p>
-                            Favoriten
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item menu-closed">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tools"></i>
-                        <p>
-                             Administration
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="?page=users" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Benutzerverwaltung</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="?page=classmanagement" class="nav-link  {% if tpl == "classmanagement" %}active{% endif %}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Klassenverwaltung</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
+                {% if isAdmin or isTeacher %}
+                  <li class="nav-item">
+                      <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
+                          <i class="nav-icon fas fa-chalkboard-teacher"></i>
+                          <p>
+                              Klassen
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
+                          <i class="nav-icon fas fa-pen-fancy"></i>
+                          <p>
+                              Klausuren
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a href="?page=favorites" class="nav-link {% if tpl == "favorites" %}active{% endif %}">
+                          <i class="nav-icon fas fa-star"></i>
+                          <p>
+                              Favoriten
+                          </p>
+                      </a>
+                  </li>
+                {% endif %}
+                {% if isAdmin %}
+                  <li class="nav-item menu-closed">
+                      <a href="#" class="nav-link">
+                          <i class="nav-icon fas fa-tools"></i>
+                          <p>
+                              Administration
+                              <i class="right fas fa-angle-left"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="?page=usermanagement" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Benutzerverwaltung</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="?page=classmanagement" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Klassenverwaltung</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
                             <a href="?page=subjectmanagement" class="nav-link  {% if tpl == "subjectmanagement" %}active{% endif %}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Fachverwaltung</p>
                             </a>
                         </li>
-                    </ul>
+                      </ul>
+                  </li>
+                {% endif %}
+                <hr />       
+                <li class="nav-item">
+                  <a href="?page=logout" class="nav-link" style="background-color: #9a1825">
+                      <i class="fas fa-sign-out-alt nav-icon"></i>
+                      <p>Abmelden</p>
+                  </a>
                 </li>
             </ul>
         </nav>
@@ -276,8 +287,8 @@
   <div id="notification" style="display: none;">
     <span class="successCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
     <span class="errorCreateExam">Die Klausur wurde erfolgreich eingetragen!</span>
-    <span class="userFound">Benutzer gefunden!</span>
-    <span class="userNotFound">Es konnte kein Benutzer gefunden werden!</span>
+    <span class="loginSuccess">Login erfolgreich!</span>
+    <span class="loginError">Benutzername / E-Mail oder Passwart ist falsch!</span>
     <span class="requiredFields">Datum, Uhrzeit/Stunde, Klasse und Fach müssen angegeben sein!</span>
     <span class="lessonAndTimeError">Die Zeitangabe (bis) darf nicht niedriger oder gleich als (von) sein!</span>
     <span class="successDeleteExam">Die Klausur wurde erfolgreich gelöscht!</span>
@@ -289,7 +300,6 @@
     <span class="noNameSelected">Es wurde kein Name ausgewählt!</span>
     <span class="noPasswordSelected">Es wurde kein Passwort ausgewählt!</span>
     <span class="passwordNotEqual">Die Passwörter stimmen nicht überein!</span>
-
 
     <span class="errorGetClass">Die Klasse konnte nicht geladen werden!</span>
     <span class="successCreateClass">Die Klasse wurde erfolgreich erstellt!</span>
@@ -306,5 +316,18 @@
     <span class="errorEditSubject">Das Fach konnte nicht geändert werden!</span>
     <span class="successDeleteSubject">Das Fach wurde erfolgreich gelöscht!</span>
     <span class="errorDeleteSubject">Das Fach konnte nicht gelöscht werden!</span>
+    <span class="successCreateUser">Der Benutzer wurde erfolgreich erstellt!</span>
+    <span class="errorCreateUser">Der Benutzer konnte nicht erstellt werden!</span>
+    <span class="errorMail">Die E-Mail-Adresse ist ungültig!</span>
+    <span class="errorPassword">Die Passwörter stimmen nicht überein!</span>
+    <span class="errorRole">Es muss mindestens eine Rolle ausgewählt werden!</span>
+    <span class="missingInput">Es müssen alle Felder ausgefüllt sein!</span>
+    <span class="errorDuplicate">Die E-Mail existiert bereits!</span>
+    <span class="errorPasswordLength">Das Passwort muss mindestens 8 Zeichen besitzen!</span>
+    <span class="errorEditUser">Die Änderungen konnten nicht gespeichert werden!</span>
+    <span class="successEditUser">Die Änderungen wurden gespeichert!</span>
+    <span class="successDeleteUser">Der Benutzer wurde erfolgreich gelöscht!</span>
+    <span class="errorDeleteUser">Der Benutzer konnte nicht gelöscht werden!</span>
+
   </div>
 {% endblock %}

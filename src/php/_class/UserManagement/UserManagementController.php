@@ -1,19 +1,16 @@
 <?php
-namespace Login;
+namespace UserManagement;
 
-use Login\LoginRepository;
-use User\UserRepository;
+use UserManagement\UserManagementRepository;
 
-class LoginController
+class UserManagementController
 {
     private $repository;
-    private $userRepository;
 
     //Übergibt das Repository vom Container
-    public function __construct(LoginRepository $repository, UserRepository $userRepository)
+    public function __construct(UserManagementRepository $repository)
     {
         $this->repository = $repository;
-        $this->userRepository = $userRepository;
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
@@ -26,18 +23,12 @@ class LoginController
         include "./templates/php/{$view}.php";
     }
 
-    public function login($user, $password) {
-        return $this->userRepository->login($user, $password);
-    }
-
-    public function getSessionID($userID){
-        return $this->userRepository->getSessionID($userID);
-    } 
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig, $loginState)
     {
+
         $this->render("{$tpl}", [
             'twig' => $twig,
             'loginState' => $loginState
