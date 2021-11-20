@@ -36,6 +36,11 @@ function saveNewClass()
         errorMsg = $('.passwordNotEqual').html();
     }
 
+    //Fehlermeldung falls kein Passwort eingegeben wurde
+    if ($('#createPassword').val() == '') {
+        errorMsg = $('.noPasswordSelected').html();
+    }
+
     //Fehlermeldung falls kein Name eingegeben wurde
     if ($('#createName').val() == '') {
         errorMsg = $('.noNameSelected').html();
@@ -86,6 +91,7 @@ $('.edit').on('click',  function () {
 
 
 // Wenn das Modal geöffnet wurde, die Klasse laden
+// DH (Zumeist C&P von VP mit Anpassungen)
 $('#editClassModal').on('shown.bs.modal', function() {
     getClass($('#editClassModal').find('button[name="editClass"]').attr('data-id'));
 });
