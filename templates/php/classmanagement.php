@@ -5,7 +5,6 @@
 
   echo $twig->render('classmanagement.twig', array(
     'pageTitle' => 'Examinator - Klassenverwaltung',
-    'userName' => $userName,
     'applicationName' => 'Examinator',
     'pageJs' => 'src/js/classmanagement.js',
     'tpl' => 'classmanagement',
@@ -15,5 +14,6 @@
     'isTeacher' => $isTeacher,
     'firstname' => $firstname,
     'lastname' => $lastname,
-    'className' => $className
+    'className' => $className,
+    'loginState' => $loginState,
   ));

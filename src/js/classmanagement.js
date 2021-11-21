@@ -1,5 +1,4 @@
 // Benachrichtungs Element erzeugen
-
 //(DH C&P von VP)
 const Toast = Swal.mixin({
     toast: true,
@@ -64,10 +63,15 @@ function saveNewClass()
                         // Eingabemaske zurücksetzen
                         $('#createName').val('');
                         $('#createPassword').val('');
+                        $('#createPasswordConfirmation').val('');
                         triggerResponseMsg('success', $('.successCreateClass').html());
                         setTimeout(function() {window.location.reload();}, 3000);
                     } else {
-                        triggerResponseMsg('error', $('.errorCreateClass').html());
+                        if (obj.error == "failed") {
+                            triggerResponseMsg('error', $('.errorCreateClass').html());
+                        } else {
+                            triggerResponseMsg('error', $('.errorDuplicateClass').html());
+                        }
                     }
                 } catch(e) {
                     console.log(e);
@@ -141,7 +145,11 @@ function editClass(id)
                         triggerResponseMsg('success', $('.successEditClass').html());
                         setTimeout(function() {window.location.reload();}, 3000);
                     } else {
-                        triggerResponseMsg('error', $('.errorEditClass').html());
+                        if (obj.error == "failed") {
+                            triggerResponseMsg('error', $('.errorEditClass').html());
+                        } else {
+                            triggerResponseMsg('error', $('.errorDuplicateClass').html());
+                        }
                     }
                     $('#editClassModal').modal('hide');
                 } catch (e) {
