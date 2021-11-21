@@ -74,7 +74,7 @@ class ClassesRepository
 
     //Erstellt bzw. updated eine Klasse und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH, C&P von VP mit Anpassungen)
-    public function queryClass($data, $action)
+    public function queryClass($data, $action, &$duplicate = false)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
