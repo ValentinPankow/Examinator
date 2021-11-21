@@ -23,14 +23,14 @@ class ClassManagementController
   {
     $classes = $content['classes'];
     $twig = $content['twig'];
-    $userName = $content['userName'];
+    $loginState = $content['loginState'];
 
     include "./templates/php/{$view}.php";
   }
 
   //Öffnet die Klassenverwaltung (Für Administratoren)
   //(DH)
-  public function index($tpl, $twig)
+  public function index($tpl, $twig, $loginState)
   {
     $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
@@ -40,8 +40,8 @@ class ClassManagementController
 
       $this->render("{$tpl}", [
           'classes' => $classes,
-          'userName' => $user->first_name . " " . $user->last_name,
           'twig' => $twig,
+          'loginState' => $loginState
       ]);
     }else{
       header("Refresh:0; url=?page=dashboard");
@@ -50,9 +50,9 @@ class ClassManagementController
   }
 
 
-  public function queryClass($data, $action)
+  public function queryClass($data, $action, &$duplicate)
   {
-    return $this->repository->queryClass($data, $action);
+    return $this->repository->queryClass($data, $action, $duplicate);
   }
 
   public function fetchClass($id)

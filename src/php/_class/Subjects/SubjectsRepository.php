@@ -61,27 +61,52 @@ class SubjectsRepository
 
     //Erstellt bzw. updated ein Fach und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH, C&P von VP mit Anpassungen)
-    public function querySubject($data, $action)
+    public function querySubject($data, $action, &$duplicate)
     {
+      //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
 
-      if ($action == "insert") {
-        $query = $this->pdo->prepare("INSERT INTO subjects (name) VALUES (:name)");
-        $result = $query->execute(['name' => $data->name]);
-      } else if ($action == "update") {
-        $query = $this->pdo->prepare("UPDATE subjects SET name = :name WHERE id = :id");
-        $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
-      } else {
+      //Überprüft auf ein Duplikat (Name)
+      $subjects = $this->fetchSubjects();
+
+      foreach($subjects AS $subject){
+        if($subject->name == $data->name){
+          $duplicate = true;
+          break;
+        }
+      }
+
+      //Falls kein Duplikat vorhanden ist die Query durchführen, überprüft auf Insert oder Update
+      if($duplicate == false){
+        if ($action == "insert") {
+          $query = $this->pdo->prepare("INSERT INTO subjects (name) VALUES (:name)");
+          $result = $query->execute(['name' => $data->name]);
+        } else if ($action == "update") {
+          $query = $this->pdo->prepare("UPDATE subjects SET name = :name WHERE id = :id");
+          $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
+        } else {
+          $result = false;
+        }
+      } else{
         $result = false;
       }
 
       return $result;
     }
 
-    //Löscht eines Fachs nach der ID
+    //Löscht ein Fach, sowie die dazugehörigen Klausuren und Favoriten
     //(DH)
     public function deleteSubject($id)
     {
+      //Löscht vorhandene Klausuren 
+      $query = $this->pdo->prepare("DELETE FROM exams WHERE subject_id = :id");
+      $result = $query->execute(['id' => $id]);
+
+      //Löscht vorhandene eingespeicherte Favoriten 
+      $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE subject_id = :id");
+      $result = $query->execute(['id' => $id]);
+
+      //Löscht das Fach
       $query = $this->pdo->prepare("DELETE FROM subjects WHERE id = :id");
       $result = $query->execute(['id' => $id]);
 

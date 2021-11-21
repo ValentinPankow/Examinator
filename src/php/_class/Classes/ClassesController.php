@@ -47,7 +47,8 @@
             'loginState' => $loginState
         ]);
       }else{
-        header("Location: http://localhost:8000/?page=dashboard");
+        header("Refresh:0; url=?page=dashboard");
+        exit();
       }
     }
 

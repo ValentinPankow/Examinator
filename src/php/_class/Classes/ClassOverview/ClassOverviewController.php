@@ -22,16 +22,16 @@ class ClassOverviewController
   {
     $class = $content['class'];
     $twig = $content['twig'];
-    $userName = $content['userName'];
+    $loginState = $content['loginState'];
 
     include "./templates/php/{$view}.php";
   }
 
   //Öffnet die Übersicht einer einzelnen Klasse (Für Lehrer/Administratoren)
   //(DH)
-  public function index($tpl, $twig)
+  public function index($tpl, $twig, $loginState)
   {
-    $userId = 2;
+    $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user){
@@ -40,11 +40,12 @@ class ClassOverviewController
 
       $this->render("{$tpl}", [
           'class' => $class,
-          'userName' => $user->first_name . " " . $user->last_name,
           'twig' => $twig,
+          'loginState' => $loginState
       ]);
     } else {
-      header("Location: http://localhost:8000/?page=dashboard");
+      header("Refresh:0; url=?page=dashboard");
+      exit();
     }
   }
 

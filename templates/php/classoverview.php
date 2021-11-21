@@ -13,5 +13,6 @@
       'isTeacher' => $isTeacher,
       'firstname' => $firstname,
       'lastname' => $lastname,
-      'className' => $className
+      'className' => $className,
+      'loginState' => $loginState,
   ));
