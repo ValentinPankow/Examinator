@@ -189,7 +189,7 @@ class UserRepository
     }
 
     public function deleteUserById($id) {
-        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE user_id = :id");
+        $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = :id");
         $result = $query->execute(['id' => $id]);
 
         $query = $this->pdo->prepare("DELETE FROM exams WHERE creator_id = :id");
