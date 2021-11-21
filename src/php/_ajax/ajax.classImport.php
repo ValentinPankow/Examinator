@@ -46,7 +46,7 @@
 
 				// Define the variables for the columns of csv and store the values in them
 				$data = new stdClass;
-				$data -> name = $fData[0];
+				$data -> name = trim($fData[0]);
 				$data -> password = $fData[1];
 				
 
@@ -59,15 +59,21 @@
 					// If not header row
 					if ($counter > 1) {
 						$duplicate = false;
-                        $importOk = $classController->queryClass($data, "insert", $duplicate);
+						$importOk = false;
+						if (strlen($data -> password) >= 8) {
+							$importOk = $classController->queryClass($data, "insert", $duplicate);	
+						}
+						
                         if($importOk){
                             writeLog("Die Klasse: " . $data->name . " wurde erfolgreich importiert", "../../../dist/import/logs/classImport.log");
 							$successCount ++;    					    
                         } else {
-							if($duplicate){
+							if($duplicate) {
 								writeLog("Die Klasse: ".$data -> name. " existiert bereits." 
                             	, "../../../dist/import/logs/classImport.log");
-							}else{
+							} else if (strlen($data -> password) < 8) {
+								writeLog("Das Passwort der Klasse: " . $data->name . " ist zu kurz!", "../../../dist/import/logs/classImport.log");
+							} else {
 								writeLog("Die Klasse: ".$data -> name." konnte nicht importiert werden." 
                             	, "../../../dist/import/logs/classImport.log");
 							}

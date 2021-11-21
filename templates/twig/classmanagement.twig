@@ -74,18 +74,22 @@
               <div class="card-body">
                 <div class="form-row">
                   <div class="form-group col-12">
-                      <div class="mb-3">
-                        Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
-                      </div>
+                    <div class="mb-3">
+                      Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
+                    </div>
                     <label class="btn text-white" style="background-color: #EE4D00" for="fileUpload">
-                        <input id="fileUpload" type="file" style="display:none"
-                        onchange="$('#upload-file-info').text(this.files[0].name)">
-                        Datei auswählen
+                    <input id="fileUpload" type="file" style="display:none"
+                      onchange="$('#upload-file-info').text(this.files[0].name)">
+                      Datei auswählen
                     </label>
                     <span class='label label-info font-weight-bold pl-2' id="upload-file-info"></span>
-                  <div class="col-12 text-right">
-                    <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importClass">Importieren</button>
                   </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="modal-footer justify-content-between">
+                  <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Log anzeigen</a>
+                  <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importClass">Importieren</button>
                 </div>
               </div>
             </div>
