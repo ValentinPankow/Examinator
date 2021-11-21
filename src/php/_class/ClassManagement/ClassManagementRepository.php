@@ -1,12 +1,10 @@
 <?php
-
-namespace Login;
+namespace ClassManagement;
 use PDO;
-use Login\LoginModel;
+use Class\ClassesModel;
 
 //Klasse die sich um die Datenbankverbindung und dessen Abfragen kümmert
-class LoginRepository
-{
+class ClassManagementRepository{
     private $pdo;
 
     //Übergibt die PDO Verbindung vom Container
@@ -14,5 +12,4 @@ class LoginRepository
     {
         $this->pdo = $pdo;
     }
-    
 }

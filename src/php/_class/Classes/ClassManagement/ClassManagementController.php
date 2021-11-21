@@ -32,7 +32,7 @@ class ClassManagementController
   //(DH)
   public function index($tpl, $twig)
   {
-    $userId = 2;
+    $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user->is_admin == 1){
@@ -44,7 +44,7 @@ class ClassManagementController
           'twig' => $twig,
       ]);
     }else{
-      header("Location: http://localhost:8000/?page=dashboard");
+      header("Refresh:0; url=?page=dashboard");
       exit();
     }
   }

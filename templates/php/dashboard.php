@@ -13,7 +13,6 @@
       'classes' => $classes,
       'login_type' => $login_type,
       'darkMode' => $darkMode,
-      'userName' => $user->first_name $user->last_name,
       'isAdmin' => $isAdmin,
       'isTeacher' => $isTeacher,
       'firstname' => $firstname,

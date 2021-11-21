@@ -23,16 +23,16 @@ class SubjectManagementController
   {
     $subjects = $content['subjects'];
     $twig = $content['twig'];
-    $userName = $content['userName'];
+    $loginState = $content['loginState'];
 
     include "./templates/php/{$view}.php";
   }
 
   //Öffnet die Fachverwaltung (Administrator)
   //(DH)
-  public function index($tpl, $twig)
+  public function index($tpl, $twig, $loginState)
   {
-    $userId = 2;
+    $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user->is_admin == 1){
@@ -41,10 +41,11 @@ class SubjectManagementController
       $this->render("{$tpl}", [
           'subjects' => $subjects,
           'userName' => $user->first_name . " " . $user->last_name,
+          'loginState' => $loginState,
           'twig' => $twig,
       ]);
     }else{
-      header("Location: http://localhost:8000/?page=dashboard");
+      header("Refresh:0; url=?page=dashboard");
       exit();
     }
   }
