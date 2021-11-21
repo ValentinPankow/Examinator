@@ -264,7 +264,11 @@ $('button#importClass').on('click', function () {
             let obj = JSON.parse(rtn);
 			// Upload Successful
             if (obj.status == 'success') {
-                triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                if (obj.successCount == 0 && obj.failCount > 0) {
+                    triggerResponseMsg('info', 'Die Datei enthält nur bereits vorhandene Klassen!');
+                } else {
+                    triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                }
             } else {
                 if (obj.status == "type_error") {
 					// File is not of the correct type
