@@ -1,4 +1,5 @@
 // Benachrichtungs Element erzeugen
+
 //(DH C&P von VP)
 const Toast = Swal.mixin({
     toast: true,
@@ -151,6 +152,7 @@ function editClass(id)
             }
         );
     }
+
 }
 
 
@@ -228,3 +230,48 @@ function deleteClass(id) {
         }
     );
 }
+
+$('button#importClass').on('click', function () {
+
+    // Get the selected file(s) and store them in the files variable --- [0].files; because we just want to have one file
+    let fd = new FormData();
+    let files = $('#fileUpload')[0].files;
+
+	// Add the file to the form data variable
+    if (files.length > 0) {
+        fd.append('file', files[0]);
+    } else {
+        triggerResponseMsg('error', $('.emptyInputFile').html());
+        return false;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: 'src/php/_ajax/ajax.classImport.php',
+        contentType: false,
+        processData: false,
+        data: fd,
+        success: function (rtn) {
+			// Parse the response JSON from php to an object
+            let obj = JSON.parse(rtn);
+			// Upload Successful
+            if (obj.status == 'success') {
+                triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+            } else {
+                if (obj.status == "type_error") {
+					// File is not of the correct type
+                    triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else {
+					// File upload error
+                    triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
+                }
+            }
+
+			// Clear the upload file input
+            $('#fileUpload').val('');
+            $('#upload-file-info').html('');
+        }
+    });
+});
+
+

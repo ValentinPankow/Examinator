@@ -28,6 +28,10 @@
       include "./templates/php/{$view}.php";
     }
 
+    public function queryClass($data, $action, &$duplicate = false) {
+      return $this->repository->queryClass($data, $action, $duplicate);
+    }
+
     //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)
     //(DH)
     public function index($tpl, $twig, $loginState)
