@@ -1,5 +1,4 @@
 <?php
-
     //Ajax um ein einzelnes Fach in die Datenbank einzuspeichern oder zu updaten
     //(DH)
 
@@ -13,15 +12,21 @@
 
     $container = new Core\Container();
 
-    $subjectmanagementController = $container->make("subjectmanagementController");
+    $subjectManagementController = $container->make("subjectmanagementController");
 
-    $ok = $subjectmanagementController->querySubject($data, $data->action);
+    $duplicate = false;
+    $ok = $subjectManagementController->querySubject($data, $data->action, $duplicate);
 
     $obj = new stdClass;
 
     if ($ok) {
         $obj->success = true;
     } else {
+        if ($duplicate) {
+            $obj->error = "duplicate";
+        } else {
+            $obj->error = "failed";
+        }
         $obj->success = false;
     }
 

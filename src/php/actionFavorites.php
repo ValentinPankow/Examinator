@@ -34,7 +34,8 @@ if($user){
   $favoritesController->desert('classes', $classIds, $userId);
   $favoritesController->desert('subjects', $subjectIds, $userId);
 
-  header('Location: ' . $_SERVER['HTTP_REFERER']);
+  header("Refresh:0; url=?page=dashboard");
+  exit();
 }
 
 
