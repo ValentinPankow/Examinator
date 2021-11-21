@@ -40,7 +40,6 @@ class SubjectManagementController
 
       $this->render("{$tpl}", [
           'subjects' => $subjects,
-          'userName' => $user->first_name . " " . $user->last_name,
           'loginState' => $loginState,
           'twig' => $twig,
       ]);
@@ -51,9 +50,9 @@ class SubjectManagementController
   }
 
 
-  public function querySubject($data, $action)
+  public function querySubject($data, $action, &$duplicate)
   {
-    return $this->repository->querySubject($data, $action);
+    return $this->repository->querySubject($data, $action, $duplicate);
   }
 
   public function fetchSubject($id)

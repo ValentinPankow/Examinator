@@ -29,13 +29,14 @@ class FavoritesController
     $subjects = $content['subjects'];
     $userId = $content['userId'];
     $twig = $content['twig'];
+    $loginState = $content['loginState'];
 
     include "./templates/php/{$view}.php";
   }
 
   //Lädt die Favoriten Übersicht
   //(DH)
-  public function index($tpl, $twig)
+  public function index($tpl, $twig, $loginState)
   {
     $userId = 2;
     $user = $this->userRepository->fetchUserById($userId);
@@ -79,9 +80,11 @@ class FavoritesController
         'subjects' => $subjects,
         'userId' => $userId,
         'twig' => $twig,
+        'loginState' => $loginState
       ]);
     } else {
-      header("Location: http://localhost:8000/?page=dashboard");
+      header("Refresh:0; url=?page=dashboard");
+      exit();
     }
   }
 

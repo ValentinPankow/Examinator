@@ -73,36 +73,60 @@ class ClassesRepository
     }
 
     //Erstellt bzw. updated eine Klasse und gibt eine Erfolgs/Fehlermeldung zurück
-    //(DH, C&P von VP mit Anpassungen)
-    public function queryClass($data, $action, &$duplicate = false)
+    //(DH)
+    public function queryClass($data, $action, &$duplicate)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
 
-      if ($action == "insert") {
-        $data->password = password_hash($data->password, PASSWORD_DEFAULT);
-        $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
-        $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
-      } else if ($action == "update") {
-        if($data->password != ""){
-          $data->password = password_hash($data->password, PASSWORD_DEFAULT);
-          $query = $this->pdo->prepare("UPDATE classes SET name = :name, password = :password WHERE id = :id");
-          $result = $query->execute(['name' => $data->name, 'password' => $data->password, 'id' => $data->id]);
-        } else {
-          $query = $this->pdo->prepare("UPDATE classes SET name = :name WHERE id = :id");
-          $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
+      //Überprüft auf ein Duplikat (Name)
+      $classes = $this->fetchClasses();
+
+      foreach($classes AS $class){
+        if($class->name == $data->name){
+          $duplicate = true;
+          break;
         }
-      } else {
+      }
+
+      //Falls kein Duplikat vorhanden ist die Query durchführen, überprüft auf Insert oder Update
+      if($duplicate == false){
+        if ($action == "insert") {
+          $data->password = password_hash($data->password, PASSWORD_DEFAULT);
+          $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
+          $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
+        } else if ($action == "update") {
+          if($data->password != ""){
+            $data->password = password_hash($data->password, PASSWORD_DEFAULT);
+            $query = $this->pdo->prepare("UPDATE classes SET name = :name, password = :password WHERE id = :id");
+            $result = $query->execute(['name' => $data->name, 'password' => $data->password, 'id' => $data->id]);
+          } else {
+            $query = $this->pdo->prepare("UPDATE classes SET name = :name WHERE id = :id");
+            $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
+          }
+        } else {
+          $result = false;
+        }
+      }else{
         $result = false;
       }
 
       return $result;
     }
 
-    //Löscht eine Klasse nach der ID
+    //Löscht eine Klasse, sowie die dazugehörigen Klausuren und Favoriten
     //(DH)
     public function deleteClass($id)
     {
+      //Löscht vorhandene Klausuren 
+      $query = $this->pdo->prepare("DELETE FROM exams WHERE subject_id = :id");
+      $result = $query->execute(['id' => $id]);
+
+      //Löscht vorhandene eingespeicherte Favoriten 
+      $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE subject_id = :id");
+      $result = $query->execute(['id' => $id]);
+
+      //Löscht die Klasse
       $query = $this->pdo->prepare("DELETE FROM classes WHERE id = :id");
       $result = $query->execute(['id' => $id]);
 
