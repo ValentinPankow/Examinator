@@ -91,13 +91,13 @@
                   <h3 class="card-title">Alle Fächer</h3>
                 </div>
                 <div class="card-body">
-                  <div class="row">
+                  <div class="row" id="subjectsContainer">
                     {% set entrys = 0 %}
                     {% for subject in subjects %}
                       {% if subject.name != "" %}
                         {% set entrys = entrys+1 %}
                       {% endif %}
-                      <div class="col-xl-4 col-lg-4 col-md-6 col-12">
+                      <div class="col-xl-4 col-lg-4 col-md-6 col-12" id="subject_{{ subject.id }}">
                         <div class="card" style="border: 1px solid #EE4D00;">
                           <div class="card-header">
                             <h3 class="card-title">
@@ -125,6 +125,9 @@
         <div class="modal fade" id="editSubjectModal">
           <div class="modal-dialog modal-m modal-dialog-centered">
             <div class="modal-content">
+              <div class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
               <div class="modal-header">
                 <h4 class="modal-title">Fach löschen</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

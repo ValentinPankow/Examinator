@@ -144,7 +144,7 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
-    $('#passwordChange').prop('checked', false)
+    $('#passwordChange').prop('checked', false);
 });
 
 $('#passwordChange').on("change", function () {

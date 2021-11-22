@@ -50,9 +50,9 @@ class SubjectManagementController
   }
 
 
-  public function querySubject($data, $action, &$duplicate)
+  public function querySubject($data, $action, &$duplicate, &$data_id = -1)
   {
-    return $this->repository->querySubject($data, $action, $duplicate);
+    return $this->repository->querySubject($data, $action, $duplicate, $data_id);
   }
 
   public function fetchSubject($id)

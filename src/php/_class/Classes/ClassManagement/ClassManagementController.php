@@ -58,9 +58,9 @@ class ClassManagementController
   }
 
 
-  public function queryClass($data, $action, &$duplicate)
+  public function queryClass($data, $action, &$duplicate, &$data_id = -1)
   {
-    return $this->repository->queryClass($data, $action, $duplicate);
+    return $this->repository->queryClass($data, $action, $duplicate, $data_id);
   }
 
   public function fetchClass($id)

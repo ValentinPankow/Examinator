@@ -16,12 +16,14 @@
     $classManagementController = $container->make("classmanagementController");
 
     $duplicate = false;
-    $ok = $classManagementController->queryClass($data, $data->action, $duplicate);
+    $data_id = -1;
+    $ok = $classManagementController->queryClass($data, $data->action, $duplicate, $data_id);
 
     $obj = new stdClass;
 
     if ($ok) {
         $obj->success = true;
+        $obj->data_id = $data_id;
     } else {
         if ($duplicate) {
             $obj->error = "duplicate";
