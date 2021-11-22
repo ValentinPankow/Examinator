@@ -8,6 +8,8 @@
 
   {{ block("css", "layout.twig") }}
   {{ block("border", "layout.twig") }}
+  {{ block("maxsize", "layout.twig") }}
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -85,7 +87,7 @@
                               <b>Themen</b>
                             </div>
                             <div class="row">
-                              <div class="col border-left border-primary border-3">
+                              <div class="col border-left border-primary border-3 msize">
                                   {{ exam.topic| raw }}
                               </div>
                             </div>
@@ -100,7 +102,7 @@
                               <b>Sonstiges</b>
                             </div>
                             <div class="row">
-                              <div class="col border-left border-secondary border-3">
+                              <div class="col border-left border-secondary border-3 msize">
                                 {{ exam.other| raw}}
                               </div>
                             </div>
