@@ -37,9 +37,10 @@
     public function index($tpl, $twig, $loginState)
     {
       $userId = $_COOKIE['UserLogin'];
-      $user = $this->userRepository->fetchUserById($userId);
 
-      if($user){
+      //Falls es ein User ist
+      if($userId){
+        $user = $this->userRepository->fetchUserById($userId);
         $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
         $classes = $this->repository->fetchClasses();
 
