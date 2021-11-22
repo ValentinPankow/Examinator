@@ -9,6 +9,7 @@
       'tpl' => 'classoverview',
       'darkMode' => $darkMode,
       'class' => $class,
+      'exams' => $exams,
       'isAdmin' => $isAdmin,
       'isTeacher' => $isTeacher,
       'firstname' => $firstname,
