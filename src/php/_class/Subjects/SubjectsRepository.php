@@ -39,12 +39,16 @@ class SubjectsRepository
     }
 
     //Holt alle favorisierten Fächer von einem User
-    //(DH)
-    public function fetchFavoriteSubjects($userId)
+    //(DH & VP)
+    public function fetchFavoriteSubjects($userId, $setupPage = true)
     {
       $query = $this->pdo->prepare("SELECT subjects.name, subjects.id FROM subjects INNER JOIN user_favorites ON user_favorites.subject_id = subjects.id WHERE user_favorites.user_id = :id ORDER BY name ASC");
       $ok = $query->execute(['id' => $userId]);
       $contents = $ok ? $query->fetchAll(PDO::FETCH_CLASS, "Subjects\\SubjectsModel") : false;
+      // (VP) Return all Classes if User has no Favorites
+      if (count($contents) == 0 && !$setupPage) {
+        $contents = $this->fetchSubjects();
+      }
 
       return $contents;
     }

@@ -11,13 +11,10 @@
     
     // Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
 	$upload_url = "../../../dist/import/classes/";
-	$importFiles = glob("../../../dist/import/classes/*");
+	$logPath = "../../../dist/import/logs/classImport.log";
 
-	foreach ($importFiles as $file) {
-		if (is_file($file)) {
-			unlink($file);
-		}
-	}
+	fclose(fopen($logPath, 'w'));
+
 	// Array of allowed data types
 	$allowed = array('csv');
 	$filename = $_FILES['file']['name'];
@@ -26,6 +23,7 @@
 	$failCount = 0;
 	$successCount = 0;
 	$typeError = false;
+	$correctFormat = true;
 
     // If files data type (extension) is allowed
 	if (in_array($extension, $allowed)) {
@@ -45,31 +43,43 @@
 			while (($fData = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 				// Define the variables for the columns of csv and store the values in them
-				$data = new stdClass;
-				$data -> name = $fData[0];
-				$data -> password = $fData[1];
+				if (isset($fData[0]) && isset($fData[1])) {
+					$data = new stdClass;
+					$data -> name = trim($fData[0]);
+					$data -> password = $fData[1];
+				} else {
+					writeLog("Zeile: " . $counter. " inkorrektes Format", $logPath);
+					$correctFormat = false;
+					break;
+				}
 				
-
 				// Überprüfung auf richtige Spaltennamen (Name;Passwort)
-				if ($counter == 1 && ($data -> name != 'name' || $data -> password != 'password')) {
+				if ($counter == 1 && (strtolower($data -> name) != 'name' || strtolower($data -> password) != 'password')) {
 					// Falsches Format, Abbruch der Schleife. Ausgabe des Fehlers in die Log-Datei
-					writeLog("Kopfzeile hat inkorrektes Format", "../../../dist/import/logs/classImport.log");
-                    break;
+					writeLog("Kopfzeile hat inkorrektes Format", $logPath);
+					$correctFormat = false;
+					break;
 				} else {
 					// If not header row
 					if ($counter > 1) {
 						$duplicate = false;
-                        $importOk = $classController->queryClass($data, "insert", $duplicate);
+						$importOk = false;
+						if (strlen($data -> password) >= 8) {
+							$importOk = $classController->queryClass($data, "insert", $duplicate);	
+						}
+						
                         if($importOk){
-                            writeLog("Die Klasse: " . $data->name . " wurde erfolgreich importiert", "../../../dist/import/logs/classImport.log");
+                            writeLog("Die Klasse: " . $data->name . " wurde erfolgreich importiert", $logPath);
 							$successCount ++;    					    
                         } else {
-							if($duplicate){
+							if($duplicate) {
 								writeLog("Die Klasse: ".$data -> name. " existiert bereits." 
-                            	, "../../../dist/import/logs/classImport.log");
-							}else{
+                            	, $logPath);
+							} else if (strlen($data -> password) < 8) {
+								writeLog("Das Passwort der Klasse: " . $data->name . " ist zu kurz!", $logPath);
+							} else {
 								writeLog("Die Klasse: ".$data -> name." konnte nicht importiert werden." 
-                            	, "../../../dist/import/logs/classImport.log");
+                            	, $logPath);
 							}
 							$failCount ++;
                         }
@@ -88,12 +98,24 @@
 		$typeError = true;
 	}
 	$obj = new stdClass;
-    if(!$typeError){
+    if(!$typeError && $correctFormat){
 		$obj->status = "success";
 		$obj->successCount = $successCount;
 		$obj->failCount = $failCount;
 	}else{
-		$obj->status = "type_error";	
+		if (!$correctFormat) {
+			$obj->status = "wrong_format";
+		} else {
+			$obj->status = "type_error";
+		}	
 	}
+
+	$importFiles = glob("../../../dist/import/classes/*");
+	foreach ($importFiles as $file) {
+		if (is_file($file)) {
+			unlink($file);
+		}
+	}
+
     $rtn = json_encode($obj);
     echo $rtn;

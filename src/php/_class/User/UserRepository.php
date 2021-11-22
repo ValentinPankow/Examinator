@@ -165,10 +165,10 @@ class UserRepository
 
         if ($action == 'update') {
             $values['id'] = $data->id;
-            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email AND id != :id");
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE LOWER(email) = LOWER(:email) AND id != :id");
             $resultDuplicate = $queryDuplicate->execute(['email' => $email, 'id' => $data->id]);
         } else {
-            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE LOWER(email) = LOWER(:email)");
             $resultDuplicate = $queryDuplicate->execute(['email' => $email]); 
         }
 
@@ -189,7 +189,7 @@ class UserRepository
     }
 
     public function deleteUserById($id) {
-        $query = $this->pdo->prepare("DELETE FROM users_classes WHERE user_id = :id");
+        $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = :id");
         $result = $query->execute(['id' => $id]);
 
         $query = $this->pdo->prepare("DELETE FROM exams WHERE creator_id = :id");

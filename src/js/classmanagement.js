@@ -274,13 +274,20 @@ $('button#importClass').on('click', function () {
             let obj = JSON.parse(rtn);
 			// Upload Successful
             if (obj.status == 'success') {
-                triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                if (obj.successCount == 0 && obj.failCount > 0) {
+                    triggerResponseMsg('info', 'Die Datei enthält nur bereits vorhandene Klassen!');
+                } else {
+                    triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                }
             } else {
                 if (obj.status == "type_error") {
 					// File is not of the correct type
                     triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else if (obj.status == "wrong_format") {
+					// File wrong format
+                    triggerResponseMsg('info', 'Die Datei ist nicht im richtigen Format!');
                 } else {
-					// File upload error
+                    // General File upload error
                     triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
                 }
             }
