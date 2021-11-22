@@ -45,7 +45,7 @@
         public function index($tpl, $twig, $loginState)
         {
             $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
-            $classId = isset($_COOKIE['ClassLogin']) ? $_COOKIE['ClassLogin'] : false;
+            $classId = isset($_COOKIE['ClassesLogin']) ? $_COOKIE['ClassesLogin'] : false;
 
             if($userId){
                 $login_type = 'user';
@@ -64,7 +64,7 @@
                 );
             } elseif($classId) {
                 $login_type = 'class';
-                $class = $this->classesRepository->fetchByName('12ITa');
+                $class = $this->classesRepository->fetchClass($classId);
                 $exams = $this->examsRepository->fetchClassExams($class->id, 9);
 
                 $this->render("{$tpl}", [
