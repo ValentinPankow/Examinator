@@ -75,9 +75,6 @@
                     ],
                     $login_type
                 );
-            } else {
-                header("Refresh:0; url=?page=dashboard");
-                exit();
             }
         }
     }
