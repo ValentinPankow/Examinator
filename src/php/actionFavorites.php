@@ -34,7 +34,7 @@ if($user){
   $favoritesController->desert('classes', $classIds, $userId);
   $favoritesController->desert('subjects', $subjectIds, $userId);
 
-  header("Refresh:0; ../../url=?page=favorites");
+  header("Refresh:0; url=../../?page=favorites");
   exit();
 }
 
