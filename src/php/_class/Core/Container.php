@@ -33,7 +33,7 @@ class Container
   //Enthält die Templates zur Erstellung der Objekte
   private $receipts = [];
 
-  //Wird benötigt, da man die Funktionen nicht beim deklarieren zuweisen kann
+  //Wird benötigt, da man die Funktionen erst beim Instanziieren zuweisen kann
   //Hier werden die neuen Controller/Repositorys/DB Verbindung erstellt
   //(DH)
   public function __construct()
