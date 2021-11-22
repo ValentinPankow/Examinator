@@ -33,16 +33,24 @@ class ClassManagementController
   public function index($tpl, $twig, $loginState)
   {
     $userId = $_COOKIE['UserLogin'];
-    $user = $this->userRepository->fetchUserById($userId);
+    
+    //Falls es ein User ist
+    if($userId){
+      $user = $this->userRepository->fetchUserById($userId);
 
-    if($user->is_admin == 1){
-      $classes = $this->repository->fetchClasses();
-
-      $this->render("{$tpl}", [
-          'classes' => $classes,
-          'twig' => $twig,
-          'loginState' => $loginState
-      ]);
+      //Falls der User ein Admin ist
+      if($user->is_admin == 1){
+        $classes = $this->repository->fetchClasses();
+  
+        $this->render("{$tpl}", [
+            'classes' => $classes,
+            'twig' => $twig,
+            'loginState' => $loginState
+        ]);
+      }else{
+        header("Refresh:0; url=?page=dashboard");
+        exit();
+      }
     }else{
       header("Refresh:0; url=?page=dashboard");
       exit();

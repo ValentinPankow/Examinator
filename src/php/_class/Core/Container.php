@@ -25,6 +25,7 @@ use Login\LoginController;
 use Login\LoginRepository;
 
 //Klasse die sich um das erstellen von Objekten kümmert
+//(DH)
 class Container
 {
   //Enthält alle Objekte die von make() erstellt werden
@@ -82,7 +83,7 @@ class Container
         return new ClassManagementController($this->make("classesRepository"), $this->make("userRepository"));
       },
       'classoverviewController' => function(){
-        return new ClassOverviewController($this->make("classesRepository"), $this->make("userRepository"));
+        return new ClassOverviewController($this->make("classesRepository"), $this->make("userRepository"), $this->make("examsRepository"));
       },
       'subjectmanagementController' => function(){
         return new SubjectManagementController($this->make("subjectsRepository"), $this->make("userRepository"));

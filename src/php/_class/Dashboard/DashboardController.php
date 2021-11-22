@@ -44,6 +44,8 @@
         //(DH)
         public function index($tpl, $twig, $loginState)
         {
+
+            
             //Testweise als ob eine Klasse oder Lehrer wäre. (!tpl = Klasse; tpl = Lehrer)
             if($tpl){
                 $login_type = 'teacher';
