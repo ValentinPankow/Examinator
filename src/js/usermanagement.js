@@ -48,11 +48,14 @@ $(document).ready(function(){
                 searchable: false,
                 orderable: false,
                 "data": "id",
-                render: function (account) { return '\
-                    <div class="btn-group">\
-                        <button type="button" class="btn btn-primary" name="editAccount" data-id="'+account+'"><i class="fas fa-pen"></i></button>\
-                        <button type="button" class="btn btn-danger" name="deleteAccount" data-id="'+account+'"><i class="fas fa-trash"></i></button>\
-                    </div>'
+                render: function (account) { 
+                    let rtn = '<div class="btn-group"><button type="button" class="btn btn-primary" name="editAccount" data-id="'+account+'"><i class="fas fa-pen"></i></button>';
+                    if (getCookie('UserLogin') != account) {
+                        rtn += '<button type="button" class="btn btn-danger" name="deleteAccount" data-id="'+account+'"><i class="fas fa-trash"></i></button></div>';
+                    } else {
+                        rtn += '</div>';
+                    }
+                    return rtn;
                 }
             }
         ],
@@ -144,7 +147,7 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
-    $('#passwordChange').prop('checked', false)
+    $('#passwordChange').prop('checked', false);
 });
 
 $('#passwordChange').on("change", function () {
@@ -280,6 +283,9 @@ function getUserData(id) {
                 if (obj.success) {
                     if (obj.user.is_admin == 1) {
                         $('#isAdminEdit').attr('checked', true);
+                        if (getCookie('UserLogin') == id) {
+                            $('#isAdminEdit').prop('disabled', true);
+                        }
                     }  else {
                         $('#isAdminEdit').attr('checked', false);
                     }
@@ -358,6 +364,11 @@ function editUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successEditUser').html());
+
+                    if (getCookie('UserLogin') == id) {
+                        deleteCookie("UserLogin", "/")
+                        location.reload();
+                    }
                 } else {
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
@@ -391,11 +402,14 @@ function deleteUser(id)
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
-
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successDeleteUser').html());
                 } else {
-                        triggerResponseMsg('error', $('.errorDeleteUser').html());    
+                    if (obj.status == "self_delete") {
+                        triggerResponseMsg('error', $('.errorSelfDeleteUser').html());
+                    } else {
+                        triggerResponseMsg('error', $('.errorDeleteUser').html());
+                    }    
                 }
                 $("#deleteUserModal").modal("hide");
                 reloadTable();

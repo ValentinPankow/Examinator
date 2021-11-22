@@ -13,7 +13,7 @@ class UserManagementController
     public function __construct(UserManagementRepository $repository, UserRepository $userRepository)
     {
         $this->repository = $repository;
-        $this->userRepository = $repository;
+        $this->userRepository = $userRepository;
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content

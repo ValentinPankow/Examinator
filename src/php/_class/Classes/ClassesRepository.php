@@ -78,7 +78,7 @@ class ClassesRepository
 
     //Erstellt bzw. updated eine Klasse und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH)
-    public function queryClass($data, $action, &$duplicate)
+    public function queryClass($data, $action, &$duplicate, &$data_id = -1)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
@@ -87,7 +87,7 @@ class ClassesRepository
       $classes = $this->fetchClasses();
 
       foreach($classes AS $class){
-        if(strtolower($class->name) == strtolower($data->name)){
+        if(strtolower($class->name) == strtolower($data->name) && $class->id != $data->id){
           $duplicate = true;
           break;
         }
@@ -99,6 +99,13 @@ class ClassesRepository
           $data->password = password_hash($data->password, PASSWORD_DEFAULT);
           $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
           $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
+
+          $query = $this->pdo->prepare("SELECT id FROM classes WHERE name = :name");
+          $query->execute(['name' => $data->name]);
+          $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+          $content = $query->fetch(PDO::FETCH_CLASS);
+
+          $data_id = $content->id;
         } else if ($action == "update") {
           if($data->password != ""){
             $data->password = password_hash($data->password, PASSWORD_DEFAULT);

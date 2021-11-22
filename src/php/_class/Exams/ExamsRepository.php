@@ -163,7 +163,6 @@ class ExamsRepository
         }
 
         $values = array(
-            'userId' => $userId,
             'class' => $data->class,
             'subject' => $data->subject,
             'date' => $data->date,
@@ -178,6 +177,10 @@ class ExamsRepository
 
         if ($action == "update") {
             $values['id'] = $data->id;
+        }
+
+        if ($action == "insert") {
+            $values['userId'] = $userId;
         }
 
         $result = $query->execute($values);
