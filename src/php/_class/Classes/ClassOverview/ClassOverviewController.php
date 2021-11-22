@@ -21,6 +21,7 @@ class ClassOverviewController
   private function render($view, $content)
   {
     $class = $content['class'];
+    $class = $content['exams'];
     $twig = $content['twig'];
     $loginState = $content['loginState'];
 
@@ -37,9 +38,11 @@ class ClassOverviewController
     if($user){
       $classId = $_GET['class'];
       $class = $this->repository->fetchClass($classId);
+      $exams = $this->repository->fetchClassExams($classId);
 
       $this->render("{$tpl}", [
           'class' => $class,
+          'exams' => $exams,
           'twig' => $twig,
           'loginState' => $loginState
       ]);

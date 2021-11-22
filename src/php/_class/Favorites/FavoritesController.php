@@ -38,7 +38,7 @@ class FavoritesController
   //(DH)
   public function index($tpl, $twig, $loginState)
   {
-    $userId = 2;
+    $userId = $_COOKIE['UserLogin'];
     $user = $this->userRepository->fetchUserById($userId);
 
     if($user){

@@ -1,5 +1,5 @@
 // Benachrichtungs Element erzeugen
-//(DH C&P von VP)
+// (DH C&P von VP)
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -15,14 +15,14 @@ const Toast = Swal.mixin({
     }
 })
 
-//Öffnet die Funktion zum abspeichern einer neuen Klasse beim anklicken des Buttons "Anlegen"
-//(DH)
+// Öffnet die Funktion zum abspeichern einer neuen Klasse beim anklicken des Buttons "Anlegen"
+// (DH)
 $('#saveClass').on('click', function() {
     saveNewClass();
 });
 
-//Speichert eine neue Klasse über "Anlegen"
-//DH (C&P von VP mit eigenen Anpassungen)
+// Speichert eine neue Klasse über "Anlegen"
+// DH (C&P von VP mit eigenen Anpassungen)
 function saveNewClass()
 {
     let name = $('#createName').val();
@@ -36,12 +36,17 @@ function saveNewClass()
         errorMsg = $('.passwordNotEqual').html();
     }
 
-    //Fehlermeldung falls kein Name eingegeben wurde
+    // Fehlermeldung, falls das Passwort nicht mindestens 8 Zeichen hat
+    if (password.length < 8) {
+        errorMsg = $('.errorPasswordLength').html();
+    }
+
+    // Fehlermeldung falls kein Name eingegeben wurde
     if ($('#createName').val() == '') {
         errorMsg = $('.noNameSelected').html();
     }
 
-    //Falls eine Fehlermeldung entsteht, diese zurückgeben [...]
+    // Falls eine Fehlermeldung entsteht, diese zurückgeben [...]
     if (errorMsg != null) {
         triggerResponseMsg('error', errorMsg);
         return false;
@@ -81,7 +86,7 @@ function saveNewClass()
     }
 }
 
-//Öffnet das Modal zum editieren in der Klassenverwaltung
+// Öffnet das Modal zum editieren in der Klassenverwaltung
 // DH (Zumeist C&P von VP mit Anpassungen)
 $('.edit').on('click',  function () {
     let button = $(this);
@@ -96,13 +101,13 @@ $('#editClassModal').on('shown.bs.modal', function() {
 });
 
 
-//Öffnet die Funktion zum editieren einer Klasse beim anklicken des Buttons "Ändern"
+// Öffnet die Funktion zum editieren einer Klasse beim anklicken des Buttons "Ändern"
 // DH (Zumeist C&P von VP mit Anpassungen)
 $('#editClassModal').find('button[name="editClass"]').on('click', function() {
     editClass($('#editClassModal').find('button[name="editClass"]').attr('data-id'));
 });
 
-//Ändert die Klasse. Speichert bei Erfolg in die Datenbank, ansonsten gibt es eine Error-Meldung.
+// Ändert die Klasse. Speichert bei Erfolg in die Datenbank, ansonsten gibt es eine Error-Meldung.
 // DH (Zumeist C&P von VP mit Anpassungen)
 function editClass(id)
 {
@@ -118,6 +123,11 @@ function editClass(id)
         errorMsg = $('.passwordNotEqual').html();
     }
 
+    // Fehlermeldung, falls das Passwort nicht mindestens 8 Zeichen hat
+    if (password.length < 8) {
+        errorMsg = $('.errorPasswordLength').html();
+    }
+    
     // Fehlermeldung kein Name eingegeben
     if ($('#editName').val() == '') {
         errorMsg = $('.noNameSelected').html();

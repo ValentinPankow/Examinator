@@ -36,7 +36,6 @@
     //(DH)
     public function index($tpl, $twig, $loginState)
     {
-      //$userId = $auth->user->id;
       $userId = $_COOKIE['UserLogin'];
       $user = $this->userRepository->fetchUserById($userId);
 
