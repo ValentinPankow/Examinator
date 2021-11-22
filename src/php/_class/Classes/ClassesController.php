@@ -3,19 +3,16 @@
   namespace Classes;
 
   use Classes\ClassesRepository;
-  use User\UserRepository;
 
   class ClassesController
   {
     private $repository;
-    private $userRepository;
 
     //Übergibt das Repository vom Container
     //(DH)
-    public function __construct(ClassesRepository $repository, UserRepository $userRepository)
+    public function __construct(ClassesRepository $repository)
     {
       $this->repository = $repository;
-      $this->userRepository = $userRepository;
     }
 
     private function render($view, $content)
@@ -36,11 +33,10 @@
     //(DH)
     public function index($tpl, $twig, $loginState)
     {
-      $userId = $_COOKIE['UserLogin'];
+      $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
 
       //Falls es ein User ist
       if($userId){
-        $user = $this->userRepository->fetchUserById($userId);
         $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
         $classes = $this->repository->fetchClasses();
 

@@ -32,8 +32,6 @@ class UserController
         //Example für fetchAll (SELECT * FROM bars)
         $users = $this->repository->fetchUsers();
 
-        // var_dump($id);
-
         $this->render("{$tpl}", [
             'users' => $users,
             'twig' => $twig,
