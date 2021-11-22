@@ -2,21 +2,18 @@
 namespace Classes\ClassOverview;
 
 use Classes\ClassesRepository;
-use User\UserRepository;
 use Exams\ExamsRepository;
 
 class ClassOverviewController
 {
   private $repository;
-  private $userRepository;
   private $examsRepository;
 
   //Übergibt das Repository vom Container
   //(DH)
-  public function __construct(ClassesRepository $repository, UserRepository $userRepository, ExamsRepository $examsRepository)
+  public function __construct(ClassesRepository $repository, ExamsRepository $examsRepository)
   {
     $this->repository = $repository;
-    $this->userRepository = $userRepository;
     $this->examsRepository = $examsRepository;
   }
 
@@ -24,7 +21,7 @@ class ClassOverviewController
   private function render($view, $content)
   {
     $class = $content['class'];
-    $class = $content['exams'];
+    $exams = $content['exams'];
     $twig = $content['twig'];
     $loginState = $content['loginState'];
 
@@ -35,11 +32,10 @@ class ClassOverviewController
   //(DH)
   public function index($tpl, $twig, $loginState)
   {
-    $userId = $_COOKIE['UserLogin'];
-    
+    $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+
     //Falls es ein User ist
     if($userId){
-      $user = $this->userRepository->fetchUserById($userId);
       $classId = $_GET['class'];
       $class = $this->repository->fetchClass($classId);
       $exams = $this->examsRepository->fetchClassExams($classId);

@@ -252,6 +252,28 @@
 
 {% endblock %}
 
+{% block border %}
+<style> 
+.border-3{
+  border-width: 3px !important;
+}
+</style>
+{% endblock %}
+
+{% block maxsize %}
+<style>
+.msize iframe{
+  width: -webkit-fill-available !important;
+  height: -webkit-fill-available !important;
+}
+
+.msize img{
+  max-width: -webkit-fill-available !important;
+  max-height: -webkit-fill-available !important;
+}
+</style>
+{% endblock %}
+
 {% block responseMsg %}
   <!-- notifications -->
   <div id="notification" style="display: none;">

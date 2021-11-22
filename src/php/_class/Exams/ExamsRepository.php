@@ -79,7 +79,7 @@ class ExamsRepository
                                         FROM exams AS e
                                         JOIN classes AS c ON e.class_id = c.id
                                         JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id
-                                        ORDER BY e.date, e.timeFrom ASC
+                                        ORDER BY e.date, e.lessonFrom, e.timeFrom ASC
                                         LIMIT :limit");
           $query->execute(['id' => $creatorId, 'limit' => $limit]);
         }else{
@@ -104,7 +104,7 @@ class ExamsRepository
                                       FROM exams AS e
                                       JOIN classes AS c ON e.class_id = c.id
                                       JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id
-                                      ORDER BY e.date, e.timeFrom ASC
+                                      ORDER BY e.date, e.lessonFrom, e.timeFrom ASC
                                       LIMIT :limit");
         $query->execute(['id' => $classId, 'limit' => $limit]);
         }else{
