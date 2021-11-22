@@ -2,6 +2,7 @@
 namespace UserManagement;
 
 use UserManagement\UserManagementRepository;
+use User\UserRepository;
 
 class UserManagementController
 {
