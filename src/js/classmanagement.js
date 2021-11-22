@@ -273,8 +273,11 @@ $('button#importClass').on('click', function () {
                 if (obj.status == "type_error") {
 					// File is not of the correct type
                     triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else if (obj.status == "wrong_format") {
+					// File wrong format
+                    triggerResponseMsg('info', 'Die Datei ist nicht im richtigen Format!');
                 } else {
-					// File upload error
+                    // General File upload error
                     triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
                 }
             }

@@ -83,7 +83,7 @@ class ClassesRepository
       $classes = $this->fetchClasses();
 
       foreach($classes AS $class){
-        if($class->name == $data->name){
+        if(strtolower($class->name) == strtolower($data->name)){
           $duplicate = true;
           break;
         }

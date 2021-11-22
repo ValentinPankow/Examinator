@@ -7,9 +7,13 @@
 
     $container = new Core\Container();
     $userController = $container->make("userController");
-    
-    // Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
-	$upload_url = "../../../dist/import/";
+
+	// Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
+	$upload_url = "../../../dist/import/users/";
+	$logPath = "../../../dist/import/logs/userImport.log";
+
+	fclose(fopen($logPath, 'w'));
+
 	// Array of allowed data types
 	$allowed = array('csv');
 	$filename = $_FILES['file']['name'];
@@ -18,6 +22,7 @@
 	$failCount = 0;
 	$sucssesCount = 0;
 	$typeError = false;
+	$correctFormat = true;
 
     // If files data type (extension) is allowed
 	if (in_array($extension, $allowed)) {
@@ -37,36 +42,51 @@
 			while (($fData = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 				// Define the variables for the columns of csv and store the values in them
-				$data = new stdClass;
-				$data -> firstname = $fData[0];
-				$data -> lastname = $fData[1];
-				$data -> email = $fData[2];
-				$data -> password = $fData[3];
-				$data -> isAdmin = $fData[4];
-				$data -> isTeacher = $fData[5];
-				
+				if (isset($fData[0]) && isset($fData[1]) && isset($fData[2]) && isset($fData[3]) && isset($fData[4]) && isset($fData[5])) {
+					$data = new stdClass;
+					$data -> firstname = trim($fData[0]);
+					$data -> lastname = trim($fData[1]);
+					$data -> email = trim($fData[2]);
+					$data -> password = $fData[3];
+					$data -> isAdmin = trim($fData[4]);
+					$data -> isTeacher = trim($fData[5]);
+				} else {
+					writeLog("Zeile: " . $counter. " inkorrektes Format", $logPath);
+					$correctFormat = false;
+					break;
+				}
 
 				// Check for correct headings to ensure correct format. ------ In this example the format of the csv headers has to be: is,correct,format
-				if ($counter == 1 && ($data -> firstname != 'firstname' || $data -> lastname != 'lastname' || $data -> email != 'email' ||
-                $data -> password != 'password' ||$data -> session_id != 'session_id' || $data -> isAdmin != 'isAdmin' || $data -> isTeacher != 'isTeacher')) {
+				if ($counter == 1 && (strtolower($data -> firstname) != 'firstname' || strtolower($data -> lastname) != 'lastname' || strtolower($data -> email) != 'email' ||
+                strtolower($data -> password) != 'password' || strtolower($data -> isAdmin) != 'isadmin' || strtolower($data -> isTeacher) != 'isteacher')) {
 					// Not the correct format -> break the loop to not go further
-					writeLog("Kopfzeile hat inkorrektes Format", "../../../dist/import/logs/userImport.log");
-                    break;
+					writeLog("Kopfzeile hat inkorrektes Format", $logPath);
+                    $correctFormat = false;
+					break;
 				} else {
 					// If not header row
 					if ($counter > 1) {
-						$duplicate = fales;
-                        $importOk = $userController->queryUser($data,"insert", $duplicate);
-                        if($importOk){
-                            writeLog("Import war erfolgreich", "../../../dist/import/logs/userImport.log");
+						$duplicate = false;
+						$importOk = false;
+
+						if (strlen($data -> password) >= 8 && filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
+                        	$importOk = $userController->queryUser($data,"insert", $duplicate);
+						}
+
+						if($importOk){
+                            writeLog("Import des Benutzers: ".$data->firstname . " ". $data->lastname. " ".$data->email ." war erfolgreich", $logPath);
 							$sucssesCount ++;    					    
                         } else {
 							if($duplicate){
 								writeLog("Der Benutzer: ".$data -> firstname." ".$data -> lastname." mit der E-Mail Adresse: ". $data -> email . " existiert bereits." 
-                            	, "../../../dist/import/logs/userImport.log");
-							}else{
+                            	, $logPath);
+							} else if (strlen($data -> password) < 8) {
+								writeLog("Das Passwort des benutzers: " . $data->firstname. " ".$data->lastname." ".$data->email." ist zu kurz!", $logPath);
+							} else if (!filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
+								writeLog("Die E-Mail des benutzers: " . $data->firstname. " ".$data->lastname." ".$data->email." ist nicht valide!", $logPath);
+							} else {
 								writeLog("Der Benutzer: ".$data -> firstname." ".$data -> lastname." mit der E-Mail Adresse: ". $data -> email . " konnte nicht importiert werden." 
-                            	, "../../../dist/import/logs/userImport.log");
+                            	, $logPath);
 							}
 							$failCount ++;
                         }
@@ -85,12 +105,24 @@
 		$typeError = true;
 	}
 	$obj = new stdClass;
-    if(!$typeError){
+    if(!$typeError && $correctFormat){
 		$obj->status = "success";
 		$obj->successCount = $sucssesCount;
 		$obj->failCount = $failCount;
 	}else{
-		$obj->status = "type_error";	
+		if (!$correctFormat) {
+			$obj->status = "wrong_format";
+		} else {
+			$obj->status = "type_error";
+		}	
 	}
+
+	$importFiles = glob("../../../dist/import/users/*");
+	foreach ($importFiles as $file) {
+		if (is_file($file)) {
+			unlink($file);
+		}
+	}
+
     $rtn = json_encode($obj);
     echo $rtn;
