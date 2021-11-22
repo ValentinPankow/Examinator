@@ -65,7 +65,7 @@ class SubjectsRepository
 
     //Erstellt bzw. updated ein Fach und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH, C&P von VP mit Anpassungen)
-    public function querySubject($data, $action, &$duplicate)
+    public function querySubject($data, $action, &$duplicate, &$data_id = -1)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
@@ -85,6 +85,14 @@ class SubjectsRepository
         if ($action == "insert") {
           $query = $this->pdo->prepare("INSERT INTO subjects (name) VALUES (:name)");
           $result = $query->execute(['name' => $data->name]);
+
+          $query = $this->pdo->prepare("SELECT id FROM subjects WHERE name = :name");
+          $query->execute(['name' => $data->name]);
+          $query->setFetchMode(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
+          $content = $query->fetch(PDO::FETCH_CLASS);
+
+          $data_id = $content->id;
+
         } else if ($action == "update") {
           $query = $this->pdo->prepare("UPDATE subjects SET name = :name WHERE id = :id");
           $result = $query->execute(['name' => $data->name, 'id' => $data->id]);
