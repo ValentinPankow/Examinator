@@ -13,7 +13,7 @@
 
     $examsController = $container->make("examsController");
 
-    $ok = $examsController->queryExam($data, $data->action);
+    $ok = $examsController->queryExam($data, $data->action, $_COOKIE['UserLogin']);
 
     $obj = new stdClass;
 

@@ -67,11 +67,11 @@ class FavoritesController
       }
 
       //Wandelt die Einträge in Strings um. Param1 = Objekte, Param2 = Typ, Param3 = Favorit True/False
-      $favoriteClasses = $this->toRowString($favoriteClasses, 'class', true);
-      $favoriteSubjects = $this->toRowString($favoriteSubjects, 'subject', true);
+      $favoriteClasses = $this->toRowString($favoriteClasses, 'class', true) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($favoriteClasses, 'class', true);
+      $favoriteSubjects = $this->toRowString($favoriteSubjects, 'subject', true) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($favoriteSubjects, 'subject', true);
 
-      $classes = $this->toRowString($classes, 'class', false);
-      $subjects = $this->toRowString($subjects, 'subject', false);
+      $classes = $this->toRowString($classes, 'class', false) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($classes, 'class', false);
+      $subjects = $this->toRowString($subjects, 'subject', false) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($subjects, 'subject', false);
 
       $this->render("{$tpl}", [
         'favoriteClasses' => $favoriteClasses,
@@ -120,12 +120,14 @@ class FavoritesController
     for($i = 1; $i <= $size; $i++)
     {
       //[...] eine Checkbox erstellen
-      $contentString .= "<div class='col-lg-{$breakpoint['lg']} col-md-{$breakpoint['md']} col-sm-{$breakpoint['sm']} col-xs-{$breakpoint['xs']}'><div class='card card-primary p-1 border border-primary'>
+      $contentString .= "
+        <div class='col-lg-{$breakpoint['lg']} col-md-{$breakpoint['md']} col-sm-{$breakpoint['sm']} col-xs-{$breakpoint['xs']}'><div class='card card-primary p-1 border border-primary'>
           <div class='custom-control custom-switch text-center'>
-          <input type='checkbox' class='custom-control-input' name='{$type}_{$content[$i-1]->id}' id='{$type}_{$content[$i-1]->id}' value='{$content[$i-1]->id}' {$checked}>
-          <label class='custom-control-label pr-4' for='{$type}_{$content[$i-1]->id}'>{$content[$i-1]->name}</label>
+            <input type='checkbox' class='custom-control-input' name='{$type}_{$content[$i-1]->id}' id='{$type}_{$content[$i-1]->id}' value='{$content[$i-1]->id}' {$checked}>
+            <label class='custom-control-label pr-4' for='{$type}_{$content[$i-1]->id}'>{$content[$i-1]->name}</label>
+          </div>
         </div>
-      </div></div>";
+      </div>";
     }
     $contentString .= "</div>";
 

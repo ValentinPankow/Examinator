@@ -35,17 +35,17 @@
         </div>
         <section class="content">
           <div class="container-fluid">
-            <div class="row">
-              <div class="col">
-                <h2>Favoriten</h2>
-              </div>
-            </div>
             <div class="card card primary">
               <div class="card-header" style="background-color: #EE4D00">
+                <h3 class="card-title">Favoriten</h3>
               </div>
               <div class="card-body">
                 <div class="row">
+                  {% set entrys = 0 %}
                   {% for favoriteClass in favoriteClasses %}
+                    {% if favoriteClass.name != "" %}
+                      {% set entrys = entrys+1 %}
+                    {% endif %}
                     <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                       <div class="card">
                         <div class="card-header" style="background-color: #EE4D00">
@@ -61,23 +61,25 @@
                       </div>
                     </div>
                   {% endfor %}
+                  {% if entrys == 0 %}
+                    <p class="mb-0">Keine Einträge vorhanden</p>
+                  {% endif %}
               </div>
             </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col">
-                <h2>Alle Klassen</h2>
-              </div>
             </div>
             <div class="row">
               <div class="col">
                 <div class="card">
                   <div class="card-header" style="background-color: #EE4D00">
+                    <h3 class="card-title">Alle klassen</h3>
                   </div>
                   <div class="card-body">
                     <div class="row">
+                      {% set entrys = 0 %}
                       {% for class in classes %}
+                        {% if class.name != "" %}
+                          {% set entrys = entrys+1 %}
+                        {% endif %}
                         <div class="col-lg-2 col-md-3 col-sm-4 col-6">
                           <div class="card" style="border: 1px solid #EE4D00">
                             <div class="card-header">
@@ -93,6 +95,9 @@
                           </div>
                         </div>
                       {% endfor %}
+                      {% if entrys == 0 %}
+                        <p class="mb-0">Keine Einträge vorhanden</p>
+                      {% endif %}
                     </div>
                   </div>
                 </div>

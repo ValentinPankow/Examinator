@@ -43,11 +43,16 @@
 			while (($fData = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 				// Define the variables for the columns of csv and store the values in them
-				$data = new stdClass;
-				$data -> name = trim($fData[0]);
-				$data -> password = $fData[1];
+				if (isset($fData[0]) && isset($fData[1])) {
+					$data = new stdClass;
+					$data -> name = trim($fData[0]);
+					$data -> password = $fData[1];
+				} else {
+					writeLog("Zeile: " . $counter. " inkorrektes Format", $logPath);
+					$correctFormat = false;
+					break;
+				}
 				
-
 				// Überprüfung auf richtige Spaltennamen (Name;Passwort)
 				if ($counter == 1 && (strtolower($data -> name) != 'name' || strtolower($data -> password) != 'password')) {
 					// Falsches Format, Abbruch der Schleife. Ausgabe des Fehlers in die Log-Datei
