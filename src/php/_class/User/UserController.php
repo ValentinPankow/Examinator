@@ -29,14 +29,18 @@ class UserController
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig, $loginState)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $users = $this->repository->fetchUsers();
+        $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+        if($userId){
+            //Example für fetchAll (SELECT * FROM bars)
+            $users = $this->repository->fetchUsers();
 
-        $this->render("{$tpl}", [
-            'users' => $users,
-            'twig' => $twig,
-            'loginState' => $loginState
-        ]);
+            $this->render("{$tpl}", [
+                'users' => $users,
+                'twig' => $twig,
+                'loginState' => $loginState
+            ]);
+        }
+
     }
 
     public function listAccounts() {
