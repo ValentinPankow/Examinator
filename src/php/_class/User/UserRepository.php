@@ -165,10 +165,10 @@ class UserRepository
 
         if ($action == 'update') {
             $values['id'] = $data->id;
-            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email AND id != :id");
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE LOWER(email) = LOWER(:email) AND id != :id");
             $resultDuplicate = $queryDuplicate->execute(['email' => $email, 'id' => $data->id]);
         } else {
-            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE email = :email");
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE LOWER(email) = LOWER(:email)");
             $resultDuplicate = $queryDuplicate->execute(['email' => $email]); 
         }
 

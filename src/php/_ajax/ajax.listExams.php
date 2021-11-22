@@ -11,7 +11,7 @@
 
     $examsController = $container->make("examsController");
 
-    $exams = $examsController->listExams();
+    $exams = $examsController->listFavoriteExams($_COOKIE['UserLogin']);
 
     $obj = new stdClass;
     $obj->exams = $exams;

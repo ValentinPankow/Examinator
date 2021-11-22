@@ -34,8 +34,8 @@ class ExamsController
     // public function index($id, $tpl, $twig)
     public function index($tpl, $twig, $loginState)
     {
-        $classes = $this->classesRepository->fetchClasses();
-        $subjects = $this->subjectsRepository->fetchSubjects();
+        $classes = $this->classesRepository->fetchFavoriteClasses($_COOKIE['UserLogin'], false);
+        $subjects = $this->subjectsRepository->fetchFavoriteSubjects($_COOKIE['UserLogin'], false);
         $this->render("{$tpl}", [
             'twig' => $twig,
             'classes' => $classes,
@@ -44,16 +44,16 @@ class ExamsController
         ]); 
     }
 
-    public function queryExam($data, $action) {
-        return $this->repository->queryExam($data, $action);
+    public function queryExam($data, $action, $userId) {
+        return $this->repository->queryExam($data, $action, $userId);
     }
 
     public function deleteExam($id) {
         return $this->repository->deleteExam($id);   
     }
 
-    public function listExams() {
-        return $this->repository->listExams();
+    public function listFavoriteExams($userId) {
+        return $this->repository->listFavoriteExams($userId);
     }
 
     public function fetchExams() {

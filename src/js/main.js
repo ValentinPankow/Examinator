@@ -102,8 +102,12 @@ function toggleDarkmode(active) {
     if (active) {
         $('body').addClass('dark-mode');
         $('.swal-popup').addClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='far fa-moon'></i>");
     } else {
         $('body').removeClass('dark-mode');
         $('.swal-popup').removeClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='fas fa-sun'></i>");
     }
 }

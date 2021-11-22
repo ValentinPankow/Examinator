@@ -52,12 +52,16 @@ class ClassesRepository
     }
 
     //Holt alle favorisierten Fächer eines Users
-    //(DH)
-    public function fetchFavoriteClasses($userId)
+    //(DH & VP)
+    public function fetchFavoriteClasses($userId, $setupPage = true)
     {
       $query = $this->pdo->prepare("SELECT classes.name, classes.id FROM classes INNER JOIN user_favorites ON user_favorites.class_id = classes.id WHERE user_favorites.user_id = :id ORDER BY classes.name ASC");
       $ok = $query->execute(['id' => $userId]);
       $contents = $ok ? $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel") : false;
+      // (VP) Return all Classes if User has no Favorites
+      if (count($contents) == 0 && !$setupPage) {
+        $contents = $this->fetchClasses();
+      }
 
       return $contents;
     }
@@ -83,7 +87,7 @@ class ClassesRepository
       $classes = $this->fetchClasses();
 
       foreach($classes AS $class){
-        if($class->name == $data->name){
+        if(strtolower($class->name) == strtolower($data->name)){
           $duplicate = true;
           break;
         }

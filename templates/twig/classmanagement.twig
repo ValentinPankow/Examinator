@@ -41,35 +41,37 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <h2>Klasse anlegen</h2>
             <div class="card">
               <div class="card-header" style="background-color: #EE4D00">
+                <h3 class="card-title">Klasse anlegen</h3>
               </div>
               <div class="card-body">
-                  <div class="form-row">
-                    <div class="form-group col-12">
-                      <label for="inputClassName">Klasse</label>
-                      <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Klassen Name">
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="password">Passwort</label>
-                      <input type="password" class="form-control" id="createPassword" autocomplete="new-password" placeholder="********">
-                    </div>
-                    <div class="form-group col-md-6">
-                      <label for="passwordConfirmation">Passwort bestätigen</label>
-                      <input type="password" class="form-control" id="createPasswordConfirmation" autocomplete="new-password" placeholder="********">
-                    </div>
-                    <div class="col-12 text-right">
-                      <button class="btn align-self-end text-white" id="saveClass" style="background-color: #EE4D00">Anlegen</button>
-                    </div>
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputClassName">Klasse</label>
+                    <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Klassen Name">
                   </div>
+                  <div class="form-group col-md-6">
+                    <label for="password">Passwort</label>
+                    <input type="password" class="form-control" id="createPassword" autocomplete="new-password" placeholder="********">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="passwordConfirmation">Passwort bestätigen</label>
+                    <input type="password" class="form-control" id="createPasswordConfirmation" autocomplete="new-password" placeholder="********">
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="col-12 text-right">
+                  <button class="btn align-self-end text-white" id="saveClass" style="background-color: #EE4D00">Anlegen</button>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
-            <h2>Klassen importieren</h2>
             <div class="card">
               <div class="card-header" style="background-color: #EE4D00">
+                <h3 class="card-title">Klassen importieren</h3>
               </div>
               <div class="card-body">
                 <div class="form-row">
@@ -87,28 +89,31 @@
                 </div>
               </div>
               <div class="card-footer">
-                <div class="modal-footer justify-content-between">
-                  <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Log anzeigen</a>
-                  <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importClass">Importieren</button>
+                <div class="row">
+                  <div class="col-6">
+                    <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Log anzeigen</a>
+                  </div>
+                  <div class="col-6 text-right">
+                    <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importClass">Importieren</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <h2>Alle Klassen</h2>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="card">
               <div class="card-header" style="background-color: #EE4D00">
+                <h3 class="card-title">Alle klassen</h3>
               </div>
               <div class="card-body">
                 <div class="row">
+                  {% set entrys = 0 %}
                   {% for class in classes %}
+                    {% if class.name != "" %}
+                      {% set entrys = entrys+1 %}
+                    {% endif %}
                     <div class="col-xl-4 col-lg-4 col-md-6 col-12">
                       <div class="card" style="border: 1px solid #EE4D00;">
                         <div class="card-header">
@@ -123,78 +128,80 @@
                       </div>
                     </div>
                   {% endfor %}
+                  {% if entrys == 0 %}
+                    <p class="mb-0">Keine Einträge vorhanden</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="editClassModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
+        <!-- Modal edit class -->
+        <div class="modal fade" id="editClassModal">
+          <div class="modal-dialog modal-m modal-dialog-centered">
             <div class="modal-content">
-              <div class="card">
-                <div class="card-header" style="background-color: #EE4D00">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="card-body">
-                    <div class="form-row">
-                      <div class="form-group col-12">
-                        <label for="inputClassName">Klassenname</label>
-                        <input type="text" class="form-control" id="editName">
-                      </div>
-                         <div class="row">
-                          <div class="col pb-3 pt-3 text-bold">
-                            Bitte das Passwort leer lassen, falls keine Änderung gewünscht ist.
-                          </div>
-                        </div>
-                      <div class="form-group col-md-6">
-                        <label for="password">Passwort</label>
-                        <input type="password" class="form-control" id="editPassword" autocomplete="new-password" placeholder="********">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="passwordConfirmation">Passwort bestätigen</label>
-                        <input type="password" class="form-control" id="editPasswordConfirmation" autocomplete="new-password" placeholder="********">
-                      </div>
-                      <div class="col-12 text-right">
-                        <span><button class="btn align-self-end text-white" name="editClass" id="editClass" style="background-color: #EE4D00">Ändern</button></span>
-                        <span><button class="btn align-self-end text-white" name="close" data-dismiss="modal" style="background-color: #EE4D00">Abbrechen</button></span>
-                      </div>
-                    </div>
-                </div>
+              <div class="modal-header">
+                <h4 class="modal-title">Klasse ändern</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-
-
-        <div id="deleteClassModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="card p-0 m-0">
-                <div class="card-header" style="background-color: #EE4D00">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col text-bold mb-4">
-                      Sind Sie sich sicher, dass Sie die Klasse löschen wollen?
+              <div class="modal-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputClassName">Klassenname</label>
+                    <input type="text" class="form-control" id="editName">
+                  </div>
+                  <div class="row mb-2">
+                    <div class="col text-bold">
+                      Bitte das Passwort leer lassen, falls keine Änderung gewünscht ist.
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <span><button class="btn align-self-end text-white" name="deleteClass" id="deleteClass" style="background-color: #EE4D00">Ja</button></span>
-                    </div>
-                    <div class="col-6 text-right">
-                      <span><button class="btn align-self-end text-white" name="close" data-dismiss="modal" style="background-color: #EE4D00">Nein</button></span>
-                    </div>
+                  <div class="form-group col-md-6">
+                    <label for="password">Passwort</label>
+                    <input type="password" class="form-control" id="editPassword" autocomplete="new-password" placeholder="********">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="passwordConfirmation">Passwort bestätigen</label>
+                    <input type="password" class="form-control" id="editPasswordConfirmation" autocomplete="new-password" placeholder="********">
                   </div>
                 </div>
               </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-danger" name="editClass" id="editClass">Ändern</button>
+              </div>
             </div>
+            <!-- /.modal-content -->
           </div>
+          <!-- /.modal-dialog -->
         </div>
+        <!-- /.modal -->
 
-
+        <!-- Modal delete class -->
+        <div class="modal fade" id="deleteClassModal">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Klasse löschen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Möchten Sie diese Klasse wirklich löschen?</p>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-danger" name="deleteClass" id="deleteClass">Löschen</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
       </div> <!-- Container -->
     </section> <!-- Content -->
