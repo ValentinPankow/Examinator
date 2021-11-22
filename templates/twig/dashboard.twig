@@ -7,6 +7,9 @@
   <title>{{pageTitle}}</title>
 
   {{ block("css", "layout.twig") }}
+  {{ block("border", "layout.twig") }}
+  {{ block("maxsize", "layout.twig") }}
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -33,28 +36,34 @@
     </div>
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            <h2>Anstehende Klausuren</h2>
-          </div>
-        </div>
         <div class="card card-primary">
-          <div class="card-header"></div>
+          <div class="card-header">
+            <h3 class="card-title">
+              Anstehende Klausuren
+            </h3>
+          </div>
           <div class="card-body">
             <div class="row">
               {% for exam in exams %}
-                <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                <div class="col-xl-4 col-md-6 col-12">
                   <div class="card card-secondary">
                     <div class="card-header">
                       <div class="row">
                         <div class="col text-left">
                           <b>{{ exam.subject }}</b>
                         </div>
-                        {% if exam.room %}
-                          <div class="col text-right">
-                            <b class="text-right"> Raum: {{ exam.room }}</b>
+                      {% if login_type == 'user' %}
+                        <div class="col">
+                          <div class="col p-0 m-0 text-center text-bold h5">
+                            {{ exam.class }}
                           </div>
+                        </div>
+                      {% endif %}
+                        <div class="col text-right">
+                        {% if exam.room %}
+                          <b class="text-right"> Raum: {{ exam.room }}</b>
                         {% endif %}
+                        </div>
                       </div>   
                       <div class="row">
                         <div class="col text-left">
@@ -71,25 +80,40 @@
                     </div>
                     <div class="card-body">
                     {% if exam.topic or exam.other %}
-                      {% if exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                      {% if exam.topic %}
                         <div class="row">
                           <div class="col">
-                            <b>Themen:</b> {{ exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
+                            <div class="text-center pb-2 h6">
+                              <b>Themen</b>
+                            </div>
+                            <div class="row">
+                              <div class="col border-left border-primary border-3 msize">
+                                  {{ exam.topic| raw }}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       {% endif %}
-                      {% if exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") != "" %}
+                      {% if exam.other %}
+                        <br>
                         <div class="row">
                           <div class="col">
-                            <b>Sonstiges:</b> {{ exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") }}
+                            <div class="text-center pb-2 h6">
+                              <b>Sonstiges</b>
+                            </div>
+                            <div class="row">
+                              <div class="col border-left border-secondary border-3 msize">
+                                {{ exam.other| raw}}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       {% endif %}
                     {% endif %}
-                    {% if not exam.topic|preg_replace("/<\\/?[^>]+(>|$)/", "") and not exam.other|preg_replace("/<\\/?[^>]+(>|$)/", "") %}
+                    {% if not exam.topic != "" and not exam.other != "" %}
                       <div class="row">
                         <div class="col">
-                          <i class="fas fa-info-circle"></i> Keine Informationen vorhanden!
+                          <i class="fas fa-info-circle"></i>&nbsp;&nbsp;Es sind keine Informationen vorhanden!
                         </div>
                       </div>
                     {% endif %}

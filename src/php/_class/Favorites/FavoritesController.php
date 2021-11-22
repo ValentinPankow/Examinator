@@ -38,10 +38,12 @@ class FavoritesController
   //(DH)
   public function index($tpl, $twig, $loginState)
   {
-    $userId = $_COOKIE['UserLogin'];
-    $user = $this->userRepository->fetchUserById($userId);
+    $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
 
-    if($user){
+    //Falls es ein User ist
+    if($userId){
+      $user = $this->userRepository->fetchUserById($userId);
+
       //Holt sich die favorisierten Einträge des Benutzers
       $favoriteClasses = $this->classesRepository->fetchFavoriteClasses($user->id);
       $favoriteSubjects = $this->subjectsRepository->fetchFavoriteSubjects($user->id);

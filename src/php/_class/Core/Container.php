@@ -53,7 +53,7 @@ class Container
         return new LoginRepository($this->make("pdo"));
       },
       'classesController' => function(){
-        return new ClassesController($this->make("classesRepository"), $this->make("userRepository"));
+        return new ClassesController($this->make("classesRepository"));
       },
       'classesRepository' => function(){
         return new ClassesRepository($this->make("pdo"));
@@ -80,16 +80,16 @@ class Container
         return new FavoritesController($this->make("classesRepository"), $this->make("subjectsRepository"), $this->make("userRepository"));
       },
       'classmanagementController' => function(){
-        return new ClassManagementController($this->make("classesRepository"), $this->make("userRepository"));
+        return new ClassManagementController($this->make("classesRepository"));
       },
       'classoverviewController' => function(){
-        return new ClassOverviewController($this->make("classesRepository"), $this->make("userRepository"), $this->make("examsRepository"));
+        return new ClassOverviewController($this->make("classesRepository"), $this->make("examsRepository"));
       },
       'subjectmanagementController' => function(){
-        return new SubjectManagementController($this->make("subjectsRepository"), $this->make("userRepository"));
+        return new SubjectManagementController($this->make("subjectsRepository"));
       },
       'usermanagementController' => function(){
-        return new UserManagementController($this->make("usermanagementRepository"));
+        return new UserManagementController($this->make("usermanagementRepository"), $this->make('userRepository'));
       },
       'usermanagementRepository' => function(){
           return new UserManagementRepository($this->make("pdo"));
