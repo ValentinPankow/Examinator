@@ -49,3 +49,7 @@
 #forgotPwd:hover {
     cursor:pointer;
 }
+
+.examsTooltip {
+    pointer-events: none;
+}

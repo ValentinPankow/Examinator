@@ -24,6 +24,10 @@ let today = null;
 
 $(document).ready(function() {
 
+    $('#deleteByDate').tooltip({
+        tooltipClass: "examsTooltip"
+    });
+
     $('div.swal2-popup').addClass('sweetalert-darkmode');
     // Erstellen der Eingabefelder
     summernoteTopic = $('#textTopic').summernote({
@@ -244,6 +248,85 @@ $('#rbLessonChange').on('change', function() {
 $('#saveExam').on('click', function() {
     saveNewExam();
 });
+
+$('#deleteByDate').on('click', function() {
+    $('#deleteExamsByDateModal').modal('show');
+});
+
+$('#deleteExamsByDateModal').find('button[name="delete"]').on('click', function() {
+    deleteByDate($('#selectClassDeleteByDate').val());
+});
+
+// Wenn das Modal geschlossen wurde, die Felder leeren.
+$('#deleteExamsByDateModal').on('hidden.bs.modal', function() {
+    $('#selectClassDeleteByDate').val('-');
+    $('#deleteByDateFrom').val('');
+    $('#deleteByDateTo').val('');
+    $('#selectClassDeleteByDate').prop('disabled', true);
+    $('#selectClassDeleteByDate').val('-');
+    $('#deleteAllExams').prop('checked', true);
+});
+
+$('#deleteAllExams').on('change', function() {
+    if ($('#deleteAllExams').is(':checked')) {
+        $('#selectClassDeleteByDate').prop('disabled', true);
+        $('#selectClassDeleteByDate').val('-');
+    } else {
+        $('#selectClassDeleteByDate').prop('disabled', false);
+    }
+});
+
+function deleteByDate(classId) {
+    let deleteFromValue = $('#deleteByDateFrom').val();
+    let deleteToValue = $('#deleteByDateTo').val();
+    let deleteAllExams = $('#deleteAllExams').is(':checked') ? true : false;
+
+    let errorMsg = null;
+
+    if ((!deleteAllExams && (classId == "" || classId == "-")) || deleteFromValue == "" || deleteToValue == "") {
+        errorMsg = $('.requiredInputs').html();
+    }
+
+    if (Date.parse(deleteFromValue) > Date.parse(deleteToValue)) {
+        errorMsg = $('.lessonAndTimeError').html();
+    }
+
+    if (errorMsg != null) {
+        triggerResponseMsg('error', errorMsg);
+        return false;
+    }
+
+    $.post(
+        'src/php/_ajax/ajax.deleteExamByDate.php',
+        {
+            data: {
+                id: classId,
+                dateFrom: deleteFromValue,
+                dateTo: deleteToValue,
+                deleteAllExams: deleteAllExams
+            },
+        },
+        function(rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                    reloadTable();
+                    $('#deleteExamsByDateModal').modal('hide');
+                    triggerResponseMsg('success', $('.successDeleteExamByDateRange').html());
+                } else {
+                    if (obj.no_matches) {
+                        triggerResponseMsg('error', $('.errorNoExamsExist').html());
+                    } else {
+                        triggerResponseMsg('error', $('.errorDeleteExamByDateRange').html());
+                    }
+                }
+            } catch(e) {
+                triggerResponseMsg('error', $('.errorDeleteExamByDateRange').html());
+                console.log(e);
+            }
+        }
+    );
+}
 
 function saveNewExam() {
 
