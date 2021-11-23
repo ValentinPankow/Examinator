@@ -19,6 +19,10 @@ $(document).ready(function() {
     toggleDarkmode(darkModeActivated);
 });
 
+$('#btnHelp').on('click', function() {
+    $('#helpModal').modal('show');
+});
+
 // Einstellungsseite für Preferenzen erstellen
 let $sidebar = $('.control-sidebar');
 let $container = $('<div />', {

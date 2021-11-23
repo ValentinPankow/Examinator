@@ -133,6 +133,33 @@ $(document).ready(function() {
     today = d.getFullYear()+"-"+(month)+"-"+(day) ;
     $('#inputDate').val(today);
 
+    let helpText = "\
+    <h5>Klausuren hinzufügen</h5>\
+    <p>In dieser Ansicht können Klausuren angelegt werden. \
+    Pflichtangaben sind hierbei das Feld Datum, Uhrzeit von & bis oder Stunde von & bis sowie das Feld Klasse und Fach.</p>\
+    <p>In den Dropdown Feldern für Klasse und Fach werden standardmäßig nur die favoritisierten Klassen und Fächer auswählbar sein, außer wenn\
+    weder Klassenfavoriten noch Fachfavoriten ausgewählt wurden, in diesem Fall werden alle zur verfügung stehenden Klassen und Fächer aufgelistet.</p>\
+    <p>Durch anklicken des Kontrollkästchens 'Sonstige Informationen angeben' lässt sich ein Weiteres Textfeld öffnen, indem weitere Informationen hinterlegt\
+    werden können.</p>\
+    <p>Durch einen Klick auf den Speichern Button wird die Klausur dann hinzugefügt.</p>\
+    <h5>Klausuren ändern / löschen</h5>\
+    <p>In diesem Bereich werden alle Klausuren der vom Benutzer favoritisierten Klassen aufgelistet. Falls der Benutzer keine Favoriten ausgewählt hat, werden hier</p>\
+    Alle Klausuren aller Fächer aufgelistet.</p>\
+    <p>Anhand des 'Suche' Feldes kann nach inhalten von jeder Tabellenspalte gesucht werden. Die Anzahl der Klausuren, die auf einen Blick sichtbar sind\
+    kann mit einer Auswahl eines Eintrages auf dem Feld 'Zeilen anzeigen' geändert werden.\
+    Mit den Buttons 'Zurück' und 'Nächste' kann die Seite gewechselt werden um weitere Tabelleneinträge ansehen zu können.</p>\
+    <h5>Klausuren ändern</h5>\
+    <p>Mit einem Klick auf den blauen Button mit dem Stift Symbol kann die Klausur verändert werden. Dies funktioniert genauso wie beim hinzufügen der Klausur.</p>\
+    <h5>Klausuren löschen</h5>\
+    <p>Mit einem Klick auf den roten Button mit dem Mülleimer Symbol kann die Klausur nach bestätigung einer weiteren Sicherheits-Meldung gelöscht werden.</p>\
+    <h5>Klausuren per Zeitangabe löschen</h5>\
+    <p>Beim klicken dieses Buttons öffnet sich ein neues Fenster, indem man die Möglichkeit hat einen Zeitraum anzugeben um somit alle Klausuren innerhalb dieses\
+    Zeitraumes zu löschen. Wichtig hierbei ist, dass das Kästchen 'Von allen Klassen im Zeitraum löschen?' standardmäßig aktiviert ist und somit alle Klausuren aller\
+    Klassen innerhalb des angegebenen Zeitraumes gelöscht werden. Durch Abhaken dieses Kontrollkästchens kann eine Klasse ausgewählt werden von der innerhalb der Zeitangabe\
+    die Klausuren gelöscht werden sollen.</p>\
+    ";
+    $('#helpText').html(helpText);
+
 });
 
 // Show Modals and bind id from entry to save button

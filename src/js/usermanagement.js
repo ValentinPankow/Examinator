@@ -67,6 +67,43 @@ $(document).ready(function(){
             "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/de_de.json"
         }
     });
+
+    let helpText = "\
+    <p><i class='fas fa-info-circle'></i> Die Benutzerverwaltung ist nur für Administratoren aufrufbar.</p>\
+    <h5>Benutzer hinzufügen</h5>\
+    <p>In diesem Fenster müssen alle Felder ausgefüllt sein. Weiterhin muss mindestens ein Kontrollkästchen für eine Rolle ausgewählt sein! \
+    Das Passwort muss mindestens 8 Zeichen lang sein und es muss eine gültige E-Mail Adresse eingegeben werden! Durch einen Klick auf den Button speichern \
+    wird der Benutzer hinzugefügt.</p>\
+    <h5>Benutzertabelle</h5>\
+    <p>Auf dieser Seite werden alle Benutzer aufgelistet.</p>\
+    <p>Anhand des 'Suche' Feldes kann nach inhalten von jeder Tabellenspalte gesucht werden. Die Anzahl der Benutzer, die auf einen Blick sichtbar sind\
+    kann mit einer Auswahl eines Eintrages auf dem Feld 'Zeilen anzeigen' geändert werden.\
+    Mit den Buttons 'Zurück' und 'Nächste' kann die Seite gewechselt werden um weitere Tabelleneinträge ansehen zu können.</p>\
+    <h5>Benutzer ändern</h5>\
+    <p>Mit einem Klick auf den blauen Button mit dem Stift Symbol kann der Benutzer verändert werden. Dies funktioniert genauso wie beim hinzufügen der Benutzer.</p>\
+    <h5>Benutzer löschen</h5>\
+    <p>Mit einem Klick auf den roten Button mit dem Mülleimer Symbol kann die Klausur nach bestätigung einer weiteren Sicherheits-Meldung gelöscht werden.</p>\
+    <p><i class='fas fa-info-circle'></i> Dem eigenen Benutzer kann nicht die Administrator Rolle entzogen werden, dies funktioniert aber durch einen weiteren Administrator. \
+    Weiterhin kann der eigene Benutzer nur durch einen weiteren Administrator gelöscht werden.</p>\
+    <p><i class='fas fa-info-circle'></i> Falls der eigene Benutzer geändert wird, wird man automatisch ausgeloggt und muss sich neu anmelden.</p>\
+    <h5>Benutzerliste importieren</h5>\
+    <p>In diesem Fenster kann eine CSV Datei importiert werden die folgendes Format besitzen muss:</p>\
+    <ul>\
+    <li>firstname</li>\
+    <li>lastname</li>\
+    <li>email</li>\
+    <li>password</li>\
+    <li>isadmin</li>\
+    <li>isteacher</li>\
+    </ul>\
+    <p><i class='fas fa-info-circle'></i> Die Felder isadmin und isteacher müssen mit 1 oder 0 gefüllt sein. Sie dienen dazu die Rolle Admin (isadmin) oder Lehrer (isteacher) zu setzen \
+    hierbei steht der Wert '1' dafür, dass der Benutzer diese rolle besitzt und '0', dass er diese Rolle nicht besitzt.</p>\
+    <p><i class='fas fa-info-circle'></i> Das Passwort muss mindestens 8 Zeichen enthalten.</p>\
+    <p><i class='fas fa-info-circle'></i> Die E-Mail Adresse muss eine gültige Adresse sein.</p>\
+    <p><i class='fas fa-info-circle'></i> Benutzer die bereits vorhanden sind, werden übersprungen</p>\
+    <p>Mit dem Knopf 'Log anzeigen' kann eingesehen werden, welche Benutzer importiert werden konnten und welche nicht.</p>\
+    ";
+    $('#helpText').html(helpText);
 });
 
 
