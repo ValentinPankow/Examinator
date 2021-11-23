@@ -34,8 +34,8 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <div class="card">
-              <div class="card-header" style="background-color: #EE4D00">
+            <div class="card card-primary">
+              <div class="card-header">
                 <h3 class="card-title">Fach anlegen</h3>
               </div>
               <div class="card-body">
@@ -48,14 +48,14 @@
               </div>
               <div class="card-footer">
                 <div class="col-12 text-right">
-                  <button class="btn align-self-end text-white" id="saveSubject" style="background-color: #EE4D00">Anlegen</button>
+                  <button class="btn btn-primary align-self-end text-white" id="saveSubject">Anlegen</button>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
-            <div class="card">
-              <div class="card-header" style="background-color: #EE4D00">
+            <div class="card card-primary">
+              <div class="card-header">
                 <h3 class="card-title">Fächer importieren</h3>
               </div>
               <div class="card-body">
@@ -65,7 +65,7 @@
                       <div class="mb-3">
                         Wählen Sie eine .csv Datei aus, um mehrere Fächer auf einmal zu importieren.
                       </div>
-                      <label class="btn text-white" style="background-color: #EE4D00" for="fileUpload">
+                      <label class="btn text-white btn-primary" for="fileUpload">
                       <input id="fileUpload" type="file" style="display:none"
                               onchange="$('#upload-file-info').text(this.files[0].name)">
                               Datei auswählen
@@ -77,7 +77,7 @@
             </div>
             <div class="card-footer">
               <div class="col-12 text-right">
-                <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importSubjects">Importieren</button>
+                <button type="submit" class="btn btn-primary align-self-end text-white" id="importSubjects">Importieren</button>
               </div>
             </div>
           </div>
@@ -86,8 +86,8 @@
         <div class="col-lg-12">
           <div class="row">
             <div class="col-sm-12">
-              <div class="card">
-                <div class="card-header" style="background-color: #EE4D00">
+              <div class="card card-primary">
+                <div class="card-header">
                   <h3 class="card-title">Alle Fächer</h3>
                 </div>
                 <div class="card-body">
@@ -98,14 +98,14 @@
                         {% set entrys = entrys+1 %}
                       {% endif %}
                       <div class="col-xl-4 col-lg-4 col-md-6 col-12" id="subject_{{ subject.id }}">
-                        <div class="card" style="border: 1px solid #EE4D00;">
-                          <div class="card-header">
+                        <div class="card card-primary border border-primary">
+                          <div class="card-body">
                             <h3 class="card-title">
                               <b style="vertical-align: sub">{{subject.name}}</b>
                             </h3>
-                            <div class="card-tools pr-3">
-                              <button type="button" class="btn btn-sm text-white edit" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-edit"></i></button>
-                              <button type="button" class="btn btn-sm text-white ml-2 delete" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-trash"></i></button>
+                            <div class="text-right card-tools">
+                              <button type="button" class="btn btn-primary btn-sm text-white edit" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-edit"></i></button>
+                              <button type="button" class="btn btn-primary btn-sm text-white ml-2 delete" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-trash"></i></button>
                             </div>
                           </div>
                         </div>
