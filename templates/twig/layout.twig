@@ -162,13 +162,28 @@
                     </a>
                 </li>
                 {% if isAdmin or isTeacher %}
-                  <li class="nav-item">
-                      <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
+                  <li class="nav-item {% if tpl == "classoverview" %}menu-open{% endif %}">
+                      <a href="?page=classes" class="nav-link {% if tpl == "classes" or tpl == "classoverview" %}active{% endif %}">
                           <i class="nav-icon fas fa-chalkboard-teacher"></i>
                           <p>
                               Klassen
+                              {% if tpl == "classoverview" %}
+                                <i class="right fas fa-angle-left"></i>
+                              {% endif %}
                           </p>
                       </a>
+                      {% if tpl == "classoverview" %}
+                        <ul class="nav nav-treeview">
+                          {% for c in favoriteClasses %}
+                            <li class="nav-item">
+                              <a href="?page=classoverview&class={{ c.id }}" class="nav-link {% if c.name == class.name %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ c.name }}</p>
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
                   </li>
                   <li class="nav-item">
                       <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
@@ -219,7 +234,7 @@
                   </li>
                 {% endif %}
                 <hr />       
-                <li class="nav-item">
+                <li class="nav-item mb-3">
                   <a href="?page=logout" class="nav-link" style="background-color: #9a1825">
                       <i class="fas fa-sign-out-alt nav-icon"></i>
                       <p>Abmelden</p>

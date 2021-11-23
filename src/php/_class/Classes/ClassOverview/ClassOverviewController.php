@@ -24,6 +24,7 @@ class ClassOverviewController
     $exams = $content['exams'];
     $twig = $content['twig'];
     $loginState = $content['loginState'];
+    $favoriteClasses = $content['favoriteClasses'];
 
     include "./templates/php/{$view}.php";
   }
@@ -40,11 +41,14 @@ class ClassOverviewController
       $class = $this->repository->fetchClass($classId);
       $exams = $this->examsRepository->fetchClassExams($classId);
 
+      $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
+
       $this->render("{$tpl}", [
-          'class' => $class,
-          'exams' => $exams,
-          'twig' => $twig,
-          'loginState' => $loginState
+        'favoriteClasses' => $favoriteClasses,
+        'class' => $class,
+        'exams' => $exams,
+        'twig' => $twig,
+        'loginState' => $loginState
       ]);
     } else {
       header("Refresh:0; url=?page=dashboard");

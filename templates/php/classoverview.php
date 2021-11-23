@@ -7,6 +7,7 @@
       'applicationName' => 'Examinator',
       'pageJs' => 'src/js/classoverview.js',
       'tpl' => 'classoverview',
+      'favoriteClasses' => $favoriteClasses,
       'darkMode' => $darkMode,
       'class' => $class,
       'exams' => $exams,
