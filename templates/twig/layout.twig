@@ -278,13 +278,16 @@
 {% block maxsize %}
 <style>
 .msize iframe{
-  width: -webkit-fill-available !important;
-  height: -webkit-fill-available !important;
+
+  max-width: -webkit-fill-available !important;
+  max-width: -moz-available !important;
+  max-width: fill-available !important;
 }
 
 .msize img{
   max-width: -webkit-fill-available !important;
-  max-height: -webkit-fill-available !important;
+  max-width: -moz-available !important;
+  max-width: fill-available !important;
 }
 </style>
 {% endblock %}
