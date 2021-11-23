@@ -15,6 +15,16 @@ const Toast = Swal.mixin({
 
 $(document).ready(function () {
     $('#forgotPwd').tooltip();
+
+    let helpText = "\
+    <h5>Klassenlogin</h5>\
+    <p>Der Login der Klasse funktioniert mit der Eingabe des Klassennamens und des Passwortes der Klasse.</p>\
+    <h5>Benutzerlogin</h5>\
+    <p>Der Login des Benutzers funktioniert mit der Eingabe der E-Mail Adresse sowie des Passwortes des Benutzers.</p>\
+    <h5>Passwort vergessen?</h5>\
+    <p>Im Falle das ein Benutzer nicht mehr auf seinen Account zugreifen kann, muss er sich an einen Administrator wenden.</p>\
+    ";
+    $('#helpText').html(helpText);
 });
 
 $('#loginBtn').on('click', function() {

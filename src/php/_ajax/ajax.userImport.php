@@ -10,6 +10,9 @@
 
 	// Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
 	$upload_url = "../../../dist/import/users/";
+	if (!is_dir($upload_url)) {
+		mkdir($upload_url);
+	}
 	$logPath = "../../../dist/import/logs/userImport.log";
 
 	if (file_exists($logPath)) {
