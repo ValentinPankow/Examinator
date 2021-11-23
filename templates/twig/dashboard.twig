@@ -43,7 +43,9 @@
           </div>
           <div class="card-body">
             <div class="row">
+              {% set counter = 0 %}
               {% for exam in exams %}
+                {% set counter = counter + 1 %}
                 <div class="col-xl-6 col-md-6 col-12">
                   <div class="card card-secondary">
                     <div class="card-header">
@@ -120,6 +122,9 @@
                   </div>
                 </div>
               {% endfor %}
+              {% if counter == 0 %} 
+                <p class="mb-0">Es sind keine Einträge vorhanden!</p>
+              {% endif %}
             </div>
           </div>
         </div>

@@ -77,7 +77,7 @@
                     if ($this->checkLogin($loginController) && $this->GET['page'] == "login") {
                         header("Refresh:0; url=?page=dashboard");
                     } 
-                    if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig")) {
+                    if (file_exists('templates/twig/' . strtolower($this->GET['page']) . ".twig") && $this->GET['page'] != '404') {
                         $pageController = $this->container->make(strtolower($this->GET['page']) . "Controller");
                         $pageController->index(strtolower($this->GET['page']), $this->twig, $this->checkLogin($loginController));
                     } else {
