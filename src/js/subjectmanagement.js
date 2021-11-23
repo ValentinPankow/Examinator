@@ -100,14 +100,14 @@ function saveNewSubject()
                         $('#createName').val('');
                         triggerResponseMsg('success', $('.successCreateSubject').html());
                         let append = "<div class='col-xl-4 col-lg-4 col-md-6 col-12' id='subject_" + obj.data_id + "'>\
-                                        <div class='card' style='border: 1px solid #EE4D00;'>\
-                                            <div class='card-header'>\
+                                        <div class='card card-primary border border-primary'>\
+                                            <div class='card-body'>\
                                                 <h3 class='card-title'>\
                                                     <b style='vertical-align: sub'>" + name + "</b>\
                                                 </h3>\
-                                                <div class='card-tools pr-3'>\
-                                                    <button type='button' class='btn btn-sm text-white edit' style='background-color: #EE4D00' data-toggle='modal' data-id='" + obj.data_id + "'><i class='fas fa-edit'></i></button>\
-                                                    <button type='button' class='btn btn-sm text-white ml-2 delete' style='background-color: #EE4D00' data-toggle='modal' data-id='" + obj.data_id + "'><i class='fas fa-trash'></i></button>\
+                                                <div class='text-right card-tools'>\
+                                                    <button type='button' class='btn btn-sm text-white btn-primary edit' data-toggle='modal' data-id='" + obj.data_id + "'><i class='fas fa-edit'></i></button>\
+                                                    <button type='button' class='btn btn-sm text-white btn-primary ml-2 delete' data-toggle='modal' data-id='" + obj.data_id + "'><i class='fas fa-trash'></i></button>\
                                                 </div>\
                                             </div>\
                                         </div>\

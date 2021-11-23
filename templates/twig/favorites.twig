@@ -34,102 +34,90 @@
     </div>
     <section class="content">
       <form action="src/php/actionFavorites.php" method="POST">
-        <div class="container-fluid">
-          <br>
-          <div class="row">
-            <div class="col-sm">
-              <h3> Klassen </h3>
-                Bitte wählen Sie die Klassen aus, die Sie im Reiter Klassen und in der Auswahl zum Anlegen der Klausuren sehen möchten.
-            </div>
+        <div class="card card-primary">
+          <div class="card-header">
           </div>
-          <br>
-          <div class="row">
-            <div class="col-5">
-              <div class="card">
-                <div class="card-header bg-primary">
-                  <h3 class="card-title">Favoriten Klassen</h3>
+          <div class="card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm">
+                  <h3> Klassen </h3>
+                    Bitte wählen Sie die Klassen aus, die Sie im Reiter Klassen und in der Auswahl zum Anlegen der Klausuren sehen möchten.
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      {{favoriteClasses | raw}}
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-5">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Favoritisierte Klassen</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{favoriteClasses | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Weitere Klassen zur Auswahl</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{classes | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                <h3>Fächer</h3>
+                  Bitte wählen Sie die Fächer aus, die Sie in der Auswahl zum Anlegen der Klausuren sehen möchten.
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-5">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Favoritisierte Fächer</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                            {{favoriteSubjects | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-7">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Weitere Fächer zur Auswahl</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{subjects | raw }}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-7">
-              <div class="card">
-                <div class="card-header bg-primary">
-                  <h3 class="card-title">Weitere Klassen zur Auswahl</h3>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      {{classes | raw}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-          <div class="row">
-            <div class="col">
-            <h3>Fächer</h3>
-              Bitte wählen Sie die Fächer aus, die Sie in der Auswahl zum Anlegen der Klausuren sehen möchten.
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-5">
-              <div class="card">
-                <div class="card-header bg-primary">
-                  <h3 class="card-title">Favoriten Fächer</h3>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                        {{favoriteSubjects | raw}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-7">
-              <div class="card">
-                <div class="card-header bg-primary">
-                  <h3 class="card-title">Weitere Fächer zur Auswahl</h3>
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      {{subjects | raw }}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <h3>Favoriten bestätigen</h3>
-              Sollten Sie mit Ihrer Auswahl fertig sein, bestätigen Sie hier.
-              <br><br>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 col-sm-6 col-lg-3">
-              <div class="card">
-                <div class="card-header bg-primary">
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col text-center">
-                     <button type="submit" class="btn btn-primary align-self-end text-white">Favoriten Auswahl bestätigen</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="card-footer">
+            <div class="col text-center">
+              <button type="submit" class="btn btn-primary align-self-end text-white">Änderungen speichern</button>
             </div>
           </div>
         </div>
