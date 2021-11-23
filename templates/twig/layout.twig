@@ -202,7 +202,7 @@
                       </a>
                   </li>
                 {% endif %}
-                {% if isAdmin %}
+                {% if isAdmin or isTeacher %}
                   <li class="nav-item {% if tpl == "usermanagement" or tpl == "classmanagement" or tpl == "subjectmanagement" %}menu-open{% else %}menu-closed{% endif %}">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-tools"></i>
@@ -212,12 +212,14 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="?page=usermanagement" class="nav-link {% if tpl == "usermanagement" %}active{% endif %}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Benutzerverwaltung</p>
-                        </a>
-                      </li>
+                      {% if isAdmin %}
+                        <li class="nav-item">
+                          <a href="?page=usermanagement" class="nav-link {% if tpl == "usermanagement" %}active{% endif %}">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Benutzerverwaltung</p>
+                          </a>
+                        </li>
+                      {% endif %}
                       <li class="nav-item">
                         <a href="?page=classmanagement" class="nav-link {% if tpl == "classmanagement" %}active{% endif %}">
                             <i class="far fa-circle nav-icon"></i>

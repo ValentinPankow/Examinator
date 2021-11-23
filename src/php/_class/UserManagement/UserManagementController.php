@@ -33,16 +33,17 @@ class UserManagementController
     {
         $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
     
-        //Falls es ein User ist
-        if($userId){
+        $user = false;
+        if ($userId) {
             $user = $this->userRepository->fetchUserById($userId); 
+        }
+        //Falls es ein User ist
+        if($userId && $user->is_admin){
             //Falls der User ein Admin ist
-            if($user->is_admin == 1){
-                $this->render("{$tpl}", [
-                    'twig' => $twig,
-                    'loginState' => $loginState
-                ]);
-            } 
+            $this->render("{$tpl}", [
+                'twig' => $twig,
+                'loginState' => $loginState
+            ]);
         } else {
             header("Refresh:0; url=?page=dashboard");
             exit();
