@@ -51,6 +51,26 @@ class ExamsRepository
         return $contents;
     }
 
+    // (VP)
+    public function listFavoriteExams($userId) 
+    {
+        $query = $this->pdo->prepare("SELECT e.id, s.name AS subject, c.name AS class, e.date, e.room, e.lessonFrom, e.lessonTo, e.timeFrom, e.timeTo
+                                    FROM exams AS e
+                                    JOIN classes AS c ON e.class_id = c.id
+                                    JOIN subjects AS s ON e.subject_id = s.id
+                                    JOIN user_favorites AS uf ON uf.class_id = e.class_id
+                                    WHERE uf.user_id = :userId 
+                                    ORDER BY created_at DESC");
+        $query->execute(['userId'=>$userId]);
+        $contents = $query->fetchAll(PDO::FETCH_CLASS, "Exams\\ExamsModel");
+        // List all exams if there are no Favorites
+        if (count($contents) == 0) {
+            $contents = $this->listExams();
+        }
+
+        return $contents;
+    }
+
     //(DH)
     public function fetchUserExams($creatorId, $limit = NULL)
     {
@@ -59,7 +79,7 @@ class ExamsRepository
                                         FROM exams AS e
                                         JOIN classes AS c ON e.class_id = c.id
                                         JOIN subjects AS s ON e.subject_id = s.id WHERE `creator_id` = :id
-                                        ORDER BY e.date, e.timeFrom ASC
+                                        ORDER BY e.date, e.lessonFrom, e.timeFrom ASC
                                         LIMIT :limit");
           $query->execute(['id' => $creatorId, 'limit' => $limit]);
         }else{
@@ -84,7 +104,7 @@ class ExamsRepository
                                       FROM exams AS e
                                       JOIN classes AS c ON e.class_id = c.id
                                       JOIN subjects AS s ON e.subject_id = s.id WHERE `class_id` = :id
-                                      ORDER BY e.date, e.timeFrom ASC
+                                      ORDER BY e.date, e.lessonFrom, e.timeFrom ASC
                                       LIMIT :limit");
         $query->execute(['id' => $classId, 'limit' => $limit]);
         }else{
@@ -101,11 +121,11 @@ class ExamsRepository
     }
 
     //(VP)
-    public function queryExam($data, $action) {
+    public function queryExam($data, $action, $userId) {
         // Change creator ID later
         if ($action == "insert") {
             $query = $this->pdo->prepare("INSERT INTO exams (creator_id, class_id, subject_id, date, room, topic, other, lessonFrom, lessonTo, timeFrom, timeTo)
-                                        VALUES (1, :class, :subject, :date, :room, :topic, :other, :lessonFrom, :lessonTo, :timeFrom, :timeTo)");
+                                        VALUES (:userId, :class, :subject, :date, :room, :topic, :other, :lessonFrom, :lessonTo, :timeFrom, :timeTo)");
         } else if ($action == "update") {
             $query = $this->pdo->prepare(
                 "UPDATE exams
@@ -157,6 +177,10 @@ class ExamsRepository
 
         if ($action == "update") {
             $values['id'] = $data->id;
+        }
+
+        if ($action == "insert") {
+            $values['userId'] = $userId;
         }
 
         $result = $query->execute($values);

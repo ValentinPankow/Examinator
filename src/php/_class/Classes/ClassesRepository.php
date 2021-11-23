@@ -52,12 +52,16 @@ class ClassesRepository
     }
 
     //Holt alle favorisierten Fächer eines Users
-    //(DH)
-    public function fetchFavoriteClasses($userId)
+    //(DH & VP)
+    public function fetchFavoriteClasses($userId, $setupPage = true)
     {
       $query = $this->pdo->prepare("SELECT classes.name, classes.id FROM classes INNER JOIN user_favorites ON user_favorites.class_id = classes.id WHERE user_favorites.user_id = :id ORDER BY classes.name ASC");
       $ok = $query->execute(['id' => $userId]);
       $contents = $ok ? $query->fetchAll(PDO::FETCH_CLASS, "Classes\\ClassesModel") : false;
+      // (VP) Return all Classes if User has no Favorites
+      if (count($contents) == 0 && !$setupPage) {
+        $contents = $this->fetchClasses();
+      }
 
       return $contents;
     }
@@ -74,7 +78,7 @@ class ClassesRepository
 
     //Erstellt bzw. updated eine Klasse und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH)
-    public function queryClass($data, $action, &$duplicate)
+    public function queryClass($data, $action, &$duplicate, &$data_id = -1)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
@@ -83,7 +87,7 @@ class ClassesRepository
       $classes = $this->fetchClasses();
 
       foreach($classes AS $class){
-        if($class->name == $data->name){
+        if(strtolower($class->name) == strtolower($data->name) && $class->id != $data->id){
           $duplicate = true;
           break;
         }
@@ -95,6 +99,13 @@ class ClassesRepository
           $data->password = password_hash($data->password, PASSWORD_DEFAULT);
           $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
           $result = $query->execute(['name' => $data->name, 'password' => $data->password]);
+
+          $query = $this->pdo->prepare("SELECT id FROM classes WHERE name = :name");
+          $query->execute(['name' => $data->name]);
+          $query->setFetchMode(PDO::FETCH_CLASS, "Classes\\ClassesModel");
+          $content = $query->fetch(PDO::FETCH_CLASS);
+
+          $data_id = $content->id;
         } else if ($action == "update") {
           if($data->password != ""){
             $data->password = password_hash($data->password, PASSWORD_DEFAULT);

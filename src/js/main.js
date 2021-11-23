@@ -92,6 +92,16 @@ function getCookie(cname) {
     return "";
 }
 
+// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie
+function deleteCookie( name, path, domain = false ) {
+    if( getCookie( name ) ) {
+        document.cookie = name + "=" +
+        ((path) ? ";path="+path:"")+
+        ((domain)?";domain="+domain:"") +
+        ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    }
+}
+
 // Funktion um die aktuelle Seite zu bekommen
 function getPage() {
     return urlParams.get('page');
@@ -102,8 +112,12 @@ function toggleDarkmode(active) {
     if (active) {
         $('body').addClass('dark-mode');
         $('.swal-popup').addClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='far fa-moon'></i>");
     } else {
         $('body').removeClass('dark-mode');
         $('.swal-popup').removeClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='fas fa-sun'></i>");
     }
 }

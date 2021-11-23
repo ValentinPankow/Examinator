@@ -2,27 +2,29 @@
 namespace Classes\ClassOverview;
 
 use Classes\ClassesRepository;
-use User\UserRepository;
+use Exams\ExamsRepository;
 
 class ClassOverviewController
 {
   private $repository;
-  private $userRepository;
+  private $examsRepository;
 
   //Übergibt das Repository vom Container
   //(DH)
-  public function __construct(ClassesRepository $repository, UserRepository $userRepository)
+  public function __construct(ClassesRepository $repository, ExamsRepository $examsRepository)
   {
     $this->repository = $repository;
-    $this->userRepository = $userRepository;
+    $this->examsRepository = $examsRepository;
   }
 
   //(DH)
   private function render($view, $content)
   {
     $class = $content['class'];
+    $exams = $content['exams'];
     $twig = $content['twig'];
     $loginState = $content['loginState'];
+    $favoriteClasses = $content['favoriteClasses'];
 
     include "./templates/php/{$view}.php";
   }
@@ -31,17 +33,22 @@ class ClassOverviewController
   //(DH)
   public function index($tpl, $twig, $loginState)
   {
-    $userId = $_COOKIE['UserLogin'];
-    $user = $this->userRepository->fetchUserById($userId);
+    $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
 
-    if($user){
+    //Falls es ein User ist
+    if($userId){
       $classId = $_GET['class'];
       $class = $this->repository->fetchClass($classId);
+      $exams = $this->examsRepository->fetchClassExams($classId);
+
+      $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
 
       $this->render("{$tpl}", [
-          'class' => $class,
-          'twig' => $twig,
-          'loginState' => $loginState
+        'favoriteClasses' => $favoriteClasses,
+        'class' => $class,
+        'exams' => $exams,
+        'twig' => $twig,
+        'loginState' => $loginState
       ]);
     } else {
       header("Refresh:0; url=?page=dashboard");

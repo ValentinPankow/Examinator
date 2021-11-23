@@ -3,19 +3,16 @@
   namespace Classes;
 
   use Classes\ClassesRepository;
-  use User\UserRepository;
 
   class ClassesController
   {
     private $repository;
-    private $userRepository;
 
     //Übergibt das Repository vom Container
     //(DH)
-    public function __construct(ClassesRepository $repository, UserRepository $userRepository)
+    public function __construct(ClassesRepository $repository)
     {
       $this->repository = $repository;
-      $this->userRepository = $userRepository;
     }
 
     private function render($view, $content)
@@ -28,19 +25,18 @@
       include "./templates/php/{$view}.php";
     }
 
-    public function queryClass($data, $action, &$duplicate = false) {
-      return $this->repository->queryClass($data, $action, $duplicate);
+    public function queryClass($data, $action, &$duplicate = false, &$data_id = -1) {
+      return $this->repository->queryClass($data, $action, $duplicate, $data_id);
     }
 
     //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)
     //(DH)
     public function index($tpl, $twig, $loginState)
     {
-      //$userId = $auth->user->id;
-      $userId = $_COOKIE['UserLogin'];
-      $user = $this->userRepository->fetchUserById($userId);
+      $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
 
-      if($user){
+      //Falls es ein User ist
+      if($userId){
         $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
         $classes = $this->repository->fetchClasses();
 

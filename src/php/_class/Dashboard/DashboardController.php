@@ -30,7 +30,7 @@
             $exams = $content['exams'];
             $loginState = $content['loginState'];
 
-            if($login_type == 'teacher'){
+            if($login_type == 'user'){
                 $classes = $content['classes'];
                 $user = $content['user'];
             }else if($login_type == 'class'){
@@ -40,15 +40,17 @@
             include "./templates/php/{$view}.php";
         }
 
-        //Öffnet das Dashboard (Klasse, Lehrer oder Administrator)
+        //Öffnet das Dashboard (Klasse oder Lehrer/Administrator)
         //(DH)
         public function index($tpl, $twig, $loginState)
         {
-            //Testweise als ob eine Klasse oder Lehrer wäre. (!tpl = Klasse; tpl = Lehrer)
-            if($tpl){
-                $login_type = 'teacher';
-                $user = $this->userRepository->fetchUserById(1);
-                $exams = $this->examsRepository->fetchUserExams($user->id, 6);
+            $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+            $classId = isset($_COOKIE['ClassesLogin']) ? $_COOKIE['ClassesLogin'] : false;
+
+            if($userId){
+                $login_type = 'user';
+                $user = $this->userRepository->fetchUserById($userId);
+                $exams = $this->examsRepository->fetchUserExams($user->id, 9);
                 $classes = $this->classesRepository->fetchClasses();
 
                 $this->render("{$tpl}", [
@@ -60,10 +62,10 @@
                     ],
                     $login_type
                 );
-            } else {
+            } elseif($classId) {
                 $login_type = 'class';
-                $class = $this->classesRepository->fetchByName('12ITa');
-                $exams = $this->examsRepository->fetchClassExams($class->id, 6);
+                $class = $this->classesRepository->fetchClass($classId);
+                $exams = $this->examsRepository->fetchClassExams($class->id, 9);
 
                 $this->render("{$tpl}", [
                     'twig' => $twig,

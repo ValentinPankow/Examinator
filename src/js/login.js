@@ -13,6 +13,10 @@ const Toast = Swal.mixin({
     }
 })
 
+$(document).ready(function () {
+    $('#forgotPwd').tooltip();
+});
+
 $('#loginBtn').on('click', function() {
    login();
 });
@@ -21,7 +25,7 @@ $('#inputPassword').keypress(function(e) {
     if(e.which == 13){
         login();
     }
- });
+});
 
 function login(){
     $.post(

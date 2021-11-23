@@ -39,12 +39,16 @@ class SubjectsRepository
     }
 
     //Holt alle favorisierten Fächer von einem User
-    //(DH)
-    public function fetchFavoriteSubjects($userId)
+    //(DH & VP)
+    public function fetchFavoriteSubjects($userId, $setupPage = true)
     {
       $query = $this->pdo->prepare("SELECT subjects.name, subjects.id FROM subjects INNER JOIN user_favorites ON user_favorites.subject_id = subjects.id WHERE user_favorites.user_id = :id ORDER BY name ASC");
       $ok = $query->execute(['id' => $userId]);
       $contents = $ok ? $query->fetchAll(PDO::FETCH_CLASS, "Subjects\\SubjectsModel") : false;
+      // (VP) Return all Classes if User has no Favorites
+      if (count($contents) == 0 && !$setupPage) {
+        $contents = $this->fetchSubjects();
+      }
 
       return $contents;
     }
@@ -61,7 +65,7 @@ class SubjectsRepository
 
     //Erstellt bzw. updated ein Fach und gibt eine Erfolgs/Fehlermeldung zurück
     //(DH, C&P von VP mit Anpassungen)
-    public function querySubject($data, $action, &$duplicate)
+    public function querySubject($data, $action, &$duplicate, &$data_id = -1)
     {
       //Leerzeichen vor und nach dem Name löschen
       $data->name = trim($data->name);
@@ -81,6 +85,14 @@ class SubjectsRepository
         if ($action == "insert") {
           $query = $this->pdo->prepare("INSERT INTO subjects (name) VALUES (:name)");
           $result = $query->execute(['name' => $data->name]);
+
+          $query = $this->pdo->prepare("SELECT id FROM subjects WHERE name = :name");
+          $query->execute(['name' => $data->name]);
+          $query->setFetchMode(PDO::FETCH_CLASS, "Subjects\\SubjectsModel");
+          $content = $query->fetch(PDO::FETCH_CLASS);
+
+          $data_id = $content->id;
+
         } else if ($action == "update") {
           $query = $this->pdo->prepare("UPDATE subjects SET name = :name WHERE id = :id");
           $result = $query->execute(['name' => $data->name, 'id' => $data->id]);

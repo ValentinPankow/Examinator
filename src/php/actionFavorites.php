@@ -1,4 +1,5 @@
 <?php
+//Speichert die Favoriten in die Datenbank
 require_once __DIR__ . "/_class/Core/Container.php";
 require_once __DIR__ . "/_class/Favorites/FavoritesController.php";
 require_once __DIR__ . "/_class/Subjects/SubjectsRepository.php";
@@ -7,11 +8,10 @@ require_once __DIR__ . "/_class/User/UserRepository.php";
 require_once __DIR__ . "/_class/User/UserModel.php";
 
 
-$userId = 2;
-
 $container = new Core\Container();
 $userRepository = $container->make('userRepository');
 
+$userId = $_COOKIE['UserLogin'];
 $user = $userRepository->fetchUserById($userId);
 
 if($user){
@@ -34,7 +34,7 @@ if($user){
   $favoritesController->desert('classes', $classIds, $userId);
   $favoritesController->desert('subjects', $subjectIds, $userId);
 
-  header("Refresh:0; url=?page=dashboard");
+  header("Refresh:0; url=../../?page=favorites");
   exit();
 }
 

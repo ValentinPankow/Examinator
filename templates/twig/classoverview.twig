@@ -1,4 +1,4 @@
-{# Creator = DH #}
+{# Creator = DH & VP #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,8 @@
   <title>{{pageTitle}}</title>
 
   {{ block("css", "layout.twig") }}
+  {{ block("border", "layout.twig") }}
+  {{ block("maxsize", "layout.twig") }}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -20,11 +22,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Klassenübersicht</h1>
+            <h1 class="m-0">Klausuren der Klasse {{ class.name}}</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active"><a href="?page=classes">Klassen</a></li>
               <li class="breadcrumb-item active">Klassenübersicht</li>
             </ol>
           </div>
@@ -33,22 +36,106 @@
     </div>
     <section class="content">
       <div class="container-fluid">
-        <div class="card card primary">
-          <div class="card-header" style="background-color: #EE4D00">
+        <div class="card card-primary">
+          {% set count = 0 %}
+          <div class="card-header">
+            <h3 class="card-title">
+              {% for exam in exams %}
+                {% set count = count+1 %}
+              {% endfor %}
+              {{ count }} anstehende Klausuren
+            </h3>
           </div>
           <div class="card-body">
             <div class="row">
-
-
-
+              {% for exam in exams %}
+                <div class="col-xl-6 col-md-6 col-12">
+                  <div class="card card-secondary">
+                    <div class="card-header">
+                      <div class="row">
+                        <div class="col text-left">
+                          <b>{{ exam.subject }}</b>
+                        </div>
+                        <div class="col text-right">
+                        {% if exam.room %}
+                          <b class="text-right"> Raum: {{ exam.room }}</b>
+                        {% endif %}
+                        </div>
+                      </div>   
+                      <div class="row">
+                        <div class="col text-left">
+                          <i class="far fa-calendar mr-1"></i>{{ formatDate(exam.date) }}
+                        </div>
+                          <div class="col text-right">
+                            {% if exam.lessonFrom and exam.lessonTo and not exam.timeFrom and not exam.timeTo %}
+                              {{ exam.lessonFrom }}. Std. bis {{ exam.lessonTo }}. Std.
+                            {% elseif exam.timeFrom is defined and exam.timeTo is defined %}
+                              von {{ formatTime(exam.timeFrom) }} <i class="far fa-clock mr-1"></i> bis {{ formatTime(exam.timeTo) }} <i class="far fa-clock mr-1"></i>
+                            {% endif %}
+                          </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                    {% if exam.topic or exam.other %}
+                      {% if exam.topic %}
+                        <div class="row">
+                          <div class="col">
+                            <div class="text-center pb-2 h6">
+                              <b>Themen</b>
+                            </div>
+                            <div class="row">
+                              <div class="col border-left border-primary border-3 msize">
+                                  {{ exam.topic| raw }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                      {% if exam.other %}
+                        <br>
+                        <div class="row">
+                          <div class="col">
+                            <div class="text-center pb-2 h6">
+                              <b>Sonstiges</b>
+                            </div>
+                            <div class="row">
+                              <div class="col border-left border-secondary border-3 msize">
+                                {{ exam.other| raw}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {% endif %}
+                    {% if not exam.topic != "" and not exam.other != "" %}
+                      <div class="row">
+                        <div class="col">
+                          <i class="fas fa-info-circle"></i>&nbsp;&nbsp;Es sind keine Informationen vorhanden!
+                        </div>
+                      </div>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              {% if count == 0 %}
+                <p>🥳 Es sind keine Klausuren für diese Klasse geplant!</p>
+              {% endif %}
+            </div>
           </div>
         </div>
+        <div>
+          <section class="col-lg-7 connectedSortable">
+          </section>
+          <section class="col-lg-5 connectedSortable">
+          </section>
         </div>
       </div>
     </section>
   </div>
   {{ block("footer", "layout.twig") }}
+
 </div>
-  {{ block("js", "layout.twig") }}
+{{ block("js", "layout.twig") }}
 </body>
 </html>
