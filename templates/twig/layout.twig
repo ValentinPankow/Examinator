@@ -110,7 +110,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index.php" class="nav-link">Home</a>
+        <a href="?page=dashboard" class="nav-link">Home</a>
       </li>
     </ul>
 
@@ -162,13 +162,28 @@
                     </a>
                 </li>
                 {% if isAdmin or isTeacher %}
-                  <li class="nav-item">
-                      <a href="?page=classes" class="nav-link {% if tpl == "classes" %}active{% endif %}">
+                  <li class="nav-item {% if tpl == "classoverview" %}menu-open{% endif %}">
+                      <a href="?page=classes" class="nav-link {% if tpl == "classes" or tpl == "classoverview" %}active{% endif %}">
                           <i class="nav-icon fas fa-chalkboard-teacher"></i>
                           <p>
                               Klassen
+                              {% if tpl == "classoverview" %}
+                                <i class="right fas fa-angle-left"></i>
+                              {% endif %}
                           </p>
                       </a>
+                      {% if tpl == "classoverview" %}
+                        <ul class="nav nav-treeview">
+                          {% for c in favoriteClasses %}
+                            <li class="nav-item">
+                              <a href="?page=classoverview&class={{ c.id }}" class="nav-link {% if c.name == class.name %}active{% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>{{ c.name }}</p>
+                              </a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
                   </li>
                   <li class="nav-item">
                       <a href="?page=exams" class="nav-link {% if tpl == "exams" %}active{% endif %}">
@@ -219,7 +234,7 @@
                   </li>
                 {% endif %}
                 <hr />       
-                <li class="nav-item">
+                <li class="nav-item mb-3">
                   <a href="?page=logout" class="nav-link" style="background-color: #9a1825">
                       <i class="fas fa-sign-out-alt nav-icon"></i>
                       <p>Abmelden</p>
@@ -292,7 +307,7 @@
     <span class="successChangeExam">Die Klausur wurde erfolgreich geändert!</span>
     <span class="errorChangeExam">Die Klausur konnte nicht geändert werden!</span>
 
-    <span class="noNameSelected">Es wurde kein Name ausgewählt!</span>
+    <span class="noNameSelected">Es wurde kein Name eingegeben!</span>
     <span class="noPasswordSelected">Es wurde kein Passwort ausgewählt!</span>
     <span class="passwordNotEqual">Die Passwörter stimmen nicht überein!</span>
 
@@ -309,10 +324,12 @@
     <span class="errorCreateSubject">Das Fach konnte nicht erstellt werden!</span>
     <span class="successEditSubject">Das Fach wurde erfolgreich geändert!</span>
     <span class="errorEditSubject">Das Fach konnte nicht geändert werden!</span>
+    <span class="errorDuplicateSubject">Das Fach existiert bereits!</span>
     <span class="successDeleteSubject">Das Fach wurde erfolgreich gelöscht!</span>
     <span class="errorDeleteSubject">Das Fach konnte nicht gelöscht werden!</span>
     <span class="successCreateUser">Der Benutzer wurde erfolgreich erstellt!</span>
     <span class="errorCreateUser">Der Benutzer konnte nicht erstellt werden!</span>
+    <span class="errorSelfDeleteUser">Das eigene Konto kann nicht gelöscht werden!</span>
     <span class="errorMail">Die E-Mail-Adresse ist ungültig!</span>
     <span class="errorPassword">Die Passwörter stimmen nicht überein!</span>
     <span class="errorRole">Es muss mindestens eine Rolle ausgewählt werden!</span>

@@ -25,8 +25,8 @@
       include "./templates/php/{$view}.php";
     }
 
-    public function queryClass($data, $action, &$duplicate = false) {
-      return $this->repository->queryClass($data, $action, $duplicate);
+    public function queryClass($data, $action, &$duplicate = false, &$data_id = -1) {
+      return $this->repository->queryClass($data, $action, $duplicate, $data_id);
     }
 
     //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)

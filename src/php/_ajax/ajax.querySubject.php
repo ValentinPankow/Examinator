@@ -15,12 +15,14 @@
     $subjectManagementController = $container->make("subjectmanagementController");
 
     $duplicate = false;
-    $ok = $subjectManagementController->querySubject($data, $data->action, $duplicate);
+    $data_id = -1;
+    $ok = $subjectManagementController->querySubject($data, $data->action, $duplicate, $data_id);
 
     $obj = new stdClass;
 
     if ($ok) {
         $obj->success = true;
+        $obj->data_id = $data_id;
     } else {
         if ($duplicate) {
             $obj->error = "duplicate";
