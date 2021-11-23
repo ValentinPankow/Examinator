@@ -19,8 +19,11 @@
           <a href="index.php" class="h1"><b>{{applicationName}}</b></a>
         </div>
         <div class="card-body text-center">
-          <p class="login-box-msg">Login</p>
-
+          <div class="row">
+            <div class="col-12">
+              <p class="login-box-msg">Login</p>
+            </div>
+          </div>
             <div class="input-group mb-3">
               <input type="email" class="form-control" placeholder="E-Mail / Klassenname" id="inputUser">
               <div class="input-group-append">
@@ -45,13 +48,21 @@
               <!-- /.col -->
             </div>
 
-          <p class="mb-1">
+          <!--<p class="mb-1">
             <label id="forgotPwd" style="color: #007bff" data-placement="bottom" title="Bitte wenden Sie sich an einen Administrator"><small>Passwort vergessen?</small></label>
-          </p>
+          </p>-->
+          <div class="row">
+            <div class="col-12 text-center">
+              <label id="forgotPwd" style="color: #007bff" data-placement="bottom" title="Bitte wenden Sie sich an einen Administrator"><small>Passwort vergessen?</small></label>
+            </div>
+          </div>
         </div>
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
+      <div class="col-12 text-center mt-2">
+        <button id="btnHelp" class="btn"><i class="fas fa-question-circle text-right"></i></button>
+      </div>
     </div>
     <!-- /.login-box -->
 

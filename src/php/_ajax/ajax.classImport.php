@@ -67,7 +67,7 @@
 						$duplicate = false;
 						$importOk = false;
 						if (strlen($data -> password) >= 8) {
-							$importOk = $classController->queryClass($data, "insert", $duplicate);	
+							$importOk = $classController->queryClass($data, "import", $duplicate);	
 						}
 						
                         if($importOk){
