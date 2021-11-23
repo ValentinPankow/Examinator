@@ -145,7 +145,7 @@
                 <img src="dist/img/BWS_logo-1.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{% if firstname is not null and lastname is not null %}{{firstname}} {{lastname}}{% else %}{{className}}{% endif %}</a>
+                {% if firstname is not null and lastname is not null %}{{firstname}} {{lastname}}{% else %}{{className}}{% endif %}
             </div>
         </div>
 
