@@ -1,4 +1,5 @@
 <?php
+
     //Ajax um eine Klasse zu löschen
     //(DH)
 

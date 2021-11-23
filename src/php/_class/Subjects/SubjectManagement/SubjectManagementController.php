@@ -2,19 +2,16 @@
 namespace Subjects\SubjectManagement;
 
 use Subjects\SubjectsRepository;
-use User\UserRepository;
 
 class SubjectManagementController
 {
   private $repository;
-  private $userRepository;
 
   //Übergibt das Repository vom Container
   //(DH)
-  public function __construct(SubjectsRepository $repository, UserRepository $userRepository)
+  public function __construct(SubjectsRepository $repository)
   {
     $this->repository = $repository;
-    $this->userRepository = $userRepository;
   }
 
   //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
@@ -32,15 +29,14 @@ class SubjectManagementController
   //(DH)
   public function index($tpl, $twig, $loginState)
   {
-    $userId = $_COOKIE['UserLogin'];
-    $user = $this->userRepository->fetchUserById($userId);
+    $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
 
-    if($user->is_admin == 1){
+    //Falls es ein User ist
+    if($userId){
       $subjects = $this->repository->fetchSubjects();
 
       $this->render("{$tpl}", [
           'subjects' => $subjects,
-          'userName' => $user->first_name . " " . $user->last_name,
           'loginState' => $loginState,
           'twig' => $twig,
       ]);
@@ -51,9 +47,9 @@ class SubjectManagementController
   }
 
 
-  public function querySubject($data, $action)
+  public function querySubject($data, $action, &$duplicate, &$data_id = -1)
   {
-    return $this->repository->querySubject($data, $action);
+    return $this->repository->querySubject($data, $action, $duplicate, $data_id);
   }
 
   public function fetchSubject($id)

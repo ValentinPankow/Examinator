@@ -48,11 +48,14 @@ $(document).ready(function(){
                 searchable: false,
                 orderable: false,
                 "data": "id",
-                render: function (account) { return '\
-                    <div class="btn-group">\
-                        <button type="button" class="btn btn-primary" name="editAccount" data-id="'+account+'"><i class="fas fa-pen"></i></button>\
-                        <button type="button" class="btn btn-danger" name="deleteAccount" data-id="'+account+'"><i class="fas fa-trash"></i></button>\
-                    </div>'
+                render: function (account) { 
+                    let rtn = '<div class="btn-group"><button type="button" class="btn btn-primary" name="editAccount" data-id="'+account+'"><i class="fas fa-pen"></i></button>';
+                    if (getCookie('UserLogin') != account) {
+                        rtn += '<button type="button" class="btn btn-danger" name="deleteAccount" data-id="'+account+'"><i class="fas fa-trash"></i></button></div>';
+                    } else {
+                        rtn += '</div>';
+                    }
+                    return rtn;
                 }
             }
         ],
@@ -90,6 +93,9 @@ $('button#importUsers').on('click', function () {
 	// Add the file to the form data variable
     if (files.length > 0) {
         fd.append('file', files[0]);
+    } else {
+        triggerResponseMsg('error', $('.emptyInputFile').html());
+        return false;
     }
 
     $.ajax({
@@ -103,19 +109,27 @@ $('button#importUsers').on('click', function () {
             let obj = JSON.parse(rtn);
 			// Upload Successful
             if (obj.status == 'success') {
-                triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                if (obj.successCount == 0 && obj.failCount > 0) {
+                    triggerResponseMsg('info', 'Die Datei enthält nur bereits vorhandene Benutzer!');
+                } else {
+                    triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                }
             } else {
                 if (obj.status == "type_error") {
 					// File is not of the correct type
                     triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else if (obj.status == "wrong_format") {
+					// File wrong format
+                    triggerResponseMsg('info', 'Die Datei ist nicht im richtigen Format!');
                 } else {
-					// File upload error
+                    // General File upload error
                     triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
                 }
             }
 
 			// Clear the upload file input
             $('#inputUpload').val('');
+            $('.custom-file-label').html('Datei auswählen');
         }
     });
 });   
@@ -133,7 +147,7 @@ $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
 
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
-    $('#passwordChange').prop('checked', false)
+    $('#passwordChange').prop('checked', false);
 });
 
 $('#passwordChange').on("change", function () {
@@ -269,6 +283,9 @@ function getUserData(id) {
                 if (obj.success) {
                     if (obj.user.is_admin == 1) {
                         $('#isAdminEdit').attr('checked', true);
+                        if (getCookie('UserLogin') == id) {
+                            $('#isAdminEdit').prop('disabled', true);
+                        }
                     }  else {
                         $('#isAdminEdit').attr('checked', false);
                     }
@@ -347,6 +364,11 @@ function editUser(id)
 
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successEditUser').html());
+
+                    if (getCookie('UserLogin') == id) {
+                        deleteCookie("UserLogin", "/")
+                        location.reload();
+                    }
                 } else {
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
@@ -380,11 +402,14 @@ function deleteUser(id)
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
-
                     // Ausgabe der Erfolgs Nachricht
                     triggerResponseMsg('success', $('.successDeleteUser').html());
                 } else {
-                        triggerResponseMsg('error', $('.errorDeleteUser').html());    
+                    if (obj.status == "self_delete") {
+                        triggerResponseMsg('error', $('.errorSelfDeleteUser').html());
+                    } else {
+                        triggerResponseMsg('error', $('.errorDeleteUser').html());
+                    }    
                 }
                 $("#deleteUserModal").modal("hide");
                 reloadTable();

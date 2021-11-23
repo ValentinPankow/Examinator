@@ -80,12 +80,6 @@
       <!-- /.content -->
     </div>
     {{ block("footer", "layout.twig") }}
-
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
     
     <div class="modal fade" id="addUserModal">
       <div class="modal-dialog">
@@ -229,13 +223,14 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Benutzer Importieren</h4>
+          <h4 class="modal-title">Benutzer importieren</h4>
         </div>
         <div class="modal-body">
           <div class="custom-file">
             <input type="file" class="custom-file-input" id="inputUpload">
             <label class="custom-file-label" for="inputUpload">Datei auswählen</label>
           </div>
+          <a href="dist/import/logs/userImport.log" target="_blank" type="submit" class="btn btn-primary align-self-end text-white mt-3">Log anzeigen</a>
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
@@ -277,3 +272,5 @@
 {{ block("js", "layout.twig") }}
 </body>
 </html>
+
+

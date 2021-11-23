@@ -1,4 +1,5 @@
 <?php
+
     //Ajax um eine einzelne Klasse aus der Datenbank auszulesen
     //(DH)
 

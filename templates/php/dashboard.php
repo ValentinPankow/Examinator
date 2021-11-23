@@ -3,7 +3,7 @@
   //(DH)
   require "sharedVars.php";
 
-  if($login_type == 'teacher'){
+  if($login_type == 'user'){
     echo $twig->render('dashboard.twig', array(
       'pageTitle' => 'Examinator - Dashboard',
       'applicationName' => 'Examinator',
