@@ -41,8 +41,8 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-12 col-md-6">
-            <div class="card">
-              <div class="card-header" style="background-color: #EE4D00">
+            <div class="card card-primary">
+              <div class="card-header">
                 <h3 class="card-title">Klasse anlegen</h3>
               </div>
               <div class="card-body">
@@ -63,14 +63,14 @@
               </div>
               <div class="card-footer">
                 <div class="col-12 text-right">
-                  <button class="btn align-self-end text-white" id="saveClass" style="background-color: #EE4D00">Anlegen</button>
+                  <button class="btn align-self-end text-white btn-primary" id="saveClass">Anlegen</button>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
-            <div class="card">
-              <div class="card-header" style="background-color: #EE4D00">
+            <div class="card card-primary">
+              <div class="card-header">
                 <h3 class="card-title">Klassen importieren</h3>
               </div>
               <div class="card-body">
@@ -79,7 +79,7 @@
                     <div class="mb-3">
                       Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
                     </div>
-                    <label class="btn text-white" style="background-color: #EE4D00" for="fileUpload">
+                    <label class="btn text-white btn-primary" for="fileUpload">
                     <input id="fileUpload" type="file" style="display:none"
                       onchange="$('#upload-file-info').text(this.files[0].name)">
                       Datei auswählen
@@ -91,10 +91,10 @@
               <div class="card-footer">
                 <div class="row">
                   <div class="col-6">
-                    <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00">Log anzeigen</a>
+                    <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white btn-primary">Log anzeigen</a>
                   </div>
                   <div class="col-6 text-right">
-                    <button type="submit" class="btn align-self-end text-white" style="background-color: #EE4D00" id="importClass">Importieren</button>
+                    <button type="submit" class="btn align-self-end text-white btn-primary" id="importClass">Importieren</button>
                   </div>
                 </div>
               </div>
@@ -103,8 +103,8 @@
         </div>
         <div class="row">
           <div class="col">
-            <div class="card">
-              <div class="card-header" style="background-color: #EE4D00">
+            <div class="card card-primary">
+              <div class="card-header">
                 <h3 class="card-title">Alle Klassen</h3>
               </div>
               <div class="card-body">
@@ -115,14 +115,14 @@
                       {% set entrys = entrys+1 %}
                     {% endif %}
                     <div class="col-xl-4 col-lg-4 col-md-6 col-12" id="class_{{ class.id }}">
-                      <div class="card" style="border: 1px solid #EE4D00;">
-                        <div class="card-header">
+                      <div class="card card-primary border border-primary">
+                        <div class="card-body">
                           <h3 class="card-title">
                             <b style="vertical-align: sub">{{class.name}}</b>
                           </h3>
-                          <div class="card-tools pr-3">
-                            <button type="button" class="btn btn-sm text-white edit" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-edit"></i></button>
-                            <button type="button" class="btn btn-sm text-white ml-2 delete" style="background-color: #EE4D00" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-trash"></i></button>
+                          <div class="text-right card-tools">
+                            <button type="button" class="btn btn-sm btn-primary text-white edit" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-primary text-white ml-2 delete" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-trash"></i></button>
                           </div>
                         </div>
                       </div>

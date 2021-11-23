@@ -73,7 +73,8 @@ class UserRepository
             $query->execute(['session_id' => $sesionID, "user" => $user]);
             setcookie("UserLogin","", time()-3600, "/" );
             setcookie("ClassesLogin","", time()-3600, "/" );
-            setcookie("UserLogin", $resultPwd->id, time()+(3600*24), "/");
+            // Nach einer stunde läuft der Login ab
+            setcookie("UserLogin", $resultPwd->id, time()+(3600*1), "/");
 
             $userData = $this->getUserDataById($resultPwd->id);
             $_SESSION['isAdmin'] = $userData->is_admin;
@@ -88,7 +89,8 @@ class UserRepository
             session_start();
             setcookie("ClassesLogin","", time()-3600, "/" );
             setcookie("UserLogin","", time()-3600, "/" );
-            setcookie("ClassesLogin", $resultPwdClasses->id, time()+(3600*24), "/");
+            // Nach einer stunde läuft der Login ab
+            setcookie("ClassesLogin", $resultPwdClasses->id, time()+(3600*1), "/");
             $_SESSION['class_name'] = $resultPwdClasses->name;
             unset($_SESSION['isAdmin']);
             unset($_SESSION['isTeacher']);
