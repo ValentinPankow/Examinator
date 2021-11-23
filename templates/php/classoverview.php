@@ -3,7 +3,7 @@
   require "sharedVars.php";
 
   echo $twig->render('classoverview.twig', array(
-      'pageTitle' => 'Examinator - Klassen',
+      'pageTitle' => 'Examinator - Klasse ' . $class->name,
       'applicationName' => 'Examinator',
       'pageJs' => 'src/js/classoverview.js',
       'tpl' => 'classoverview',

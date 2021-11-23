@@ -245,3 +245,56 @@ function editSubject(id)
         );
     }
 }
+
+$('button#importSubjects').on('click', function () {
+
+    // Get the selected file(s) and store them in the files variable --- [0].files; because we just want to have one file
+    let fd = new FormData();
+    let files = $('#fileUpload')[0].files;
+
+	// Add the file to the form data variable
+    if (files.length > 0) {
+        fd.append('file', files[0]);
+    } else {
+        triggerResponseMsg('error', $('.emptyInputFile').html());
+        return false;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: 'src/php/_ajax/ajax.subjectImport.php',
+        contentType: false,
+        processData: false,
+        data: fd,
+        success: function (rtn) {
+			// Parse the response JSON from php to an object
+            let obj = JSON.parse(rtn);
+			// Upload Successful
+            if (obj.status == 'success') {
+                if (obj.successCount == 0 && obj.failCount > 0) {
+                    triggerResponseMsg('info', 'Die Datei enthält nur bereits vorhandene Klassen!');
+                } else {
+                    triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                    setTimeout(function() { 
+                        location.reload();
+                    }, 500);  
+                }
+            } else {
+                if (obj.status == "type_error") {
+					// File is not of the correct type
+                    triggerResponseMsg('error', 'Die Datei hat nicht den richtigen Dateityp!');
+                } else if (obj.status == "wrong_format") {
+					// File wrong format
+                    triggerResponseMsg('info', 'Die Datei ist nicht im richtigen Format!');
+                } else {
+                    // General File upload error
+                    triggerResponseMsg('error', 'Die Datei konnte nicht hochgeladen werden!');
+                }
+            }
+
+			// Clear the upload file input
+            $('#fileUpload').val('');
+            $('#upload-file-info').html('');
+        }
+    });
+});

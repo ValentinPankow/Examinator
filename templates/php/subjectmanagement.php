@@ -3,7 +3,7 @@
   require "sharedVars.php";
 
   echo $twig->render('subjectmanagement.twig', array(
-    'pageTitle' => 'Examinator - Klassenverwaltung',
+    'pageTitle' => 'Examinator - Fachverwaltung',
     'applicationName' => 'Examinator',
     'pageJs' => 'src/js/subjectmanagement.js',
     'tpl' => 'subjectmanagement',
