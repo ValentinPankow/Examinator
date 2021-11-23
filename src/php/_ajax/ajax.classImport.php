@@ -13,7 +13,9 @@
 	$upload_url = "../../../dist/import/classes/";
 	$logPath = "../../../dist/import/logs/classImport.log";
 
-	fclose(fopen($logPath, 'w'));
+	if (file_exists($logPath)) {
+		fclose(fopen($logPath, 'w'));
+	}
 
 	// Array of allowed data types
 	$allowed = array('csv');

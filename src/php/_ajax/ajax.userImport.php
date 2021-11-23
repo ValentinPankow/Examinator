@@ -12,7 +12,9 @@
 	$upload_url = "../../../dist/import/users/";
 	$logPath = "../../../dist/import/logs/userImport.log";
 
-	fclose(fopen($logPath, 'w'));
+	if (file_exists($logPath)) {
+		fclose(fopen($logPath, 'w'));
+	}
 
 	// Array of allowed data types
 	$allowed = array('csv');
