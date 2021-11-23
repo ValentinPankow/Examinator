@@ -203,4 +203,36 @@ class ExamsRepository
             return false;
         }
     }
+
+    public function deleteClassExamsByIdAndDateRange($classId, $dateFrom, $dateTo, $deleteAll, &$examsExist) {
+        $result = false;
+        $deleteAll = $deleteAll == "true" ? true : false; 
+
+        if (!$deleteAll) {
+            $query = $this->pdo->prepare("SELECT COUNT(id) as rowCount FROM exams WHERE class_id = :id AND date >= :dateFrom AND date <= :dateTo");
+            $query->execute(['id' => $classId, 'dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+        } else {
+            $query = $this->pdo->prepare("SELECT COUNT(id) as rowCount FROM exams WHERE date >= :dateFrom AND date <= :dateTo");
+            $query->execute(['dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+        }
+        $content = $query->fetchAll(PDO::FETCH_DEFAULT);
+
+        if ($content[0]['rowCount'] > 0) {
+            if (!$deleteAll) {
+                $query = $this->pdo->prepare("DELETE FROM exams WHERE class_id = :id AND date >= :dateFrom AND date <= :dateTo");
+                $result = $query->execute(['id' => $classId, 'dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+            } else {
+                $query = $this->pdo->prepare("DELETE FROM exams WHERE date >= :dateFrom AND date <= :dateTo");
+                $result = $query->execute(['dateFrom' => $dateFrom, 'dateTo' => $dateTo]);
+            }
+        } else {
+            $examsExist = false;
+        }
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
