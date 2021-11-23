@@ -11,6 +11,9 @@
     
     // Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
 	$upload_url = "../../../dist/import/classes/";
+	if (!is_dir($upload_url)) {
+		mkdir($upload_url);
+	}
 	$logPath = "../../../dist/import/logs/classImport.log";
 
 	if (file_exists($logPath)) {
@@ -67,7 +70,7 @@
 						$duplicate = false;
 						$importOk = false;
 						if (strlen($data -> password) >= 8) {
-							$importOk = $classController->queryClass($data, "insert", $duplicate);	
+							$importOk = $classController->queryClass($data, "import", $duplicate);	
 						}
 						
                         if($importOk){

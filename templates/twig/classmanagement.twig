@@ -176,7 +176,7 @@
               </div>
               <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
-                <button type="button" class="btn btn-danger" name="editClass" id="editClass">Ändern</button>
+                <button type="button" class="btn btn-primary" name="editClass" id="editClass">Ändern</button>
               </div>
             </div>
             <!-- /.modal-content -->
@@ -218,6 +218,7 @@
   {{ block("responseMsg", "layout.twig") }}
   {{ block("footer", "layout.twig") }}
 </div> <!-- Wrapper -->
+{{ block("helpModal", "layout.twig") }}
 {{ block("js", "layout.twig") }}
 </body>
 </html>
