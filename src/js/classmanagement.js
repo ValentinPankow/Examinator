@@ -15,6 +15,29 @@ const Toast = Swal.mixin({
     }
 })
 
+$(document).ready(function() {
+    let helpText = "\
+    <h5>Klasse anlegen</h5>\
+    <p>In diesem Bereich kann eine Klasse durch eingabe des Klassennamens sowie des Passwortes, mit dem sich die Schüler der Klasse anmelden können \
+    und nach klicken des Buttons 'Anlegen', angelegt werden. Das Passwort muss mindestens 8 Zeichen besitzen</p>\
+    <h5>Klassen ändern / löschen</h5>\
+    <p>In dem Bereich 'Alle Klassen' werden alle Klassen aufgelistet, die angelegt wurden.</p>\
+    <p>Durch einen Klick auf den Button mit dem Stift Symbol kann die Klasse geändert werden. Soll das Passwort geändert werden muss vorher \
+    das Kontrollkästchen bestätigt werden, ansonsten wird nur der Name geändert.</p>\
+    <p>Das löschen der Klasse erfolgt über einen Klick auf den Knopf mit dem Mülleimer Symbol. Nach Bestätigung einer Sicherheits Meldung, wird die Klasse gelöscht.</p>\
+    <h5>Klassenliste importieren</h5>\
+    <p>In diesem Bereich kann eine CSV Datei importiert werden die folgendes Format besitzen muss:</p>\
+    <ul>\
+    <li>name</li>\
+    <li>password</li>\
+    </ul>\
+    <p><i class='fas fa-info-circle'></i> Das Passwort muss mindestens 8 Zeichen enthalten.</p>\
+    <p><i class='fas fa-info-circle'></i> Klassen die bereits vorhanden sind, werden übersprungen</p>\
+    <p>Mit dem Knopf 'Log anzeigen' kann eingesehen werden, welche Klassen importiert werden konnten und welche nicht.</p>\
+    ";
+    $('#helpText').html(helpText);
+});
+
 // Öffnet die Funktion zum abspeichern einer neuen Klasse beim anklicken des Buttons "Anlegen"
 // (DH)
 $('#saveClass').on('click', function() {

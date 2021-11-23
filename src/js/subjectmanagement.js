@@ -61,6 +61,23 @@ $(document).ready(function () {
     $('#deleteSubjectModal').find('button[name="deleteSubject"]').on('click', function() {
         deleteSubject($('#deleteSubjectModal').find('button[name="deleteSubject"]').attr('data-id'));
     });
+
+    let helpText = "\
+    <h5>Fach anlegen</h5>\
+    <p>In diesem Bereich kann eine Klasse durch eingabe des Fachnamens und durch klicken des 'Anlegen' Buttons angelegt werden.</p>\
+    <h5>Fächer ändern / löschen</h5>\
+    <p>In dem Bereich 'Alle Fächer' werden alle Fächer aufgelistet, die angelegt wurden.</p>\
+    <p>Durch einen Klick auf den Button mit dem Stift Symbol kann das Fach geändert werden.</p>\
+    <p>Das löschen des Fachs erfolgt über einen Klick auf den Knopf mit dem Mülleimer Symbol. Nach Bestätigung einer Sicherheits Meldung, wird das Fach gelöscht.</p>\
+    <h5>Fächer importieren</h5>\
+    <p>In diesem Bereich kann eine CSV Datei importiert werden die folgendes Format besitzen muss:</p>\
+    <ul>\
+    <li>name</li>\
+    </ul>\
+    <p><i class='fas fa-info-circle'></i> Fächer die bereits vorhanden sind, werden übersprungen</p>\
+    <p>Mit dem Knopf 'Log anzeigen' kann eingesehen werden, welche Klassen importiert werden konnten und welche nicht.</p>\
+    ";
+    $('#helpText').html(helpText);
     
 });
   
