@@ -44,6 +44,16 @@
     overflow: hidden;
 }
 
+.control-sidebar, .control-sidebar h5 {
+    background-color: white;
+    color: black;
+}
+
+.dark-mode .control-sidebar, .dark-mode .control-sidebar h5 {
+    background-color: #343a40;
+    color: white;
+}
+
 /* ---------------------------------------------------------- */
 
 #forgotPwd:hover {
