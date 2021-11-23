@@ -61,6 +61,10 @@ class ExamsController
         return $this->repository->deleteExam($id);   
     }
 
+    public function deleteClassExamsByIdAndDateRange($classId, $dateFrom, $dateTo, $deleteAll, &$examsExist) {
+        return $this->repository->deleteClassExamsByIdAndDateRange($classId, $dateFrom, $dateTo, $deleteAll, $examsExist);
+    }
+
     public function listFavoriteExams($userId) {
         return $this->repository->listFavoriteExams($userId);
     }

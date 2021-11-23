@@ -195,6 +195,13 @@
                       </tbody>
                     </table>
                   </div>
+                  <div class="card-footer">
+                    <div class="row">
+                      <div class="col text-center">
+                        <button type="button" class="btn btn-danger" id="deleteByDate" data-placement="bottom" title="Klausuren in einem Zeitraum löschen">Klausuren per Zeitangabe löschen</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -350,6 +357,56 @@
           </div>
           <div class="modal-body">
             <p>Möchten Sie diese Klausur wirklich löschen?</p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+            <button type="button" class="btn btn-danger" name="delete">Löschen</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal delete exams by Date -->
+    <div class="modal fade" id="deleteExamsByDateModal">
+      <div class="modal-dialog modal-m modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Klausuren im Zeitraum löschen</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><i class="fas fa-info-circle"></i> Bitte geben Sie einen Zeitraum sowie die Klasse an für die im angegebenen Zeitraum die Klausuren gelöscht werden sollen.</p>
+            <div class="custom-control custom-checkbox form-check mb-2">
+              <input class="custom-control-input form-check-input" type="checkbox" id="deleteAllExams" checked>
+              <label for="deleteAllExams" class="custom-control-label form-check-label">Von allen Klassen im Zeitraum löschen?</label>
+            </div>
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <label for="selectClassDeleteByDate">Klasse auswählen</label>
+                <select class="form-control" id="selectClassDeleteByDate" disabled>
+                  <!-- do twig code here -->
+                  <option value="-">-</option>
+                  {% for class in classes %}
+                    <option value="{{ class.id }}">{{ class.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-6">
+                <label for="deleteByDateFrom">Datum von</label>
+                <input type="date" class="form-control" id="deleteByDateFrom">
+              </div>
+              <div class="form-group col-6">
+                <label for="deleteByDateTo">Datum bis</label>
+                <input type="date" class="form-control" id="deleteByDateTo">
+              </div>
+            </div>
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
