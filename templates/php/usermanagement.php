@@ -1,5 +1,6 @@
 <?php
 
+    // (GR & VP)
     require "sharedVars.php";
 
     echo $twig->render('usermanagement.twig', array(

@@ -1,5 +1,6 @@
 <?php
 
+    // VP
     require "sharedVars.php";
 
     echo $twig->render('login.twig', array(
