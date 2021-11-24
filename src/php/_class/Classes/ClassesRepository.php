@@ -87,15 +87,22 @@ class ClassesRepository
       $classes = $this->fetchClasses();
 
       foreach($classes AS $class){
-        if(strtolower($class->name) == strtolower($data->name) && $class->id != $data->id){
-          $duplicate = true;
-          break;
+        if ($action == "import") {
+          if(strtolower($class->name) == strtolower($data->name)){
+            $duplicate = true;
+            break;
+          }
+        } else {
+          if(strtolower($class->name) == strtolower($data->name) && $class->id != $data->id){
+            $duplicate = true;
+            break;
+          }
         }
       }
 
       //Falls kein Duplikat vorhanden ist die Query durchführen, überprüft auf Insert oder Update
       if($duplicate == false){
-        if ($action == "insert") {
+        if ($action == "insert" || $action == "import") {
           $data->password = password_hash($data->password, PASSWORD_DEFAULT);
           $query = $this->pdo->prepare("INSERT INTO classes (name, password) VALUES (:name, :password)");
           $result = $query->execute(['name' => $data->name, 'password' => $data->password]);

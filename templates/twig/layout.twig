@@ -103,7 +103,7 @@
 
 {% block navbar %}
     <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -116,6 +116,11 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" id="btnHelp" role="button">
+          <i class="fas fa-question-circle text-right"></i>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" id="controlsBtn">
           <i class="fas fa-sun"></i>
@@ -267,6 +272,31 @@
     </aside>
     <!-- /.control-sidebar -->
 
+{% endblock %}
+
+{% block helpModal %}
+  <!-- Modal Help -->
+  <div class="modal fade" id="helpModal">
+    <div class="modal-dialog modal-m modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Hilfe: {{pageTitle}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="helpText"></div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 {% endblock %}
 
 {% block border %}

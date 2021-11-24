@@ -19,6 +19,10 @@ $(document).ready(function() {
     toggleDarkmode(darkModeActivated);
 });
 
+$('#btnHelp').on('click', function() {
+    $('#helpModal').modal('show');
+});
+
 // Einstellungsseite für Preferenzen erstellen
 let $sidebar = $('.control-sidebar');
 let $container = $('<div />', {
@@ -114,10 +118,14 @@ function toggleDarkmode(active) {
         $('.swal-popup').addClass('swal-dark');
         $('#controlsBtn').empty();
         $('#controlsBtn').append("<i class='far fa-moon'></i>");
+        $('.main-header').addClass('navbar-dark');
+        $('.main-header').removeClass('navbar-light');
     } else {
         $('body').removeClass('dark-mode');
         $('.swal-popup').removeClass('swal-dark');
         $('#controlsBtn').empty();
         $('#controlsBtn').append("<i class='fas fa-sun'></i>");
+        $('.main-header').addClass('navbar-light');
+        $('.main-header').removeClass('navbar-dark');
     }
 }
