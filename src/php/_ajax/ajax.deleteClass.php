@@ -3,6 +3,7 @@
     //Ajax um eine Klasse zu löschen
     //(DH)
 
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassManagement/ClassManagementController.php';
     require_once '../_class/Classes/ClassesModel.php';
