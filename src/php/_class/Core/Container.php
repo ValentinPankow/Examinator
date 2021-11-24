@@ -1,5 +1,7 @@
 <?php
 
+// VP DH GR EE
+
 namespace Core;
 
 use PDO;

@@ -1,4 +1,7 @@
 <?php
+
+// VP
+
 namespace Exams;
 
 use Exams\ExamsRepository;
@@ -41,6 +44,7 @@ class ExamsController
         if($userId){
         $classes = $this->classesRepository->fetchFavoriteClasses($userId, false);
         $subjects = $this->subjectsRepository->fetchFavoriteSubjects($userId, false);
+        // VP
         $this->render("{$tpl}", [
             'twig' => $twig,
             'classes' => $classes,

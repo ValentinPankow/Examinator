@@ -1,5 +1,7 @@
 <?php
 
+    // (VP & DH)
+
     namespace Dashboard;
 
     use User\UserRepository;
@@ -53,6 +55,7 @@
                 $exams = $this->examsRepository->fetchUserExams($user->id, 9);
                 $classes = $this->classesRepository->fetchClasses();
 
+                // VP
                 $this->render("{$tpl}", [
                     'twig' => $twig,
                     'user' => $user,
@@ -67,6 +70,7 @@
                 $class = $this->classesRepository->fetchClass($classId);
                 $exams = $this->examsRepository->fetchClassExams($class->id, 9);
 
+                // VP
                 $this->render("{$tpl}", [
                     'twig' => $twig,
                     'class' => $class,

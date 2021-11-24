@@ -1,5 +1,7 @@
 <?php
 
+// EE & VP
+
 namespace Login;
 use PDO;
 use Login\LoginModel;

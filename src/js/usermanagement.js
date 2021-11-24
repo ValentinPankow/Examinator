@@ -1,3 +1,6 @@
+// VP & GR
+
+
 // Benachrichtungselement erzeugen (VP)
 const Toast = Swal.mixin({
     toast: true,
