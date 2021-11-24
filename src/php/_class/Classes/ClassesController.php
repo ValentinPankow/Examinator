@@ -1,4 +1,6 @@
 <?php
+
+  // VP & DH
   
   namespace Classes;
 
@@ -40,6 +42,7 @@
         $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
         $classes = $this->repository->fetchClasses();
 
+        // VP
         $this->render("{$tpl}", [
             'classes' => $classes,
             'favoriteClasses' => $favoriteClasses,

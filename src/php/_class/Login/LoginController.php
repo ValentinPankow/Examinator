@@ -1,4 +1,7 @@
 <?php
+
+// VP
+
 namespace Login;
 
 use Login\LoginRepository;
@@ -26,10 +29,12 @@ class LoginController
         include "./templates/php/{$view}.php";
     }
 
+    // Logs the user in. $user is username or email
     public function login($user, $password) {
         return $this->userRepository->login($user, $password);
     }
 
+    // Gets the session id from database from the user with the $userID
     public function getSessionID($userID){
         return $this->userRepository->getSessionID($userID);
     } 

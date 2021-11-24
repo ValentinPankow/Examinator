@@ -1,3 +1,5 @@
+// VP & EE
+
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
