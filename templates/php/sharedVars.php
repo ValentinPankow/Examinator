@@ -1,5 +1,7 @@
 <?php
 
+    // VP
+    // Prüft die SESSION sowie die Cookies um später einfach darauf zugreifen zu können
     $darkMode = isset($_COOKIE['darkMode']) && $_COOKIE['darkMode'] == "true" ? true : false;
     $isAdmin = isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 1 ? true : false;
     $isTeacher = isset($_SESSION['isTeacher']) && $_SESSION['isTeacher'] == 1 ? true : false; 

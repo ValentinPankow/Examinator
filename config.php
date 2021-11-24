@@ -1,5 +1,7 @@
 <?php
 
+    // (VP) Generelle Config Datei
+
     require './src/php/_class/PageController.php';
 
     $pageController = new PageController();
