@@ -13,6 +13,7 @@
 
     $selfDelete = false;
     $ok = false;
+    // Prüfung, ob ein Admin eingeloggt ist (VP)
     if ($data->id != $_COOKIE['UserLogin']) {
         $ok = $userController->deleteUserById($data->id);
     } else {
@@ -21,6 +22,7 @@
 
     $obj = new stdClass;
 
+    // Rückgabe, um Erfolgs- oder Fehlermeldung auszugeben
     if ($ok && !$selfDelete) {
         $obj->success = true;
     } else {

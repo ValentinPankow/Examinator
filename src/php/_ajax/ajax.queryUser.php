@@ -12,6 +12,8 @@
     $userController = $container->make("userController");
 
     $duplicate = false;
+
+    // Aufruf der Funktion, zum Ausführen eines SQL-Befehl, aus dem Controller (GR)
     $ok = $userController->queryUser($data, $data->action, $duplicate);
 
     $obj = new stdClass;
