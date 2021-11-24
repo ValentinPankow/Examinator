@@ -9,7 +9,7 @@ class UserManagementController
     private $repository;
     private $userRepository;
 
-    //Übergibt das Repository vom Container
+    //Übergibt das Repository vom Container (GR)
     public function __construct(UserManagementRepository $repository, UserRepository $userRepository)
     {
         $this->repository = $repository;
@@ -17,7 +17,7 @@ class UserManagementController
     }
 
     //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
-    //Beispiel siehe index()
+    //Beispiel siehe index() (GR)
     private function render($view, $content)
     {
         $twig = $content['twig'];
@@ -27,8 +27,7 @@ class UserManagementController
     }
 
 
-    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    // public function index($id, $tpl, $twig)
+    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode (GR)
     public function index($tpl, $twig, $loginState)
     {
         $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;

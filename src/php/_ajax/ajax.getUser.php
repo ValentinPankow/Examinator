@@ -12,10 +12,12 @@
 
     $userController = $container->make("userController");
 
+    //Aufruf der Funktion zum Abrufen der Benutzerdaten per Benutzer-ID aus dem Controller (GR)
     $user = $userController->getUserDataById($data->id);
 
     $obj = new stdClass;
 
+    
     if ($user) {
         $obj->user = $user;
         $obj->success = true;

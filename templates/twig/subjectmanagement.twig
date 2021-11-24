@@ -42,7 +42,7 @@
                 <div class="form-row">
                   <div class="form-group col-12">
                     <label for="inputSubjectName">Fach</label>
-                    <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Fach Name">
+                    <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Fachname">
                   </div>
                 </div>
               </div>
@@ -102,7 +102,7 @@
                       {% if subject.name != "" %}
                         {% set entrys = entrys+1 %}
                       {% endif %}
-                      <div class="col-xl-4 col-lg-4 col-md-6 col-12" id="subject_{{ subject.id }}">
+                      <div class="col-xl-4 col-md-6 col-12" id="subject_{{ subject.id }}">
                         <div class="card card-primary border border-primary">
                           <div class="card-body">
                             <h3 class="card-title">
@@ -142,7 +142,7 @@
               <div class="modal-body">
                 <div class="form-row">
                   <div class="form-group col-12">
-                    <label for="inputClassName">Fach Name</label>
+                    <label for="inputClassName">Fachname</label>
                     <input type="text" class="form-control" id="editName">
                   </div>
                 </div>
