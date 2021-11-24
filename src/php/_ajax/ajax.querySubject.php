@@ -1,7 +1,8 @@
 <?php
     //Ajax um ein einzelnes Fach in die Datenbank einzuspeichern oder zu updaten
     //(DH)
-
+    
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Subjects/SubjectManagement/SubjectManagementController.php';
     require_once '../_class/Subjects/SubjectsModel.php';

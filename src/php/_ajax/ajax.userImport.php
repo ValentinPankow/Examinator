@@ -1,4 +1,6 @@
 <?php
+
+	require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/User/UserRepository.php';
     require_once '../_class/User/UserController.php';
