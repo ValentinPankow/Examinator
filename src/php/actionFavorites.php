@@ -1,5 +1,6 @@
 <?php
 //DH Speichert die ausgewählten Favoriten in die Datenbank
+require_once("db_config.php");
 require_once __DIR__ . "/_class/Core/Container.php";
 require_once __DIR__ . "/_class/Favorites/FavoritesController.php";
 require_once __DIR__ . "/_class/Subjects/SubjectsRepository.php";
