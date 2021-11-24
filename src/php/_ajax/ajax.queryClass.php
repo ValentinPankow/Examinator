@@ -2,7 +2,8 @@
 
     //Ajax um eine einzelne Klasse in die Datenbank einzuspeichern oder zu updaten
     //(DH)
-
+    
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassesRepository.php';
     require_once '../_class/Classes/ClassesModel.php';

@@ -3,6 +3,7 @@
     //Ajax um eine einzelne Klasse aus der Datenbank auszulesen
     //(DH)
 
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Classes/ClassesRepository.php';
     require_once '../_class/Classes/ClassesModel.php';

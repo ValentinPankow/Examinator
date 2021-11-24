@@ -1,5 +1,6 @@
 <?php
 
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Login/LoginRepository.php';
     require_once '../_class/Login/LoginController.php';
