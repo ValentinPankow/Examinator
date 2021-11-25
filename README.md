@@ -1,4 +1,4 @@
-# Klausurenverwaltungsprogramm - Examinator
+# Klausurenverwaltungssystem - Examinator
 
 ## Installationsanleitung
 
