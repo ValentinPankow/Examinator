@@ -44,7 +44,7 @@
         <div class="container-fluid">
           <div class="row">
             <!-- Left col -->
-            <div class="col-md-6">
+            <div class="col-xl-6">
               <!-- Do something here!-->
               <div class="card card-primary">
                 <div class="overlay card-overlay" style="display: none" id="createExamOverlay">
@@ -169,38 +169,36 @@
             </div>
 
             <!-- right col -->
-            <div class="col-md-6">
-              <div class="col-12">
-                <div class="card card-primary">
-                  <div class="overlay table-overlay" style="display: none" id="tableOverlay">
-                    <i class="fas fa-2x fa-sync fa-spin"></i>
-                  </div>
-                  <div class="card-header">
-                    <h3 class="card-title">Klausuren ändern / löschen</h3>
-                  </div>
-                  <div class="card-body">
-                    <table id="examsTable" class="table table-bordered table-hover" style="width: 100%">
-                      <thead>
-                        <tr>
-                          <th>Datum</th>
-                          <th>Fach</th>
-                          <th>Klasse</th>
-                          <th>Raum</th>
-                          <th>Von</th>
-                          <th>Bis</th>
-                          <th>Ändern</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+            <div class="col-xl-6">
+              <div class="card card-primary">
+                <div class="overlay table-overlay" style="display: none" id="tableOverlay">
+                  <i class="fas fa-2x fa-sync fa-spin"></i>
+                </div>
+                <div class="card-header">
+                  <h3 class="card-title">Klausuren ändern / löschen</h3>
+                </div>
+                <div class="card-body">
+                  <table id="examsTable" class="table table-bordered table-hover" style="width: 100%">
+                    <thead>
+                      <tr>
+                        <th>Datum</th>
+                        <th>Fach</th>
+                        <th>Klasse</th>
+                        <th>Raum</th>
+                        <th>Von</th>
+                        <th>Bis</th>
+                        <th>Ändern</th>
+                      </tr>
+                    </thead>
+                    <tbody>
 
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="card-footer">
-                    <div class="row">
-                      <div class="col text-center">
-                        <button type="button" class="btn btn-danger" id="deleteByDate" data-placement="bottom" title="Klausuren in einem Zeitraum löschen">Klausuren per Zeitangabe löschen</button>
-                      </div>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col text-center">
+                      <button type="button" class="btn btn-danger" id="deleteByDate" data-placement="bottom" title="Klausuren in einem Zeitraum löschen">Klausuren per Zeitangabe löschen</button>
                     </div>
                   </div>
                 </div>
