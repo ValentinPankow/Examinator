@@ -1,4 +1,7 @@
 <?php
+
+// VP
+
 namespace User;
 
 use User\UserRepository;
@@ -19,6 +22,7 @@ class UserController
     {
         $users = $content['users'];
         $twig = $content['twig'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
@@ -26,17 +30,45 @@ class UserController
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
-        //Example für fetchAll (SELECT * FROM bars)
-        $users = $this->repository->fetchUsers();
+        $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+        if($userId){
+            //Example für fetchAll (SELECT * FROM bars)
+            $users = $this->repository->fetchUsers();
 
-        // var_dump($id);
+            $this->render("{$tpl}", [
+                'users' => $users,
+                'twig' => $twig,
+                'loginState' => $loginState
+            ]);
+        }
 
-        $this->render("{$tpl}", [
-            'users' => $users,
-            'twig' => $twig
-        ]);
+    }
+
+    // VP Function returns all accounts
+    public function listAccounts() {
+        return $this->repository->fetchUserData();
+    }
+
+    // VP & GR Function imports the given user stored in $data. $action = insert update etc. $duplicate to check for duplicate users
+    public function queryUser($data, $action, &$duplicate = false) {
+        return $this->repository->queryUser($data, $action, $duplicate);
+    }
+
+    // VP & GR Get user by user id
+    public function fetchUserById($id) {
+        return $this->repository->fetchUserById($id);
+    }
+
+    // VP & GR gets user data by id
+    public function getUserDataById($id) {
+        return $this->repository->getUserDataById($id);
+    }
+
+    // VP & GR delete user by user id
+    public function deleteUserById($id) {
+        return $this->repository->deleteUserById($id);
     }
 
 }

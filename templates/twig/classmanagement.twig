@@ -1,0 +1,224 @@
+{# Creator = DH #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+  
+  {{ block("css", "layout.twig") }}
+  
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+
+  {{ block("navbar", "layout.twig") }}
+
+  {{ block("sidebar", "layout.twig") }}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Klassenverwaltung</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Klassenverwaltung</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Klasse anlegen</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputClassName">Klasse</label>
+                    <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Klassen Name">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="password">Passwort</label>
+                    <input type="password" class="form-control" id="createPassword" autocomplete="new-password" placeholder="********">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="passwordConfirmation">Passwort bestätigen</label>
+                    <input type="password" class="form-control" id="createPasswordConfirmation" autocomplete="new-password" placeholder="********">
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="col-12 text-right">
+                  <button class="btn align-self-end text-white btn-primary" id="saveClass">Anlegen</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Klassen importieren</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <div class="mb-3">
+                      Wählen Sie eine .csv Datei aus, um mehrere Klassensätze auf einmal zu importieren.
+                    </div>
+                    <label class="btn text-white btn-primary" for="fileUpload">
+                    <input id="fileUpload" type="file" style="display:none"
+                      onchange="$('#upload-file-info').text(this.files[0].name)">
+                      Datei auswählen
+                    </label>
+                    <span class='label label-info font-weight-bold pl-2' id="upload-file-info"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-6">
+                    <a href="dist/import/logs/classImport.log" target="_blank" type="submit" class="btn align-self-end text-white btn-primary">Log anzeigen</a>
+                  </div>
+                  <div class="col-6 text-right">
+                    <button type="submit" class="btn align-self-end text-white btn-primary" id="importClass">Importieren</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Alle Klassen</h3>
+              </div>
+              <div class="card-body">
+                <div class="row" id="classesContainer">
+                  {% set entrys = 0 %}
+                  {% for class in classes %}
+                    {% if class.name != "" %}
+                      {% set entrys = entrys+1 %}
+                    {% endif %}
+                    <div class="col-xl-4 col-md-6 col-12" id="class_{{ class.id }}">
+                      <div class="card card-primary border border-primary">
+                        <div class="card-body">
+                          <h3 class="card-title">
+                            <b style="vertical-align: sub">{{class.name}}</b>
+                          </h3>
+                          <div class="text-right card-tools">
+                            <button type="button" class="btn btn-sm btn-primary text-white edit" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-primary text-white ml-2 delete" data-toggle="modal" data-id="{{ class.id }}"><i class="fas fa-trash"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                  {% if entrys == 0 %}
+                    <p class="mb-0">Keine Einträge vorhanden</p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal edit class -->
+        <div class="modal fade" id="editClassModal">
+          <div class="modal-dialog modal-m modal-dialog-centered">
+            <div class="modal-content">
+              <div class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
+              <div class="modal-header">
+                <h4 class="modal-title">Klasse ändern</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputClassName">Klassenname</label>
+                    <input type="text" class="form-control" id="editName">
+                  </div>
+                  <div class="input-group mb-1 mt-1 col-sm-12">
+                    <div class="custom-control custom-checkbox form-check">
+                      <input class="custom-control-input form-check-input" type="checkbox" id="passwordChange">
+                      <label for="passwordChange" class="custom-control-label form-check-label">Passwort ändern?</label>
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <div class="form-group col-sm-6">
+                      <label for="editPassword">Passwort</label>
+                      <input type="password" value="--------" class="form-control" id="editPassword" placeholder="Passwort" disabled>
+                    </div>
+                    <div class="form-group col-sm-6">
+                      <label for="editPasswordConfirmation">Passwort bestätigen</label>
+                      <input type="password" value="--------" class="form-control" id="editPasswordConfirmation" placeholder="Passwort" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-primary" name="editClass" id="editClass">Ändern</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Modal delete class -->
+        <div class="modal fade" id="deleteClassModal">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Klasse löschen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Möchten Sie diese Klasse wirklich löschen?<br /><br />
+                  <i class="fas fa-info-circle"></i> Beim löschen der Klasse werden automatisch alle Klausuren der Klasse gelöscht!
+                </p>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-danger" name="deleteClass" id="deleteClass">Löschen</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+      </div> <!-- Container -->
+    </section> <!-- Content -->
+  </div> <!-- Content Wrapper -->
+  {{ block("responseMsg", "layout.twig") }}
+  {{ block("footer", "layout.twig") }}
+</div> <!-- Wrapper -->
+{{ block("helpModal", "layout.twig") }}
+{{ block("js", "layout.twig") }}
+</body>
+</html>

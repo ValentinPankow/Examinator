@@ -1,6 +1,6 @@
 # System / Log files
 *.DS_Store
-*.log
+# *.log
 
 # Archives
 *.zip

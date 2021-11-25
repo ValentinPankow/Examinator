@@ -1,44 +1,58 @@
 <?php
-namespace Classes;
 
-use Classes\ClassesRepository;
+  // VP & DH
+  
+  namespace Classes;
 
-class ClassesController
-{
+  use Classes\ClassesRepository;
+
+  class ClassesController
+  {
     private $repository;
 
     //Übergibt das Repository vom Container
+    //(DH)
     public function __construct(ClassesRepository $repository)
     {
-        $this->repository = $repository;
+      $this->repository = $repository;
     }
 
-    //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
-    //Beispiel siehe index()
     private function render($view, $content)
     {
-        $classes = $content['classes'];
-        $twig = $content['twig'];
+      $classes = $content['classes'];
+      $favoriteClasses = $content['favoriteClasses'];
+      $twig = $content['twig'];
+      $loginState = $content['loginState'];
 
-        include "./templates/php/{$view}.php";
+      include "./templates/php/{$view}.php";
     }
 
+    public function queryClass($data, $action, &$duplicate = false, &$data_id = -1) {
+      return $this->repository->queryClass($data, $action, $duplicate, $data_id);
+    }
 
-    //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    // public function index($id, $tpl, $twig)
-    public function index($tpl, $twig)
+    //Öffnet die Übersichtsseite der Klassen (Für Lehrer/Administratoren)
+    //(DH)
+    public function index($tpl, $twig, $loginState)
     {
-        //Example für fetchAll (SELECT * FROM bars)
+      $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+
+      //Falls es ein User ist
+      if($userId){
+        $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
         $classes = $this->repository->fetchClasses();
 
-        // var_dump($id);
-
+        // VP
         $this->render("{$tpl}", [
             'classes' => $classes,
-            'twig' => $twig
+            'favoriteClasses' => $favoriteClasses,
+            'twig' => $twig,
+            'loginState' => $loginState
         ]);
+      }else{
+        header("Refresh:0; url=?page=dashboard");
+        exit();
+      }
     }
 
-}
-
-?>
+  }

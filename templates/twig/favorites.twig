@@ -1,0 +1,133 @@
+{# Creator = DH #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+
+  {{ block("css", "layout.twig") }}
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+  {{ block("navbar", "layout.twig") }}
+  {{ block("sidebar", "layout.twig") }}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Favoriten</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Favoriten</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="content">
+      <form action="src/php/actionFavorites.php" method="POST">
+        <div class="card card-primary">
+          <div class="card-header">
+          </div>
+          <div class="card-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm">
+                  <h3> Klassen </h3>
+                    Bitte wählen Sie die Klassen aus, die Sie im Reiter Klassen und in der Auswahl zum Anlegen der Klausuren sehen möchten.
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Favoritisierte Klassen</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{favoriteClasses | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Weitere Klassen zur Auswahl</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{classes | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                <h3>Fächer</h3>
+                  Bitte wählen Sie die Fächer aus, die Sie in der Auswahl zum Anlegen der Klausuren sehen möchten.
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Favoritisierte Fächer</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                            {{favoriteSubjects | raw}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="card">
+                    <div class="card-header bg-primary">
+                      <h3 class="card-title">Weitere Fächer zur Auswahl</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col">
+                          {{subjects | raw }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="col text-center">
+              <button type="submit" class="btn btn-primary align-self-end text-white">Änderungen speichern</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+    <!-- /.content -->
+  </div>
+  {{ block("footer", "layout.twig") }}
+</div>
+{{ block("helpModal", "layout.twig") }}
+{{ block("js", "layout.twig") }}
+</body>
+</html>

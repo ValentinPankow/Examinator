@@ -1,5 +1,7 @@
 <?php
 
+// VP & GR
+
 namespace User;
 
 class UserModel
@@ -12,6 +14,7 @@ class UserModel
     public $is_admin;
     public $is_teacher;
     public $classes;
+    public $rowsFound;
 
 }
 

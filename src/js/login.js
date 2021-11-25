@@ -1,3 +1,5 @@
+// VP & EE
+
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -13,7 +15,31 @@ const Toast = Swal.mixin({
     }
 })
 
+$(document).ready(function () {
+    $('#forgotPwd').tooltip();
+
+    let helpText = "\
+    <h5>Klassenlogin</h5>\
+    <p>Der Login der Klasse funktioniert mit der Eingabe des Klassennamens und des Passwortes der Klasse.</p>\
+    <h5>Benutzerlogin</h5>\
+    <p>Der Login des Benutzers funktioniert mit der Eingabe der E-Mail Adresse sowie des Passwortes des Benutzers.</p>\
+    <h5>Passwort vergessen?</h5>\
+    <p>Im Falle das ein Benutzer nicht mehr auf seinen Account zugreifen kann, muss er sich an einen Administrator wenden.</p>\
+    ";
+    $('#helpText').html(helpText);
+});
+
 $('#loginBtn').on('click', function() {
+   login();
+});
+
+$('#inputPassword').keypress(function(e) {
+    if(e.which == 13){
+        login();
+    }
+});
+
+function login(){
     $.post(
         'src/php/_ajax/ajax.login.php',
         {
@@ -25,14 +51,16 @@ $('#loginBtn').on('click', function() {
         function(rtn) {
             try {
                 let obj = JSON.parse(rtn);
-                if (obj.user) {
-                    triggerResponseMsg('success', $('.userFound').html());
+                console.log(obj);
+                if (obj.success) {
+                    triggerResponseMsg('success', $('.loginSuccess').html());
+                    location.href = "?page=dashboard";
                 } else {
-                    triggerResponseMsg('error', $('.userNotFound').html());
+                    triggerResponseMsg('error', $('.loginError').html());
                 }
             } catch(e) {
                 console.log(e);
             }
         }
     );
-});
+}

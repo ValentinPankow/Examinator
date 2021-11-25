@@ -1,3 +1,5 @@
+// VP Darkmode and functions that can be used on the entire web page
+
 // Darkmode- Einstellungen aus Cookie holen
 let darkMode = getCookie("darkMode");
 let darkModeActivated = false;
@@ -17,6 +19,10 @@ if (darkMode == "true") {
 $(document).ready(function() {
     // Darkmode umschalten
     toggleDarkmode(darkModeActivated);
+});
+
+$('#btnHelp').on('click', function() {
+    $('#helpModal').modal('show');
 });
 
 // Einstellungsseite für Preferenzen erstellen
@@ -69,6 +75,7 @@ function isMail(mail) {
     return regEx.test(String(mail).toLowerCase());
 }
 
+
 function formatDate(dateStr) {
     return dateStr.substring(8, 10) + "." + dateStr.substring(5, 7) + "." + dateStr.substring(0, 4);
 }
@@ -91,6 +98,16 @@ function getCookie(cname) {
     return "";
 }
 
+// https://stackoverflow.com/questions/2144386/how-to-delete-a-cookie
+function deleteCookie( name, path, domain = false ) {
+    if( getCookie( name ) ) {
+        document.cookie = name + "=" +
+        ((path) ? ";path="+path:"")+
+        ((domain)?";domain="+domain:"") +
+        ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    }
+}
+
 // Funktion um die aktuelle Seite zu bekommen
 function getPage() {
     return urlParams.get('page');
@@ -101,8 +118,16 @@ function toggleDarkmode(active) {
     if (active) {
         $('body').addClass('dark-mode');
         $('.swal-popup').addClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='far fa-moon'></i>");
+        $('.main-header').addClass('navbar-dark');
+        $('.main-header').removeClass('navbar-light');
     } else {
         $('body').removeClass('dark-mode');
         $('.swal-popup').removeClass('swal-dark');
+        $('#controlsBtn').empty();
+        $('#controlsBtn').append("<i class='fas fa-sun'></i>");
+        $('.main-header').addClass('navbar-light');
+        $('.main-header').removeClass('navbar-dark');
     }
 }

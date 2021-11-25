@@ -1,5 +1,7 @@
 <?php
 
+// EE & VP
+
 namespace Login;
 use PDO;
 use Login\LoginModel;
@@ -14,5 +16,5 @@ class LoginRepository
     {
         $this->pdo = $pdo;
     }
-
+    
 }

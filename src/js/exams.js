@@ -1,3 +1,5 @@
+// VP
+
 // Benachrichtungs Element erzeugen
 const Toast = Swal.mixin({
     toast: true,
@@ -23,6 +25,10 @@ let summernoteOtherChange = null;
 let today = null;
 
 $(document).ready(function() {
+
+    $('#deleteByDate').tooltip({
+        tooltipClass: "examsTooltip"
+    });
 
     $('div.swal2-popup').addClass('sweetalert-darkmode');
     // Erstellen der Eingabefelder
@@ -128,6 +134,33 @@ $(document).ready(function() {
     var month = ("0" + (d.getMonth() + 1)).slice(-2);
     today = d.getFullYear()+"-"+(month)+"-"+(day) ;
     $('#inputDate').val(today);
+
+    let helpText = "\
+    <h5>Klausuren hinzufügen</h5>\
+    <p>In dieser Ansicht können Klausuren angelegt werden. \
+    Pflichtangaben sind hierbei das Feld Datum, Uhrzeit von & bis oder Stunde von & bis sowie das Feld Klasse und Fach.</p>\
+    <p>In den Dropdown Feldern für Klasse und Fach werden standardmäßig nur die favoritisierten Klassen und Fächer auswählbar sein, außer wenn\
+    weder Klassenfavoriten noch Fachfavoriten ausgewählt wurden, in diesem Fall werden alle zur verfügung stehenden Klassen und Fächer aufgelistet.</p>\
+    <p>Durch anklicken des Kontrollkästchens 'Sonstige Informationen angeben' lässt sich ein Weiteres Textfeld öffnen, indem weitere Informationen hinterlegt\
+    werden können.</p>\
+    <p>Durch einen Klick auf den Speichern Button wird die Klausur dann hinzugefügt.</p>\
+    <h5>Klausuren ändern / löschen</h5>\
+    <p>In diesem Bereich werden alle Klausuren der vom Benutzer favoritisierten Klassen aufgelistet. Falls der Benutzer keine Favoriten ausgewählt hat, werden hier</p>\
+    Alle Klausuren aller Fächer aufgelistet.</p>\
+    <p>Anhand des 'Suche' Feldes kann nach inhalten von jeder Tabellenspalte gesucht werden. Die Anzahl der Klausuren, die auf einen Blick sichtbar sind\
+    kann mit einer Auswahl eines Eintrages auf dem Feld 'Zeilen anzeigen' geändert werden.\
+    Mit den Buttons 'Zurück' und 'Nächste' kann die Seite gewechselt werden um weitere Tabelleneinträge ansehen zu können.</p>\
+    <h5>Klausuren ändern</h5>\
+    <p>Mit einem Klick auf den blauen Button mit dem Stift Symbol kann die Klausur verändert werden. Dies funktioniert genauso wie beim hinzufügen der Klausur.</p>\
+    <h5>Klausuren löschen</h5>\
+    <p>Mit einem Klick auf den roten Button mit dem Mülleimer Symbol kann die Klausur nach bestätigung einer weiteren Sicherheits-Meldung gelöscht werden.</p>\
+    <h5>Klausuren per Zeitangabe löschen</h5>\
+    <p>Beim klicken dieses Buttons öffnet sich ein neues Fenster, indem man die Möglichkeit hat einen Zeitraum anzugeben um somit alle Klausuren innerhalb dieses\
+    Zeitraumes zu löschen. Wichtig hierbei ist, dass das Kästchen 'Von allen Klassen im Zeitraum löschen?' standardmäßig aktiviert ist und somit alle Klausuren aller\
+    Klassen innerhalb des angegebenen Zeitraumes gelöscht werden. Durch Abhaken dieses Kontrollkästchens kann eine Klasse ausgewählt werden von der innerhalb der Zeitangabe\
+    die Klausuren gelöscht werden sollen.</p>\
+    ";
+    $('#helpText').html(helpText);
 
 });
 
@@ -244,6 +277,85 @@ $('#rbLessonChange').on('change', function() {
 $('#saveExam').on('click', function() {
     saveNewExam();
 });
+
+$('#deleteByDate').on('click', function() {
+    $('#deleteExamsByDateModal').modal('show');
+});
+
+$('#deleteExamsByDateModal').find('button[name="delete"]').on('click', function() {
+    deleteByDate($('#selectClassDeleteByDate').val());
+});
+
+// Wenn das Modal geschlossen wurde, die Felder leeren.
+$('#deleteExamsByDateModal').on('hidden.bs.modal', function() {
+    $('#selectClassDeleteByDate').val('-');
+    $('#deleteByDateFrom').val('');
+    $('#deleteByDateTo').val('');
+    $('#selectClassDeleteByDate').prop('disabled', true);
+    $('#selectClassDeleteByDate').val('-');
+    $('#deleteAllExams').prop('checked', true);
+});
+
+$('#deleteAllExams').on('change', function() {
+    if ($('#deleteAllExams').is(':checked')) {
+        $('#selectClassDeleteByDate').prop('disabled', true);
+        $('#selectClassDeleteByDate').val('-');
+    } else {
+        $('#selectClassDeleteByDate').prop('disabled', false);
+    }
+});
+
+function deleteByDate(classId) {
+    let deleteFromValue = $('#deleteByDateFrom').val();
+    let deleteToValue = $('#deleteByDateTo').val();
+    let deleteAllExams = $('#deleteAllExams').is(':checked') ? true : false;
+
+    let errorMsg = null;
+
+    if ((!deleteAllExams && (classId == "" || classId == "-")) || deleteFromValue == "" || deleteToValue == "") {
+        errorMsg = $('.requiredInputs').html();
+    }
+
+    if (Date.parse(deleteFromValue) > Date.parse(deleteToValue)) {
+        errorMsg = $('.lessonAndTimeError').html();
+    }
+
+    if (errorMsg != null) {
+        triggerResponseMsg('error', errorMsg);
+        return false;
+    }
+
+    $.post(
+        'src/php/_ajax/ajax.deleteExamByDate.php',
+        {
+            data: {
+                id: classId,
+                dateFrom: deleteFromValue,
+                dateTo: deleteToValue,
+                deleteAllExams: deleteAllExams
+            },
+        },
+        function(rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                if (obj.success) {
+                    reloadTable();
+                    $('#deleteExamsByDateModal').modal('hide');
+                    triggerResponseMsg('success', $('.successDeleteExamByDateRange').html());
+                } else {
+                    if (obj.no_matches) {
+                        triggerResponseMsg('error', $('.errorNoExamsExist').html());
+                    } else {
+                        triggerResponseMsg('error', $('.errorDeleteExamByDateRange').html());
+                    }
+                }
+            } catch(e) {
+                triggerResponseMsg('error', $('.errorDeleteExamByDateRange').html());
+                console.log(e);
+            }
+        }
+    );
+}
 
 function saveNewExam() {
 
@@ -419,7 +531,6 @@ function changeExam(id) {
 }
 
 function getExam(id) {
-
     $.post(
         'src/php/_ajax/ajax.getExam.php',
         {
@@ -446,6 +557,7 @@ function getExam(id) {
                     $('#inputTimeToChange').val(obj.exam.timeTo);
                     obj.exam.lessonFrom != null ? $('#selectLessonFromChange').val(obj.exam.lessonFrom) : $('#selectLessonFromChange').val("-");
                     obj.exam.lessonTo != null ? $('#selectLessonToChange').val(obj.exam.lessonTo) : $('#selectLessonToChange').val("-");
+
                     summernoteTopicChange.summernote('code', obj.exam.topic);
 
                     if (obj.exam.other) {
@@ -470,7 +582,7 @@ function getExam(id) {
 }
 
 function deleteExam(id) {
-
+  
     $.post(
         'src/php/_ajax/ajax.deleteExam.php',
         {

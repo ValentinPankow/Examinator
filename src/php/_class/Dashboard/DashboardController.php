@@ -1,52 +1,84 @@
 <?php
-namespace Dashboard;
 
-use User\UserRepository;
-use Exams\ExamsRepository;
-use Dashboard\DashboardRepository;
+    // (VP & DH)
 
-class DashboardController
-{
-    private $userRepository;
-    private $examsRepository;
+    namespace Dashboard;
 
-    //Übergibt das Repository vom Container
-    public function __construct(UserRepository $userRepository, ExamsRepository $examsRepository)
+    use User\UserRepository;
+    use Exams\ExamsRepository;
+    use Classes\ClassesRepository;
+    use Dashboard\DashboardRepository;
+
+    class DashboardController
     {
-        $this->userRepository = $userRepository;
-        $this->examsRepository = $examsRepository;
-    }
+        private $userRepository;
+        private $examsRepository;
+        private $classesRepository;
+        private $subjectRepository;
 
-    //Rendert den Inhalt, hierzu bekommt die Methode den Dateipfad von view Ordner bis zum Dateinamen der View selbst und dem übergebenen Content
-    //Beispiel siehe Dashboard()
-    private function render($view, $content)
-    {
-        $twig = $content['twig'];
-        $user = $content['user'];
-        $exams = $content['exams'];
-
-        include "./templates/php/{$view}.php";
-    }
-
-
-    //Sucht sich alle Dashboards aus dem Repository(DB) heraus und übergibt Sie der render() Methode
-    public function index($tpl, $twig)
-    {
-        //Example für fetchAll (SELECT * FROM Dashboards)
-        // $Dashboards = $this->repository->fetchDashboards();
-        $exams = null;
-        $user = $this->userRepository->fetchUserById(1);
-        if ($user) {
-            $exams = $this->examsRepository->fetchUserExams($user->id);
+        //Übergibt das Repository vom Container
+        //(DH)
+        public function __construct(UserRepository $userRepository, ExamsRepository $examsRepository, ClassesRepository $classesRepository)
+        {
+            $this->userRepository = $userRepository;
+            $this->examsRepository = $examsRepository;
+            $this->classesRepository = $classesRepository;
         }
 
-        $this->render("{$tpl}", [
-            'twig' => $twig,
-            'user' => $user,
-            'exams' => $exams
-        ]);
+        //(DH)
+        private function render($view, $content, $login_type)
+        {
+            $twig = $content['twig'];
+            $exams = $content['exams'];
+            $loginState = $content['loginState'];
+
+            if($login_type == 'user'){
+                $classes = $content['classes'];
+                $user = $content['user'];
+            }else if($login_type == 'class'){
+                $class = $content['class'];
+            }
+
+            include "./templates/php/{$view}.php";
+        }
+
+        //Öffnet das Dashboard (Klasse oder Lehrer/Administrator)
+        //(DH)
+        public function index($tpl, $twig, $loginState)
+        {
+            $userId = isset($_COOKIE['UserLogin']) ? $_COOKIE['UserLogin'] : false;
+            $classId = isset($_COOKIE['ClassesLogin']) ? $_COOKIE['ClassesLogin'] : false;
+
+            if($userId){
+                $login_type = 'user';
+                $user = $this->userRepository->fetchUserById($userId);
+                $exams = $this->examsRepository->fetchUserExams($user->id, 9);
+                $classes = $this->classesRepository->fetchClasses();
+
+                // VP
+                $this->render("{$tpl}", [
+                    'twig' => $twig,
+                    'user' => $user,
+                    'classes' => $classes,
+                    'exams' => $exams,
+                    'loginState' => $loginState
+                    ],
+                    $login_type
+                );
+            } elseif($classId) {
+                $login_type = 'class';
+                $class = $this->classesRepository->fetchClass($classId);
+                $exams = $this->examsRepository->fetchClassExams($class->id, 9);
+
+                // VP
+                $this->render("{$tpl}", [
+                    'twig' => $twig,
+                    'class' => $class,
+                    'exams' => $exams,
+                    'loginState' => $loginState
+                    ],
+                    $login_type
+                );
+            }
+        }
     }
-
-}
-
-?>

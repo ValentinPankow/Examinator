@@ -1,4 +1,7 @@
 <?php
+
+// VP
+
 namespace Login;
 
 use Login\LoginRepository;
@@ -21,20 +24,28 @@ class LoginController
     private function render($view, $content)
     {
         $twig = $content['twig'];
+        $loginState = $content['loginState'];
 
         include "./templates/php/{$view}.php";
     }
 
-    public function getUserByMail($mail) {
-        return $this->userRepository->fetchUserByMail($mail);
+    // Logs the user in. $user is username or email
+    public function login($user, $password) {
+        return $this->userRepository->login($user, $password);
     }
+
+    // Gets the session id from database from the user with the $userID
+    public function getSessionID($userID){
+        return $this->userRepository->getSessionID($userID);
+    } 
 
     //Sucht sich alle Bars aus dem Repository(DB) heraus und übergibt Sie der render() Methode
     // public function index($id, $tpl, $twig)
-    public function index($tpl, $twig)
+    public function index($tpl, $twig, $loginState)
     {
         $this->render("{$tpl}", [
-            'twig' => $twig
+            'twig' => $twig,
+            'loginState' => $loginState
         ]);
     }
 

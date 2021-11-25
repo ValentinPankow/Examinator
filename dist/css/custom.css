@@ -1,3 +1,5 @@
+/* ------------------------ VP ------------------------ */
+
 /* ------------------------ Dark Mode ------------------------ */
 
 /* ------------ Sweetalert Dark Mode  ------------ */
@@ -27,6 +29,7 @@
     filter: invert(1);
 }
 
+
 .dark-mode .fa-spin {
     filter: invert(1);
 }
@@ -39,4 +42,26 @@
     background-color: rgba(0,0,0,.4) !important;
 }
 
+.dataTables_filter {
+    overflow: hidden;
+}
+
+.control-sidebar, .control-sidebar h5 {
+    background-color: white;
+    color: black;
+}
+
+.dark-mode .control-sidebar, .dark-mode .control-sidebar h5 {
+    background-color: #343a40;
+    color: white;
+}
+
 /* ---------------------------------------------------------- */
+
+#forgotPwd:hover {
+    cursor:pointer;
+}
+
+.examsTooltip {
+    pointer-events: none;
+}

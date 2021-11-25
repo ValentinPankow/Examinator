@@ -1,0 +1,197 @@
+{# Creator = DH #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+  {{ block("css", "layout.twig") }}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  {{ block("preloader", "layout.twig") }}
+  {{ block("navbar", "layout.twig") }}
+  {{ block("sidebar", "layout.twig") }}
+
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Fachverwaltung</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="?page=dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Fachverwaltung</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Fach anlegen</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputSubjectName">Fach</label>
+                    <input type="text" class="form-control" id="createName" autocomplete="new-password" placeholder="Fachname">
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="col-12 text-right">
+                  <button class="btn btn-primary align-self-end text-white" id="saveSubject">Anlegen</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Fächer importieren</h3>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-row">
+                    <div class="form-group col-12 mb-0">
+                      <div class="mb-3">
+                        Wählen Sie eine .csv Datei aus, um mehrere Fächer auf einmal zu importieren.
+                      </div>
+                      <label class="btn text-white btn-primary" for="fileUpload">
+                      <input id="fileUpload" type="file" style="display:none"
+                              onchange="$('#upload-file-info').text(this.files[0].name)">
+                              Datei auswählen
+                      </label>
+                      <span class='label label-info font-weight-bold pl-2' id="upload-file-info"></span>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="row">
+                <div class="col-6">
+                  <a href="dist/import/logs/subjectsImport.log" target="_blank" type="submit" class="btn align-self-end text-white btn-primary">Log anzeigen</a>
+                </div>
+                <div class="col-6 text-right">
+                  <button type="submit" class="btn btn-primary align-self-end text-white" id="importSubjects">Importieren</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Alle Fächer</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row" id="subjectsContainer">
+                    {% set entrys = 0 %}
+                    {% for subject in subjects %}
+                      {% if subject.name != "" %}
+                        {% set entrys = entrys+1 %}
+                      {% endif %}
+                      <div class="col-xl-4 col-md-6 col-12" id="subject_{{ subject.id }}">
+                        <div class="card card-primary border border-primary">
+                          <div class="card-body">
+                            <h3 class="card-title">
+                              <b style="vertical-align: sub">{{subject.name}}</b>
+                            </h3>
+                            <div class="text-right card-tools">
+                              <button type="button" class="btn btn-primary btn-sm text-white edit" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-edit"></i></button>
+                              <button type="button" class="btn btn-primary btn-sm text-white ml-2 delete" data-toggle="modal" data-id="{{ subject.id }}"><i class="fas fa-trash"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    {% if entrys == 0 %}
+                      <p class="mb-0">Keine Einträge vorhanden</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal edit subject -->
+        <div class="modal fade" id="editSubjectModal">
+          <div class="modal-dialog modal-m modal-dialog-centered">
+            <div class="modal-content">
+              <div class="overlay">
+                <i class="fas fa-2x fa-sync fa-spin"></i>
+              </div>
+              <div class="modal-header">
+                <h4 class="modal-title">Fach löschen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-row">
+                  <div class="form-group col-12">
+                    <label for="inputClassName">Fachname</label>
+                    <input type="text" class="form-control" id="editName">
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-primary" name="editSubject" id="editSubject">Ändern</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Modal delete subject -->
+        <div class="modal fade" id="deleteSubjectModal">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Fach löschen</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  Möchten Sie dieses Fach wirklich löschen?<br /><br />
+                  <i class="fas fa-info-circle"></i> Beim Löschen des Fachs werden automatisch alle Klausuren des Fachs gelöscht!
+                </p>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                <button type="button" class="btn btn-danger" name="deleteSubject" id="deleteSubject">Löschen</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+      </div>
+    </section>
+  </div>
+  {{ block("responseMsg", "layout.twig") }}
+  {{ block("footer", "layout.twig") }}
+</div>
+{{ block("helpModal", "layout.twig") }}
+{{ block("js", "layout.twig") }}
+</body>
+</html>
