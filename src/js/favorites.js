@@ -1,3 +1,5 @@
+// VP
+
 $(document).ready(function() {
     let helpText = "\
     <p><i class='fas fa-info-circle'></i> Favoriten sind dafür gedacht, seine Auswahl an Klassen oder Fächern auf die nötigsten zu beschränken. \

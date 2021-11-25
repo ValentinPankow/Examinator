@@ -1,5 +1,7 @@
 <?php
 
+// VP
+
 namespace Exams;
 use PDO;
 use Exams\ExamsModel;
@@ -204,6 +206,7 @@ class ExamsRepository
         }
     }
 
+    // VP delete Exams within a date range ($dateFrom $dateTo) optional $classId delete in daterange with classid $deleteAll is control Variable to delete from all classes. $examsExist to check if there are exams to delete
     public function deleteClassExamsByIdAndDateRange($classId, $dateFrom, $dateTo, $deleteAll, &$examsExist) {
         $result = false;
         $deleteAll = $deleteAll == "true" ? true : false; 

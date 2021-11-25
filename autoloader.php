@@ -1,5 +1,7 @@
 <?php
 
+// (DH) Lädt automatisch ressourcen
+
 function autoloader($className)
 {
     $className = str_replace("\\", "/", $className);

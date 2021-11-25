@@ -1,4 +1,7 @@
 <?php
+
+// VP
+
 namespace User;
 
 use User\UserRepository;
@@ -43,22 +46,27 @@ class UserController
 
     }
 
+    // VP Function returns all accounts
     public function listAccounts() {
         return $this->repository->fetchUserData();
     }
 
+    // VP & GR Function imports the given user stored in $data. $action = insert update etc. $duplicate to check for duplicate users
     public function queryUser($data, $action, &$duplicate = false) {
         return $this->repository->queryUser($data, $action, $duplicate);
     }
 
+    // VP & GR Get user by user id
     public function fetchUserById($id) {
         return $this->repository->fetchUserById($id);
     }
 
+    // VP & GR gets user data by id
     public function getUserDataById($id) {
         return $this->repository->getUserDataById($id);
     }
 
+    // VP & GR delete user by user id
     public function deleteUserById($id) {
         return $this->repository->deleteUserById($id);
     }
