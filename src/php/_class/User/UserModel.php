@@ -1,5 +1,7 @@
 <?php
 
+// VP & GR
+
 namespace User;
 
 class UserModel

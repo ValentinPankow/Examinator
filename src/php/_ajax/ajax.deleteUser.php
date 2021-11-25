@@ -1,5 +1,8 @@
 <?php
 
+    // GR & VP
+
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/User/UserRepository.php';
     require_once '../_class/User/UserController.php';
@@ -13,6 +16,7 @@
 
     $selfDelete = false;
     $ok = false;
+    // Prüfung, ob ein Admin eingeloggt ist (VP)
     if ($data->id != $_COOKIE['UserLogin']) {
         $ok = $userController->deleteUserById($data->id);
     } else {
@@ -21,6 +25,7 @@
 
     $obj = new stdClass;
 
+    // Rückgabe, um Erfolgs- oder Fehlermeldung auszugeben
     if ($ok && !$selfDelete) {
         $obj->success = true;
     } else {

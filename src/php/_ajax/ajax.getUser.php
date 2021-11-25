@@ -1,5 +1,8 @@
 <?php
 
+    // GR & VP
+
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/User/UserRepository.php';
     require_once '../_class/User/UserController.php';
@@ -11,10 +14,12 @@
 
     $userController = $container->make("userController");
 
+    //Aufruf der Funktion zum Abrufen der Benutzerdaten per Benutzer-ID aus dem Controller (GR)
     $user = $userController->getUserDataById($data->id);
 
     $obj = new stdClass;
 
+    
     if ($user) {
         $obj->user = $user;
         $obj->success = true;

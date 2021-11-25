@@ -1,5 +1,7 @@
 <?php
 
+// (VP & GR)
+
 namespace User;
 use PDO;
 use User\UserModel;
@@ -31,6 +33,7 @@ class UserRepository
         return $content;
     }
 
+    // VP Gets Userdata by user ID
     public function getUserDataById($id)
     {
         $query = $this->pdo->prepare("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users WHERE `id` = :id");
@@ -41,6 +44,7 @@ class UserRepository
         return $content;
     }
 
+    // VP & EE cheks the given username / mail adress and passwort and if ok logs the user in by setting cookies and session
     public function login($user, $password)
     {
         $query = $this->pdo->prepare("SELECT password, id FROM users WHERE `email` = :user");
@@ -112,6 +116,7 @@ class UserRepository
         return $contents;
     }
 
+    // Fetch users main data
     public function fetchUserData()
     {
         $query = $this->pdo->query("SELECT id, first_name, last_name, email, is_admin, is_teacher FROM users");
@@ -120,6 +125,7 @@ class UserRepository
         return $contents;
     }
 
+    // VP & GR Function does insert or update a user
     public function queryUser($data, $action, &$duplicate = false) {
         if (isset($data->changePassword)) {
             $changePassword = $data->changePassword == "true" ? true : false;
@@ -190,6 +196,7 @@ class UserRepository
         }
     }
 
+    // VP & GR deletes user by user id
     public function deleteUserById($id) {
         $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = :id");
         $result = $query->execute(['id' => $id]);
@@ -206,6 +213,7 @@ class UserRepository
         }
     }
 
+    // VP & EE returns the session_id from the database
     public function getSessionID($userID){
         $query = $this->pdo->prepare("SELECT session_id FROM users WHERE `id` = :id");
         $query->execute(['id' => $userID]);

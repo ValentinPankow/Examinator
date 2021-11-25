@@ -1,5 +1,8 @@
 <?php
 
+    // VP
+
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/Exams/ExamsRepository.php';
     require_once '../_class/Exams/ExamsController.php';

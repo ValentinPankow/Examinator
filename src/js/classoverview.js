@@ -1,3 +1,5 @@
+// VP
+
 $(document).ready(function() {
     let helpText = "\
     <h5>Klassenübersicht</h5>\

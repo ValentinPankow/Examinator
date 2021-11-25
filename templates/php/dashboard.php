@@ -1,6 +1,6 @@
 <?php
 
-  //(DH)
+  //(DH & VP)
   require "sharedVars.php";
 
   if($login_type == 'user'){

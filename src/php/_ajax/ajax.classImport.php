@@ -1,4 +1,8 @@
 <?php
+
+	// GR
+
+	require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
 	require_once '../_class/User/UserRepository.php';
     require_once '../_class/Classes/ClassesRepository.php';
@@ -9,7 +13,7 @@
     $container = new Core\Container();
     $classController = $container->make("classesController");
     
-    // Store the uploaded File in variables ---- Change $upload_url to the Folder where the file should be stored
+    // Hochgeladene Datei in Variable speichern (GR)
 	$upload_url = "../../../dist/import/classes/";
 	if (!is_dir($upload_url)) {
 		mkdir($upload_url);
@@ -20,7 +24,7 @@
 		fclose(fopen($logPath, 'w'));
 	}
 
-	// Array of allowed data types
+	// Array von erlaubten Dateiformaten (GR)
 	$allowed = array('csv');
 	$filename = $_FILES['file']['name'];
     $extension = pathinfo($filename, PATHINFO_EXTENSION);
@@ -30,24 +34,24 @@
 	$typeError = false;
 	$correctFormat = true;
 
-    // If files data type (extension) is allowed
+    // Prüfung auf erlaubtes Dateiformat (GR)
 	if (in_array($extension, $allowed)) {
 
-		// Give the file a unique name and remove special chars and spaces to avoid security risks
-		$uniqueFileName = time() . '.' . $extension; // Create unique file name using UNIX Timestamp
-		$target_path = $upload_url . $uniqueFileName; // Destination path
+		// Vergabe eines einzigartigen Dateinamens mittels UNIX-Zeitstempel (GR)
+		$uniqueFileName = time() . '.' . $extension;
+		$target_path = $upload_url . $uniqueFileName; // Zielpfad
 		
-		// Move the file to the upload directory
+		
 		if ((move_uploaded_file($_FILES['file']['tmp_name'], $target_path))) {
 
-			// Open the file
+			// Datei öfnnen
 			$handle = fopen($target_path, "r");
-			$counter = 1; // to check if first row in csv is a header row
+			$counter = 1; // Prüfung der ersten Zeile auf gültigen Header
 
-			// Go throu each row and seperate the values by ';'
+			// Scan jeder Zeile mit dem Trennzeichen ";"
 			while (($fData = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
-				// Define the variables for the columns of csv and store the values in them
+				// Speicherung der Werte innerhalb der Variablen
 				if (isset($fData[0]) && isset($fData[1])) {
 					$data = new stdClass;
 					$data -> name = trim($fData[0]);
@@ -65,7 +69,7 @@
 					$correctFormat = false;
 					break;
 				} else {
-					// If not header row
+					// Prüfing auf ungültige Headerzeile
 					if ($counter > 1) {
 						$duplicate = false;
 						$importOk = false;
@@ -90,8 +94,6 @@
                         }
                     }
 				}
-				
-				// Set counter +1 for new row
 				$counter++;
 
 			}
@@ -99,15 +101,16 @@
 		}
 
 	} else {
-		// File has not the correct data type (extension)
+		// Ungültiges Dateiformat
 		$typeError = true;
 	}
 	$obj = new stdClass;
-    if(!$typeError && $correctFormat){
+    if(!$typeError && $correctFormat) {
 		$obj->status = "success";
 		$obj->successCount = $successCount;
 		$obj->failCount = $failCount;
-	}else{
+	} else {
+		// Ausgabe der Fehlermeldung
 		if (!$correctFormat) {
 			$obj->status = "wrong_format";
 		} else {
@@ -115,6 +118,7 @@
 		}	
 	}
 
+	//Nach dem Import, Datei wieder löschen (GR)
 	$importFiles = glob("../../../dist/import/classes/*");
 	foreach ($importFiles as $file) {
 		if (is_file($file)) {

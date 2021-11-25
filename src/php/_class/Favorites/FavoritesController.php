@@ -1,4 +1,7 @@
 <?php
+
+// DH
+
 namespace Favorites;
 
 use Classes\ClassesRepository;
@@ -75,6 +78,7 @@ class FavoritesController
       $classes = $this->toRowString($classes, 'class', false) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($classes, 'class', false);
       $subjects = $this->toRowString($subjects, 'subject', false) == "<div class='row'></div>" ? "<p class='mb-0'>Keine Einträge vorhanden</p>" : $this->toRowString($subjects, 'subject', false);
 
+      // VP
       $this->render("{$tpl}", [
         'favoriteClasses' => $favoriteClasses,
         'favoriteSubjects' => $favoriteSubjects,

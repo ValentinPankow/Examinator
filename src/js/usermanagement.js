@@ -1,4 +1,7 @@
-// Benachrichtungs Element erzeugen
+// VP & GR
+
+
+// Benachrichtungselement erzeugen (VP)
 const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',
@@ -14,6 +17,7 @@ const Toast = Swal.mixin({
     }
 })
 
+// Anlegen der DataTable zur Anzeige von Benutzerdaten (GR)
 let accountsTable = null;
 
 $(document).ready(function(){
@@ -106,15 +110,17 @@ $(document).ready(function(){
     $('#helpText').html(helpText);
 });
 
-
+// Fenster zum Hinzufügen eines neuen Benutzers anzeigen (GR)
 $("#addUser").on("click", function() {
     $("#addUserModal").modal("show");
 });
 
+// Fenster zum Importieren von mehreren Benutzern per CSV-Datei anzeigen (GR)
 $("#importUser").on("click", function() {
     $("#importUserModal").modal("show");
 });
 
+// Dateinamen im Label anzeigen (VP)
 $('input#inputUpload').on('change', function (e) {
     //get the file name
     let fileName = e.target.files[0].name;
@@ -122,6 +128,7 @@ $('input#inputUpload').on('change', function (e) {
     $(this).next('.custom-file-label').html(fileName);
 });
 
+// Import ausführen, wenn der Benutzer auf den "Importieren"-Button klickt (GR)
 $('button#importUsers').on('click', function () {
     // Get the selected file(s) and store them in the files variable --- [0].files; because we just want to have one file
     let fd = new FormData();
@@ -171,22 +178,25 @@ $('button#importUsers').on('click', function () {
     });
 });   
 
+// Fenster zum Bearbeiten eines existierenden Benutzers anzeigen (GR)
 $("#accountsTable").on("click", 'button[name="editAccount"]', function() {
     let button = $(this);
     $('#editUserModal').find('button[name="save"]').attr('data-id', button.attr('data-id'));
     $('#editUserModal').modal('show');
 });
 
+// Fenster zum Löschen eines existierenden Benutzers anzeigen (GR)
 $('#deleteUserModal').find('button[name="delete"]').on('click', function () {
     deleteUser($('#deleteUserModal').find('button[name="delete"]').attr('data-id'));
 });
 
-
+// Benutzerdaten holen, um sie im Bearbeiten-Fenster anzuzeigen (GR)
 $('#editUserModal').on('shown.bs.modal', function() {
     getUserData($("#editUserModal").find('button[name="save"]').attr('data-id'));
     $('#passwordChange').prop('checked', false);
 });
 
+// Beim Ändern der CheckBox "Passwort ändern?" prüfen, ob es aktiviert/deaktiviert ist und Felder aktivieren/deaktivieren (GR)
 $('#passwordChange').on("change", function () {
     if ($('#passwordChange').is(':checked')) {
         $('#inputEditPassword').prop('disabled', false);
@@ -201,10 +211,12 @@ $('#passwordChange').on("change", function () {
     }
 });
 
+// Beim Klicken auf den "Speichern"-Button, Funktion zum übernehmen der Änderungen aufrufen (GR)
 $('#editUserModal').find('button[name="save"]').on('click', function() {
     editUser($("#editUserModal").find('button[name="save"]').attr('data-id'));
 });
 
+// Zurücksetzen aller Felder des "Bearbeiten"-Fensters (GR)
 $('#editUserModal').on('hidden.bs.modal', function() {
     $('#editUserModal').find('.overlay').show();
     $('#inputEditEmail').val("");
@@ -219,16 +231,19 @@ $('#editUserModal').on('hidden.bs.modal', function() {
     $('#passwordChange').prop('checked', false);
 });
 
+// "Löschen"-Fenster anzeigen, wenn auf den "Löschen"-Button geklickt (GR)
 $("#accountsTable").on("click", 'button[name="deleteAccount"]', function() {
     let button = $(this);
     $('#deleteUserModal').find('button[name="delete"]').attr('data-id', button.attr('data-id'));
     $('#deleteUserModal').modal('show');
 });
 
+// Beim Klicken auf den "Speichern"-Button beim hinzufügen eines neuen Benutzers, Funktion zur Erfassung der Daten des neuen Benutzers aufrufen (GR)
 $("#saveNewAccount").on("click", function() {
     addNewUser();  
 });
 
+// Funktion zur Erfassung der Daten des neuen Benutzers (GR)
 function addNewUser()
 {
    
@@ -243,25 +258,27 @@ function addNewUser()
     let errorMsg = null;
     if (!isMail(emailValue)) {
         errorMsg = $('.errorMail').html();
-    }
+    } // Prüfung auf übereinstimmende Passwörter
     if (passwordValue != confirmPasswordValue) {
         errorMsg = $('.errorPassword').html();
-    }
+    } // Prüfung auf Passwortlänge von mind. 8 Zeichen
     if (passwordValue.length < 8) {
         errorMsg = $('.errorPasswordLength').html();
-    }
+    } // Prüfung auf keine gewählten Rollen
     if (!isAdminValue && !isTeacherValue) {
         errorMsg = $('.errorRole').html();
-    }
+    } // Prüfung auf fehlende Eingaben
     if (emailValue == "" || firstnameValue == "" || lastnameValue == "" || passwordValue == "" || confirmPasswordValue == "") {
         errorMsg = $('.missingInput').html();
     }
 
+    // Ausgabe der Fehlermeldung
     if (errorMsg != null) {
         triggerResponseMsg('error', errorMsg);
         return false;
     }
 
+    // POST-Befehl an den Server
     $.post(
         'src/php/_ajax/ajax.queryUser.php',
         {
@@ -280,12 +297,13 @@ function addNewUser()
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
 
-                    // Ausgabe der Erfolgs Nachricht
+                    // Ausgabe der Erfolgsmeldung
                     triggerResponseMsg('success', $('.successCreateUser').html());
                     if(true) {
 
                     }
                 } else {
+                    // Ausgabe der Fehlermeldung
                     if (obj.error == "insert") {
                         triggerResponseMsg('error', $('.errorCreateUser').html());
                     } else {
@@ -293,7 +311,7 @@ function addNewUser()
                     }
                     
                 }
-
+                // Fenster zum Hinzufügen eines neuen Benutzers nach erfolgreicher Erstellung schließen und DataTable aktualisieren
                 $("#addUserModal").modal("hide");
                 reloadTable();
 
@@ -305,6 +323,7 @@ function addNewUser()
     );
 }
 
+// Funktion zum Abruf von Benutzerdaten über die Benutzer-ID (GR)
 function getUserData(id) {
     $.post(
         'src/php/_ajax/ajax.getUser.php',
@@ -318,6 +337,7 @@ function getUserData(id) {
                 let obj = JSON.parse(rtn);
                 console.log(obj);
                 if (obj.success) {
+                    // Abruf der Benutzerrolle, um den Status der CheckBox "Admin" anzupassen
                     if (obj.user.is_admin == 1) {
                         $('#isAdminEdit').attr('checked', true);
                         if (getCookie('UserLogin') == id) {
@@ -326,12 +346,14 @@ function getUserData(id) {
                     }  else {
                         $('#isAdminEdit').attr('checked', false);
                     }
-
+                    
+                    // Abruf der Benutzerrolle, um den Status der CheckBox "Lehrer" anzupassen
                     if (obj.user.is_teacher == 1) {
                         $('#isTeacherEdit').attr('checked', true);
                     } else {
                         $('#isTeacherEdit').attr('checked', false);
                     }
+
                     //Zurückbekommene Werte den Feldern zuteilen
                     $('#inputEditEmail').val(obj.user.email);
                     $('#inputEditFirstName').val(obj.user.first_name);
@@ -345,6 +367,7 @@ function getUserData(id) {
     );
 }
 
+// Funktion zum Übernehmen der Änderungen im "Bearbeiten"-Fenster (GR)
 function editUser(id)
 {
    
@@ -399,7 +422,7 @@ function editUser(id)
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
 
-                    // Ausgabe der Erfolgs Nachricht
+                    // Ausgabe der Erfolgsmeldung
                     triggerResponseMsg('success', $('.successEditUser').html());
 
                     if (getCookie('UserLogin') == id) {
@@ -407,6 +430,8 @@ function editUser(id)
                         location.reload();
                     }
                 } else {
+
+                    // Ausgabe der Fehlermeldung
                     if (obj.error == "update") {
                         triggerResponseMsg('error', $('.errorEditUser').html());
                     } else {
@@ -414,7 +439,8 @@ function editUser(id)
                     }
                     
                 }
-
+                
+                // "Bearbeiten"-Fenster nach erfolgreicher Übernahme der Änderungen schließen und DataTable aktualisieren
                 $("#editUserModal").modal("hide");
                 reloadTable();
                 
@@ -426,6 +452,7 @@ function editUser(id)
     );
 }
 
+// Funktion zum Löschen eines existierenden Benutzers per Benutzer-ID (GR)
 function deleteUser(id) 
 {
     $.post(
@@ -439,15 +466,18 @@ function deleteUser(id)
             try {
                 let obj = JSON.parse(rtn);
                 if (obj.success) {
-                    // Ausgabe der Erfolgs Nachricht
+                    // Ausgabe der Erfolgsmeldung
                     triggerResponseMsg('success', $('.successDeleteUser').html());
                 } else {
+                    // Ausgabe der Fehlermeldung, wenn Benutzer versucht, sich selbst zu löschen
                     if (obj.status == "self_delete") {
                         triggerResponseMsg('error', $('.errorSelfDeleteUser').html());
                     } else {
                         triggerResponseMsg('error', $('.errorDeleteUser').html());
                     }    
                 }
+
+                // Nach erfolgreicher Löschung, das "Löschen"-Fenster schließen
                 $("#deleteUserModal").modal("hide");
                 reloadTable();
                 
@@ -459,6 +489,7 @@ function deleteUser(id)
     )
 }
 
+// Funktion zur Aktualisierung der DataTable (GR)
 function reloadTable() {
     $('#tableOverlay').fadeIn(500);
     setTimeout(function() { 

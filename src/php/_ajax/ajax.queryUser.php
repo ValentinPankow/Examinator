@@ -1,5 +1,8 @@
 <?php
 
+    // VP & GR
+
+    require_once("../db_config.php");
     require_once '../_class/Core/Container.php';
     require_once '../_class/User/UserRepository.php';
     require_once '../_class/User/UserController.php';
@@ -12,6 +15,8 @@
     $userController = $container->make("userController");
 
     $duplicate = false;
+
+    // Aufruf der Funktion, zum Ausführen eines SQL-Befehl, aus dem Controller (GR)
     $ok = $userController->queryUser($data, $data->action, $duplicate);
 
     $obj = new stdClass;
