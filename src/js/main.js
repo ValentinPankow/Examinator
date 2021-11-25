@@ -1,3 +1,5 @@
+// VP Darkmode and functions that can be used on the entire web page
+
 // Darkmode- Einstellungen aus Cookie holen
 let darkMode = getCookie("darkMode");
 let darkModeActivated = false;
