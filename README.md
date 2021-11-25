@@ -27,4 +27,5 @@ Für die erstmalige Verwendung wird ein bereits angelegter Benutzer mit Administ
 Die Daten für diesen Benutzer lauten:
 - E-Mail-Adresse: examinator@bws-hofheim.de
 - Passwort: bws#123!
+
 Bitte ändern Sie im Anschluss das Passwort dieses Benutzers.
