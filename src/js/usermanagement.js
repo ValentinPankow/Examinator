@@ -224,6 +224,8 @@ $('#editUserModal').on('hidden.bs.modal', function() {
     $('#inputEditLastName').val("");
     $('#isAdminEdit').attr('checked', false);
     $('#isTeacherEdit').attr('checked', false);
+    $('#isAdminEdit').prop('disabled', false);
+    $('#isTeacherEdit').prop('disabled', false);
     $('#inputEditPassword').val("--------");
     $('#inputEditConfirmPassword').val("--------");
     $('#inputEditPassword').prop('disabled', true);
