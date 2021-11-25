@@ -11,9 +11,10 @@
 Für die Installation muss das Verzeichnis „examinator“ in das vHosts Verzeichnis auf dem Webserver verschoben werden.
 
 ###### Konfiguration
-Für die Einstellung muss einmal in der „config.php“ Datei, die in dem „examinator“ Verzeichnis liegt, die Einstellung „REDIRECT_URL“ so angepasst werden, dass die volle URL auf die Anwendung zeigt.
-Bsp.: 
+Für die Einstellung muss einmal in der „config.php“ Datei, die in dem „examinator“ Verzeichnis liegt, die Einstellung „REDIRECT_URL“ so angepasst werden, dass die volle URL auf die Anwendung zeigt. Bsp.: 
+
 - `define("REDIRECT_URL", "https://www.beispiel.de/");`
+
 Das Protokoll https sollte immer angegeben und nicht durch http ausgetauscht werden. Zu beachten ist weiterhin, dass das „/“ am Ende auch angegeben werden muss.
 Für die Datenbank Verbindung muss die Datei „db_config.php“ in „examinator/src/php/“ angepasst werden. 
 
