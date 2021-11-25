@@ -22,7 +22,7 @@ Für die Datenbank Verbindung muss die Datei „db_config.php“ in „examinato
 Die Datenbank kann anhand der Datei „examinator.sql“ im Verzeichnis „examinator/db/“ auf dem Datenbankserver importiert werden. Dafür muss vorher eine leere Datenbank erstellt werden.
 
 #### Berechtigungen
-Da für die Importfunktion durch PHP Dateien erstellt und verschoben werden achten Sie bitte darauf, dass php in dem Verzeichnis „examinator/dist/import/" lesen und schreiben kann.
+Da für die Importfunktion durch PHP Dateien erstellt und verschoben werden achten Sie bitte darauf, dass PHP in dem Verzeichnis „examinator/dist/import/" lesen und schreiben kann.
 
 #### Benutzer für erstmaligen Login
 Für die erstmalige Verwendung wird ein bereits angelegter Benutzer mit Administrationsrechten bereitgestellt.
