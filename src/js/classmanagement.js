@@ -38,6 +38,18 @@ $(document).ready(function() {
     $('#helpText').html(helpText);
 });
 
+$('#createName, #createPassword, #createPasswordConfirmation').keypress(function(e) {
+    if (e.which == 13) {
+        saveNewClass();
+    }
+});
+
+$('#editName, #editPassword, #editPasswordConfirmation').keypress(function(e) {
+    if (e.which == 13) {
+        editClass($('#editClassModal').find('button[name="editClass"]').attr('data-id'));
+    }
+});
+
 // Öffnet die Funktion zum abspeichern einer neuen Klasse beim anklicken des Buttons "Anlegen"
 // (DH)
 $('#saveClass').on('click', function() {
