@@ -56,6 +56,10 @@
     color: white;
 }
 
+.dark-mode button#btnHelp {
+    filter: invert(1);
+}
+
 /* ---------------------------------------------------------- */
 
 #forgotPwd:hover {
