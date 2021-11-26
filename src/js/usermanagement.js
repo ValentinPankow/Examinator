@@ -216,6 +216,12 @@ $('#editUserModal').find('button[name="save"]').on('click', function() {
     editUser($("#editUserModal").find('button[name="save"]').attr('data-id'));
 });
 
+$('#inputEditEmail, #inputEditFirstName, #inputEditLastName, #inputEditPassword, #inputEditConfirmPassword').keypress(function(e) {
+    if (e.which == 13) {
+        editUser($("#editUserModal").find('button[name="save"]').attr('data-id'));
+    }
+});
+
 // Zurücksetzen aller Felder des "Bearbeiten"-Fensters (GR)
 $('#editUserModal').on('hidden.bs.modal', function() {
     $('#editUserModal').find('.overlay').show();
@@ -243,6 +249,12 @@ $("#accountsTable").on("click", 'button[name="deleteAccount"]', function() {
 // Beim Klicken auf den "Speichern"-Button beim hinzufügen eines neuen Benutzers, Funktion zur Erfassung der Daten des neuen Benutzers aufrufen (GR)
 $("#saveNewAccount").on("click", function() {
     addNewUser();  
+});
+
+$('#inputEmail, #inputFirstName, #inputLastName, #inputPassword, #inputConfirmPassword').keypress(function(e) {
+    if (e.which == 13) {
+        addNewUser();  
+    }
 });
 
 // Funktion zur Erfassung der Daten des neuen Benutzers (GR)
