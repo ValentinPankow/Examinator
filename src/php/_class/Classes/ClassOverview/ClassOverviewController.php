@@ -39,17 +39,28 @@ class ClassOverviewController
     if($userId){
       $classId = $_GET['class'];
       $class = $this->repository->fetchClass($classId);
-      $exams = $this->examsRepository->fetchClassExams($classId);
 
-      $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
+      // Check if class exists
+      if ($class) {
+        $exams = $this->examsRepository->fetchClassExams($classId);
 
-      $this->render("{$tpl}", [
-        'favoriteClasses' => $favoriteClasses,
-        'class' => $class,
-        'exams' => $exams,
-        'twig' => $twig,
-        'loginState' => $loginState
-      ]);
+        $favoriteClasses = $this->repository->fetchFavoriteClasses($userId);
+
+        $this->render("{$tpl}", [
+          'favoriteClasses' => $favoriteClasses,
+          'class' => $class,
+          'exams' => $exams,
+          'twig' => $twig,
+          'loginState' => $loginState
+        ]);
+      } else {
+        // Requested class does not exists
+        echo $twig->render("404.twig", array(
+          'pageTitle' => 'Examinator - 404',
+          'applicationName' => 'Examinator',
+          'tpl' => '404'
+        ));
+      }
     } else {
       header("Refresh:0; url=?page=dashboard");
       exit();
