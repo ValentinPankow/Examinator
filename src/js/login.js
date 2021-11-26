@@ -33,7 +33,7 @@ $('#loginBtn').on('click', function() {
    login();
 });
 
-$('#inputPassword').keypress(function(e) {
+$('#inputPassword, #inputUser').keypress(function(e) {
     if(e.which == 13){
         login();
     }

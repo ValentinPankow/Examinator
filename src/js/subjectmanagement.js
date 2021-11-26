@@ -22,6 +22,12 @@ $(document).ready(function () {
     $('#saveSubject').on('click', function() {
         saveNewSubject();
     });
+
+    $('#createName').keypress(function(e) {
+        if (e.which == 13) {
+            saveNewSubject();
+        }
+    });
     
     //Öffnet das Modal zum editieren in der Fachverwaltung
     //(DH)(Zumeist C&P von VP mit Anpassungen)
@@ -48,6 +54,12 @@ $(document).ready(function () {
         editSubject($('#editSubjectModal').find('button[name="editSubject"]').attr('data-id'));
     });
     
+    $('#editName').keypress(function(e) {
+        if (e.which == 13) {
+            editSubject($('#editSubjectModal').find('button[name="editSubject"]').attr('data-id'));
+        }
+    });
+
     //Öffnet das Modal zum editieren in der Klassenverwaltung
     // DH (Zumeist C&P von VP mit Anpassungen)
     $('.delete').on('click',  function () {
