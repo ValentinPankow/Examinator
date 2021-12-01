@@ -131,3 +131,174 @@ function toggleDarkmode(active) {
         $('.main-header').removeClass('navbar-dark');
     }
 }
+
+// Toast
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    customClass: {
+        popup: "swal2-popup-custom"
+    },
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+})
+
+/*
+
+    Usersettings
+
+*/
+
+$('#usersettingsPasswordChange').on('change', function() {
+    if ($('#usersettingsPasswordChange').is(':checked')) {
+        $('#usersettingsPassword').prop('disabled', false);
+        $('#usersettingsPasswordConfirm').prop('disabled', false);
+        $('#usersettingsCurrentPassword').prop('disabled', false);
+
+        $('#usersettingsPassword').val('');
+        $('#usersettingsPasswordConfirm').val('');
+        $('#usersettingsCurrentPassword').val('');
+    } else {
+        $('#usersettingsPassword').prop('disabled', true);
+        $('#usersettingsPasswordConfirm').prop('disabled', true);
+        $('#usersettingsCurrentPassword').prop('disabled', true);
+
+        $('#usersettingsPassword').val('--------');
+        $('#usersettingsPasswordConfirm').val('--------');
+        $('#usersettingsCurrentPassword').val('--------');
+    }
+});
+
+$('#usersettingsModal').on('hidden.bs.modal', function() {
+    $('#usersettingsModal').find('.overlay').fadeIn(500);
+
+    $('#usersettingsPasswordChange').prop('checked', false);
+    $('#usersettingsPassword').prop('disabled', true);
+    $('#usersettingsPasswordConfirm').prop('disabled', true);
+    $('#usersettingsCurrentPassword').prop('disabled', true);
+
+    $('#usersettingsMail').val('');
+    $('#usersettingsPassword').val('--------');
+    $('#usersettingsPasswordConfirm').val('--------');
+    $('#usersettingsCurrentPassword').val('--------');
+});
+
+$('#usersettingsModal').on('shown.bs.modal', function() {
+    getUserSettingsData();
+});
+
+$('#saveUsersettings').on('click', function() {
+    saveUsersettings();
+});
+
+function getUserSettingsData() {
+    $.post(
+        'src/php/_ajax/ajax.getUser.php',
+        {
+            data: {
+                id: getCookie('UserLogin')
+            },
+        },
+        function (rtn) {
+            try {
+                let obj = JSON.parse(rtn);
+                console.log(obj);
+                if (obj.success) {
+                    $('#usersettingsMail').val(obj.user.email);
+                    $('#usersettingsFirstname').val(obj.user.first_name);
+                    $('#usersettingsLastname').val(obj.user.last_name);
+
+                    $('#usersettingsModal').find('.overlay').fadeOut(500);
+                } 
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    );
+}
+
+function saveUsersettings() {
+    let pwd = $('#usersettingsPassword').val();
+    let pwdConfirm = $('#usersettingsPasswordConfirm').val();
+    let currentPwd = $('#usersettingsCurrentPassword').val();
+    let mail = $('#usersettingsMail').val();
+    let changePassword = $('#usersettingsPasswordChange').is(':checked') ? true : false;
+
+    let errorMsg = null;
+    if ($('#usersettingsPasswordChange').is(':checked')) {
+        if (pwd.length < 8) {
+            errorMsg = $('.errorPasswordLength').html();
+        }
+        if (pwd != pwdConfirm) {
+            errorMsg = $('.errorPassword').html();
+        }
+        if (pwd.length <= 0 || pwdConfirm.length <= 0 || currentPwd.length <= 0 || mail.length <= 0) {
+            errorMsg = $('.missingInput').html();
+        }
+    } else {
+        if (!isMail(mail)) {
+            errorMsg = $('.errorMail').html();
+        }
+        if (mail.length <= 0) {
+            errorMsg = $('.missingInput').html();
+        }
+    }
+
+    if (errorMsg != null) {
+        triggerResponseMsg('error', errorMsg);
+        return false;
+    }
+
+    $.post(
+        'src/php/_ajax/ajax.usersettings.php',
+        {
+            data: {
+                password: pwd,
+                currentPassword: currentPwd,
+                currentPwd: currentPwd,
+                email: mail,
+                changePassword: changePassword
+            },
+        },
+        function(rtn) {
+            try {
+                obj = JSON.parse(rtn);
+                if (obj.success) {
+                    triggerResponseMsg('success', $('.usersettingsSuccess').html());
+                    $('#usersettingsMail').val('');
+                    $('#usersettingsPassword').val('');
+                    $('#usersettingsPasswordConfirm').val('');
+                    $('#usersettingsCurrentPassword').val('');
+
+                    $('#usersettingsPasswordChange').prop('checked', false);
+                    $('#usersettingsPassword').prop('disabled', true);
+                    $('#usersettingsPasswordConfirm').prop('disabled', true);
+                    $('#usersettingsCurrentPassword').prop('disabled', true);
+
+                    $('#usersettingsMail').val('');
+                    $('#usersettingsPassword').val('--------');
+                    $('#usersettingsPasswordConfirm').val('--------');
+                    $('#usersettingsCurrentPassword').val('--------');
+
+                    $('#usersettingsModal').find('.overlay').fadeIn(500);
+                    getUserSettingsData();
+                } else {
+                    if (obj.error == "duplicate") {
+                        triggerResponseMsg('error', $('.errorDuplicate').html());
+                    } else if (obj.error = "wrong_pwd") {
+                        triggerResponseMsg('error', $('.currentPwdError').html());
+                    } else {
+                        triggerResponseMsg('error', $('.usersettingsError').html());
+                    }
+                }
+            } catch(e) {
+
+            }
+        }
+    )
+}
