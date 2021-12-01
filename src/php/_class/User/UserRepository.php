@@ -155,8 +155,8 @@ class UserRepository
         $lastname = $data->lastname;
         $email = $data->email;
         $password = $data->password;
-        $isAdmin = $data->isAdmin == "true" ? 1 : 0;
-        $isTeacher = $data->isTeacher == "true" ? 1 : 0;
+        $isAdmin = $data->isAdmin == "true" || $data->isAdmin == "1" ? 1 : 0;
+        $isTeacher = $data->isTeacher == "true" || $data->isTeacher == "1" ? 1 : 0;
 
         $values = array (
             'firstname' => $firstname,

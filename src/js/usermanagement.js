@@ -157,6 +157,8 @@ $('button#importUsers').on('click', function () {
                     triggerResponseMsg('info', 'Die Datei enthält nur bereits vorhandene Benutzer!');
                 } else {
                     triggerResponseMsg('success', 'Die Datei wurde erfolgreich importiert. '+ obj.successCount + " erfolgreich, " + obj.failCount + " fehlgeschlagen.");
+                    reloadTable();
+                    $("#importUserModal").modal("hide");
                 }
             } else {
                 if (obj.status == "type_error") {
