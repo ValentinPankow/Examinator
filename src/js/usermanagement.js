@@ -1,22 +1,5 @@
 // VP & GR
 
-
-// Benachrichtungselement erzeugen (VP)
-const Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 4000,
-    timerProgressBar: true,
-    customClass: {
-        popup: "swal2-popup-custom"
-    },
-    didOpen: (toast) => {
-      toast.addEventListener('mouseenter', Swal.stopTimer)
-      toast.addEventListener('mouseleave', Swal.resumeTimer)
-    }
-})
-
 // Anlegen der DataTable zur Anzeige von Benutzerdaten (GR)
 let accountsTable = null;
 

@@ -196,6 +196,68 @@ class UserRepository
         }
     }
 
+    // VP Function does update the current user
+    public function saveUsersettings($data, &$duplicate = false, &$passwordOk = false) {
+
+        $queryPwdOk = $this->pdo->prepare("SELECT password FROM users WHERE id = :id");
+        $resultPwdOk = $queryPwdOk->execute(['id' => $_COOKIE['UserLogin']]);
+        $fetchPwdOk = $queryPwdOk->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
+
+        $changePassword = $data->changePassword == "true" ? true : false;
+        $result = false;
+
+        if ($changePassword) {
+            $passwordOk = password_verify($data->currentPassword, $fetchPwdOk[0]->password);
+        } else {
+            $passwordOk = true;
+        }
+
+        if ($passwordOk) {
+            if (isset($data->changePassword)) {
+                $changePassword = $data->changePassword == "true" ? true : false;
+            } else {
+                $changePassword = false;
+            }
+    
+            if ($changePassword) {
+                $query = $this->pdo->prepare("UPDATE users SET email = :email, password = :password WHERE id = :id");
+            } else {
+                $query = $this->pdo->prepare("UPDATE users SET email = :email WHERE id = :id");
+            }
+    
+            $email = $data->email;
+            $password = $data->password;
+    
+            $values = array (
+                'email' => $email
+            );
+    
+            if ($changePassword) {
+                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $values['password'] = $hashedPassword;
+            }
+    
+            $values['id'] = $_COOKIE['UserLogin'];
+            $queryDuplicate = $this->pdo->prepare("SELECT COUNT(id) AS rowsFound FROM users WHERE LOWER(email) = LOWER(:email) AND id != :id");
+            $resultDuplicate = $queryDuplicate->execute(['email' => $email, 'id' => $_COOKIE['UserLogin']]);
+    
+            $fetchDuplicate = $queryDuplicate->fetchAll(PDO::FETCH_CLASS, "User\\UserModel");
+            
+            if ($fetchDuplicate[0]->rowsFound <= 0) {
+                $result = $query->execute($values);
+            } else {
+                $duplicate = true;
+                $result = false;
+            }
+        }
+        
+        if ($result && $passwordOk && !$duplicate) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // VP & GR deletes user by user id
     public function deleteUserById($id) {
         $query = $this->pdo->prepare("DELETE FROM user_favorites WHERE user_id = :id");
