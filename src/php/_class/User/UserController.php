@@ -56,6 +56,10 @@ class UserController
         return $this->repository->queryUser($data, $action, $duplicate);
     }
 
+    public function saveUsersettings($data, &$duplicate, &$passwordOk) {
+        return $this->repository->saveUsersettings($data, $duplicate, $passwordOk);
+    }
+
     // VP & GR Get user by user id
     public function fetchUserById($id) {
         return $this->repository->fetchUserById($id);

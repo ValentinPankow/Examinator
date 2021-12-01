@@ -152,7 +152,7 @@
                 <img src="dist/img/bws.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a>{% if firstname is not null and lastname is not null %}{{firstname}} {{lastname}}{% else %}{{className}}{% endif %}</a>
+              {% if firstname is not null and lastname is not null %}<a href="" data-toggle="modal" data-target="#usersettingsModal">{{firstname}} {{lastname}}</a>{% else %}<a>{{className}}</a>{% endif %}
             </div>
         </div>
 
@@ -301,6 +301,72 @@
   <!-- /.modal -->
 {% endblock %}
 
+{% block usersettingsModal %}
+  <!-- Modal Help -->
+  <div class="modal fade" id="usersettingsModal">
+    <div class="modal-dialog modal-m modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="overlay card-overlay" id="usersettingsOverlay">
+          <i class="fas fa-2x fa-sync fa-spin"></i>
+        </div>
+        <div class="modal-header">
+          <h4 class="modal-title">Benutzereinstellungen</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-sm-6">
+            <label for="usersettingsMail">E-Mail</label>
+          </div>
+          <div class="form-inline mb-2">
+            <div class="form-group col-sm-6">
+              <input type="email" class="form-control" id="usersettingsMail" placeholder="E-Mail">
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-group col-sm-6">
+              <label for="usersettingsFirstname">Vorname</label>
+              <input type="text" class="form-control" id="usersettingsFirstname" placeholder="Vorname" disabled>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="usersettingsLastname">Nachname</label>
+              <input type="text" class="form-control" id="usersettingsLastname" placeholder="Nachname" disabled>
+            </div>
+          </div>
+          <div class="input-group mb-1 mt-1 col-sm-12">
+            <div class="custom-control custom-checkbox form-check">
+              <input class="custom-control-input form-check-input" type="checkbox" id="usersettingsPasswordChange">
+              <label for="usersettingsPasswordChange" class="custom-control-label form-check-label">Passwort ändern?</label>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="form-group col-sm-6">
+              <label for="usersettingsPassword">Passwort</label>
+              <input type="password" value="--------" class="form-control" id="usersettingsPassword" placeholder="Passwort" disabled>
+            </div>
+            <div class="form-group col-sm-6">
+              <label for="usersettingsPasswordConfirm">Passwort bestätigen</label>
+              <input type="password" value="--------" class="form-control" id="usersettingsPasswordConfirm" placeholder="Passwort" disabled>
+            </div>
+          </div>
+          <div class="form-group col-sm-12">
+            <label for="usersettingsCurrentPassword">Aktuelles Passwort</label>
+            <input type="password" value="--------" class="form-control" id="usersettingsCurrentPassword" placeholder="Passwort" disabled>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" id="saveUsersettings">Speichern</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+{% endblock %}
+
 {% block border %}
 <style> 
 .border-3{
@@ -386,5 +452,9 @@
     <span class="successEditClass">Die Änderungen wurden gespeichert!</span>
     <span class="errorEditClass">Die Änderungen konnten nicht gespeichert werden!</span>
     <span class="emptyInputFile">Es wurde keine Datei ausgewählt!</span>
+
+    <span class="usersettingsSuccess">Das Benutzerkonto wurde erfolgreich geändert!</span>
+    <span class="usersettingsError">Das Benutzerkonto konnte nicht geändert werden!</span>
+    <span class="currentPwdError">Das aktuelle Passwort ist nicht korrekt!</span>
   </div>
 {% endblock %}
