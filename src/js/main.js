@@ -196,6 +196,12 @@ $('#saveUsersettings').on('click', function() {
     saveUsersettings();
 });
 
+$('#usersettingsMail, #usersettingsPassword, #usersettingsPasswordConfirm, #usersettingsCurrentPassword').keypress(function(e) {
+    if(e.which == 13){
+        saveUsersettings();
+    }
+});
+
 function getUserSettingsData() {
     $.post(
         'src/php/_ajax/ajax.getUser.php',
