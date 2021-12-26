@@ -236,6 +236,9 @@ function saveUsersettings() {
     let changePassword = $('#usersettingsPasswordChange').is(':checked') ? true : false;
 
     let errorMsg = null;
+    if (!isMail(mail)) {
+        errorMsg = $('.errorMail').html();
+    }
     if ($('#usersettingsPasswordChange').is(':checked')) {
         if (pwd.length < 8) {
             errorMsg = $('.errorPasswordLength').html();
@@ -247,9 +250,6 @@ function saveUsersettings() {
             errorMsg = $('.missingInput').html();
         }
     } else {
-        if (!isMail(mail)) {
-            errorMsg = $('.errorMail').html();
-        }
         if (mail.length <= 0) {
             errorMsg = $('.missingInput').html();
         }
